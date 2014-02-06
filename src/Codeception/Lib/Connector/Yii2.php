@@ -1,6 +1,6 @@
 <?php
 
-namespace Codeception\Util\Connector;
+namespace Codeception\Lib\Connector;
 
 use Yii;
 use yii\helpers\Security;
