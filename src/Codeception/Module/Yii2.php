@@ -189,7 +189,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         'fixturesMethod' => '_fixtures',
         'cleanup'     => true,
         'ignoreCollidingDSN' => false,
-        'transaction' => null,
+        'transaction' => true,
         'entryScript' => '',
         'entryUrl'    => 'http://localhost/index-test.php',
         'responseCleanMethod' => Yii2Connector::CLEAN_CLEAR,
