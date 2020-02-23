@@ -10,4 +10,5 @@ composer require --dev "codeception/module-yii2"
 
 ## Documentation
 
-<a href="documentation.md">Look at documentation.md file</a>
+- [Getting started](https://codeception.com/for/yii)
+- [Module documentation](https://codeception.com/docs/modules/Yii2)
