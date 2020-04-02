@@ -31,9 +31,9 @@ jobs:
       run: |
         git clone -q --depth=1 https://github.com/Codeception/yii2-tests framework-tests
         git --git-dir framework-tests/.git log -n 1
-        composer require --no-update codeception/module-asserts
-        composer require --no-update codeception/module-filesystem
-        composer require --no-update codeception/codeception
+        composer require -d framework-tests --no-update codeception/module-asserts
+        composer require -d framework-tests --no-update codeception/module-filesystem
+        composer require -d framework-tests --no-update codeception/codeception
         composer update -d framework-tests --no-dev --prefer-dist --no-interaction
         php ./vendor/bin/codecept build -c framework-tests
 
