@@ -1,6 +1,6 @@
 # Codeception module for Yii2 framework
 
-[![Build Status](https://travis-ci.org/Codeception/module-yii2.svg?branch=master)](https://travis-ci.org/Codeception/module-yii2)
+![Build Status](https://github.com/Codeception/module-yii2/workflows/CI/badge.svg)
 
 ## Installation
 
