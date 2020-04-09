@@ -206,6 +206,11 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      */
     private $server;
 
+    /**
+     * @var Yii2Connector\Logger
+     */
+    private $yiiLogger;
+
     public function _initialize()
     {
         if ($this->config['transaction'] === null) {
@@ -227,7 +232,8 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         parent::onReconfigure();
         $this->client->resetApplication();
         $this->configureClient($this->config);
-        $this->client->startApp();
+        $this->yiiLogger->getAndClearLog();
+        $this->client->startApp($this->yiiLogger);
     }
 
     /**
@@ -312,7 +318,8 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
     public function _before(TestInterface $test)
     {
         $this->recreateClient();
-        $this->client->startApp();
+        $this->yiiLogger = new Yii2Connector\Logger();
+        $this->client->startApp($this->yiiLogger);
 
         $this->connectionWatcher = new Yii2Connector\ConnectionWatcher();
         $this->connectionWatcher->start();
@@ -377,6 +384,16 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         }
 
         parent::_after($test);
+    }
+
+    public function _failed(TestInterface $test, $fail)
+    {
+        $log = $this->yiiLogger->getAndClearLog();
+        if (! empty($log)) {
+            $test->getMetadata()->addReport('yii-log', $log);
+        }
+
+        parent::_failed($test, $fail);
     }
 
     protected function startTransactions()

@@ -261,7 +261,7 @@ class Yii2 extends Client
         return is_array($params) ?$this->getApplication()->getUrlManager()->createUrl($params) : $params;
     }
 
-    public function startApp()
+    public function startApp(\yii\log\Logger $logger = null)
     {
         codecept_debug('Starting application');
         $config = require($this->configFile);
@@ -278,7 +278,12 @@ class Yii2 extends Client
         $config = $this->mockMailer($config);
         /** @var \yii\web\Application $app */
         Yii::$app = Yii::createObject($config);
-        Yii::setLogger(new Logger());
+
+        if ($logger !== null) {
+            Yii::setLogger($logger);
+        } else {
+            Yii::setLogger(new Logger());
+        }
     }
 
     /**
