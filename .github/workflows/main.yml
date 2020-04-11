@@ -27,10 +27,14 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-interaction --no-suggest
 
+    - name: Checkout Yii2
+      uses: actions/checkout@v2
+      with:
+        repository: Codeception/yii2-tests
+        path: framework-tests
+
     - name: Install Yii2
       run: |
-        git clone -q --depth=1 https://github.com/Codeception/yii2-tests framework-tests
-        git --git-dir framework-tests/.git log -n 1
         composer require -d framework-tests --no-update codeception/module-asserts
         composer require -d framework-tests --no-update codeception/module-filesystem
         composer require -d framework-tests --no-update codeception/codeception
