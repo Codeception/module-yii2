@@ -18,7 +18,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
-        extensions: pdo, mysql, sqlite, imagick
+        extensions: pdo, sqlite, imagick
         coverage: none
 
     - name: Validate composer.json and composer.lock
@@ -35,11 +35,13 @@ jobs:
 
     - name: Install Yii2
       run: |
-        composer require -d framework-tests --no-update codeception/module-asserts
-        composer require -d framework-tests --no-update codeception/module-filesystem
-        composer require -d framework-tests --no-update codeception/codeception
-        composer update -d framework-tests --no-dev --prefer-dist --no-interaction
-        php ./vendor/bin/codecept build -c framework-tests
+        composer require --no-update codeception/module-asserts
+        composer require --no-update codeception/module-filesystem
+        composer require --no-update codeception/codeception
+        composer update --no-dev --prefer-dist --no-interaction
+      working-directory: framework-tests
 
     - name: Run test suite
-      run: php ./vendor/bin/codecept run -c framework-tests
+      run: |
+        php vendor/bin/codecept build -c framework-tests
+        php vendor/bin/codecept run -c framework-tests
