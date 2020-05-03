@@ -574,7 +574,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         $record->setAttributes($attributes, false);
         $res = $record->save(false);
         if (!$res) {
-            $this->fail("Record $model was not saved");
+            $this->fail("Record $model was not saved: " . \yii\helpers\Json::encode($record->errors));
         }
         return $record->primaryKey;
     }
