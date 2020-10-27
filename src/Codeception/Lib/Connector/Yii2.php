@@ -301,7 +301,7 @@ class Yii2 extends Client
         $queryString = parse_url($uri, PHP_URL_QUERY);
         $_SERVER['REQUEST_URI'] = $queryString === null ? $pathString : $pathString . '?' . $queryString;
         $_SERVER['REQUEST_METHOD'] = strtoupper($request->getMethod());
-        $_SERVER['QUERY_STRING'] = $queryString;
+        $_SERVER['QUERY_STRING'] = (string)$queryString;
 
         parse_str($queryString, $params);
         foreach ($params as $k => $v) {
