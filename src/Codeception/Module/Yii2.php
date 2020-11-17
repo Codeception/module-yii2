@@ -355,12 +355,13 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
     private function loadFixtures($test)
     {
         $this->debugSection('Fixtures', 'Loading fixtures');
-        if (empty($this->loadedFixtures)
+        $owner = get_class($test);
+        if ((empty($this->loadedFixtures) || !isset($this->loadedFixtures[$owner]))
             && method_exists($test, $this->_getConfig('fixturesMethod'))
         ) {
             $connectionWatcher = new Yii2Connector\ConnectionWatcher();
             $connectionWatcher->start();
-            $this->haveFixtures(call_user_func([$test, $this->_getConfig('fixturesMethod')]));
+            $this->haveFixtures(call_user_func([$test, $this->_getConfig('fixturesMethod')]), $owner);
             $connectionWatcher->stop();
             $connectionWatcher->closeAll();
         }
@@ -482,18 +483,19 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * ```
      * instead of calling `haveFixtures` in Cest `_before`
      *
-     * @param $fixtures
+     * @param array $fixtures
+     * @param string|null $owner
      * @part fixtures
      */
-    public function haveFixtures($fixtures)
+    public function haveFixtures($fixtures, $owner = null)
     {
         if (empty($fixtures)) {
             return;
         }
-        $fixturesStore = new Yii2Connector\FixturesStore($fixtures);
+        $fixturesStore = new Yii2Connector\FixturesStore($fixtures, $owner);
         $fixturesStore->unloadFixtures();
         $fixturesStore->loadFixtures();
-        $this->loadedFixtures[] = $fixturesStore;
+        $this->loadedFixtures[$owner] = $fixturesStore;
     }
 
     /**
