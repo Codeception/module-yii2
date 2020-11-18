@@ -11,19 +11,30 @@ class FixturesStore
     protected $data;
 
     /**
+     * @var string Class-owner of this store
+     */
+    protected $owner;
+
+    /**
      * Expects fixtures config
      *
      * FixturesStore constructor.
      * @param $data
      */
-    public function __construct($data)
+    public function __construct($data, $owner)
     {
         $this->data = $data;
+        $this->owner = $owner;
     }
 
     public function fixtures()
     {
         return $this->data;
+    }
+
+    public function getOwner()
+    {
+        return $this->owner;
     }
 
     public function globalFixtures()
