@@ -265,16 +265,13 @@ class Yii2 extends Client
     {
         codecept_debug('Starting application');
         $config = require($this->configFile);
-        if (isset($config['class'])) {
-            $applicationClass = $config['class'];
-            unset($config['class']);
-        } else {
-            $applicationClass = 'yii\web\Application';
+        if (!isset($config['class'])) {
+            $config['class'] = 'yii\web\Application';
         }
 
         $config = $this->mockMailer($config);
         /** @var \yii\web\Application $app */
-        Yii::$app = new $applicationClass($config);
+        Yii::$app = Yii::createObject($config);
         Yii::setLogger(new Logger());
     }
 
