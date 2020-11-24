@@ -433,9 +433,7 @@ class Yii2 extends Client
 
         $mailerConfig = [
             'class' => TestMailer::class,
-            'callback' => function (MessageInterface $message) {
-                $this->emails[] = $message;
-            }
+            'callback' => 'addMessage'
         ];
 
         if (isset($config['components']['mailer']) && is_array($config['components']['mailer'])) {
@@ -448,6 +446,10 @@ class Yii2 extends Client
         $config['components']['mailer'] = $mailerConfig;
 
         return $config;
+    }
+
+    protected function addMessage(MessageInterface $message) {
+        $this->emails[] = $message;
     }
 
     public function restart()
