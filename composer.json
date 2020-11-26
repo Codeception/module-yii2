@@ -22,9 +22,6 @@
         "codeception/lib-innerbrowser": "^1.0",
         "codeception/codeception": "^4.0"
     },
-    "require-dev": {
-        "codeception/util-robohelpers": "dev-master"
-    },
     "autoload":{
         "classmap": ["src/"]
     },
