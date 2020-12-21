@@ -85,7 +85,7 @@ use yii\db\Transaction;
  *             configFile: 'path/to/config.php'
  * ```
  *
- * ### Parts
+ * ## Parts
  *
  * By default all available methods are loaded, but you can also use the `part`
  * option to select only the needed actions and to avoid conflicts. The
@@ -96,27 +96,8 @@ use yii\db\Transaction;
  * * `fixtures` - use fixtures inside tests with `haveFixtures/grabFixture/grabFixtures` actions.
  * * `email` - include email actions `seeEmailsIsSent/grabLastSentEmail/...`
  *
- * ### Example (`functional.suite.yml`)
- *
- * ```yaml
- * actor: FunctionalTester
- * modules:
- *   enabled:
- *      - Yii2:
- *          configFile: 'config/test.php'
- * ```
- *
- * ### Example (`unit.suite.yml`)
- *
- * ```yaml
- * actor: UnitTester
- * modules:
- *   enabled:
- *      - Asserts
- *      - Yii2:
- *          configFile: 'config/test.php'
- *          part: init
- * ```
+ * See [WebDriver module](https://codeception.com/docs/modules/WebDriver#Loading-Parts-from-other-Modules)
+ * for general information on how to load parts of a framework module.
  *
  * ### Example (`acceptance.suite.yml`)
  *
