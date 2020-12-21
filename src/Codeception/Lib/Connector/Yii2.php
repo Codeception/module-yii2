@@ -269,6 +269,12 @@ class Yii2 extends Client
             $config['class'] = 'yii\web\Application';
         }
 
+        if (isset($config['container']))
+        {
+            Yii::configure(Yii::$container, $config['container']);
+            unset($config['container']);
+        }
+
         $config = $this->mockMailer($config);
         /** @var \yii\web\Application $app */
         Yii::$app = Yii::createObject($config);
