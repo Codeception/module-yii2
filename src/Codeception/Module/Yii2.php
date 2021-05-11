@@ -94,7 +94,7 @@ use yii\db\Transaction;
  *
  * By default all available methods are loaded, but you can also use the `part`
  * option to select only the needed actions and to avoid conflicts. The
- * avilable parts are:
+ * available parts are:
  *
  * * `init` - use the module only for initialization (for acceptance tests).
  * * `orm` - include only `haveRecord/grabRecord/seeRecord/dontSeeRecord` actions.
