@@ -46,6 +46,11 @@ use yii\db\Transaction;
  * * `configFile` *required* - path to the application config file. The file
  *   should be configured for the test environment and return a configuration
  *   array.
+ * * `applicationClass` - Fully qualified class name for the application. There are
+ *   several ways to define the application class. Either via a `class` key in the Yii
+ *   config, via specifying this codeception module configuration value or let codeception
+ *   use its default value `yii\web\Application`. In a standard Yii application, this
+ *   value should be either `yii\console\Application`, `yii\web\Application` or unset.
  * * `entryUrl` - initial application url (default: http://localhost/index-test.php).
  * * `entryScript` - front script title (like: index-test.php). If not set it's
  *   taken from `entryUrl`.
@@ -178,6 +183,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         'recreateComponents' => [],
         'recreateApplication' => false,
         'closeSessionOnRecreateApplication' => true,
+        'applicationClass' => null,
     ];
 
     protected $requiredFields = ['configFile'];
