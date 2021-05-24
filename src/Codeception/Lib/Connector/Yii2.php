@@ -83,6 +83,12 @@ class Yii2 extends Client
      */
     public $closeSessionOnRecreateApplication = true;
 
+    /**
+     * @var string The FQN of the application class to use. In a default Yii setup, should be either `yii\web\Application`
+     *             or `yii\console\Application`
+     */
+    public $applicationClass = null;
+
 
     private $emails = [];
 
@@ -266,7 +272,11 @@ class Yii2 extends Client
         codecept_debug('Starting application');
         $config = require($this->configFile);
         if (!isset($config['class'])) {
-            $config['class'] = 'yii\web\Application';
+            if (null !== $this->applicationClass) {
+                $config['class'] = $this->applicationClass;
+            } else {
+                $config['class'] = 'yii\web\Application';
+            }
         }
 
         if (isset($config['container']))
@@ -276,7 +286,7 @@ class Yii2 extends Client
         }
 
         $config = $this->mockMailer($config);
-        /** @var \yii\web\Application $app */
+        /** @var \yii\base\Application $app */
         Yii::$app = Yii::createObject($config);
         Yii::setLogger(new Logger());
     }
