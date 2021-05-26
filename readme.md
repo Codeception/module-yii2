@@ -17,6 +17,7 @@ composer require "codeception/module-yii2" --dev
 
 - [Getting started](https://codeception.com/for/yii)
 - [Module documentation](https://codeception.com/docs/modules/Yii2)
+- [Changelog](https://github.com/Codeception/module-yii2/tags)
 
 ## License
 
