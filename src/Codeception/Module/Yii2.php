@@ -804,15 +804,6 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         return end($messages);
     }
 
-    /**
-     * Deletes all sent emails.
-     * @part email
-     */
-    public function deleteSentEmails()
-    {
-        $this->client->clearEmails();
-    }
-
 
 
     /**
