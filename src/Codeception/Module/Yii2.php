@@ -826,7 +826,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
     /**
      * Sets a cookie and, if validation is enabled, signs it.
      * @param string $name The name of the cookie
-     * @param string $value The value of the cookie
+     * @param string $val The value of the cookie
      * @param array $params Additional cookie params like `domain`, `path`, `expires` and `secure`.
      */
     public function setCookie($name, $val, array $params = [])
