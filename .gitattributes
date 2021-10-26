@@ -4,3 +4,5 @@
 /Robofile.php    export-ignore
 /*.md            export-ignore
 /*.yml           export-ignore
+/tests           export-ignore
+/.github         export-ignore
