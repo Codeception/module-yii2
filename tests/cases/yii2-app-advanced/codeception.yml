@@ -1,10 +1,10 @@
 namespace: frontend\tests
 actor_suffix: Tester
 paths:
-    tests: ../../vendor/yiisoft/yii2-app-advanced/frontend/tests
+    tests: ../../../vendor/yiisoft/yii2-app-advanced/frontend/tests
     log: ../../_output
-    data: ../../vendor/yiisoft/yii2-app-advanced/frontend/tests/_data
-    support: ../../vendor/yiisoft/yii2-app-advanced/frontend/tests/_support
+    data: ../../../vendor/yiisoft/yii2-app-advanced/frontend/tests/_data
+    support: ../../../vendor/yiisoft/yii2-app-advanced/frontend/tests/_support
 settings:
     bootstrap: _bootstrap.php
     colors: true
