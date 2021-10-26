@@ -5,8 +5,8 @@ paths:
     log: ../../_output
     data: ../../../vendor/yiisoft/yii2-app-advanced/frontend/tests/_data
     support: ../../../vendor/yiisoft/yii2-app-advanced/frontend/tests/_support
+bootstrap: _bootstrap.php
 settings:
-    bootstrap: _bootstrap.php
     colors: true
     memory_limit: 1024M
 modules:
