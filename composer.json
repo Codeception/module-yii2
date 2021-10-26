@@ -33,6 +33,12 @@
     "autoload":{
         "classmap": ["src/"]
     },
+    "autoload-dev": {
+        "classmap": [
+            "vendor/yiisoft/yii2/Yii.php",
+            "tests/cases"
+        ]
+    },
     "config": {
         "classmap-authoritative": true
     }
