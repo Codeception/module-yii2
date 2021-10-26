@@ -4,7 +4,11 @@ paths:
     data: tests/_data
     support: tests/_support
     envs: tests/_envs
-actor_suffix: Tester
-extensions:
-    enabled:
-        - Codeception\Extension\RunFailed
+modules:
+    - Asserts
+bootstrap: bootstrap.php
+settings:
+    colors: true
+    memory_limit: 1024M
+include:
+    - tests/cases/*
