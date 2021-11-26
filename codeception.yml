@@ -1,0 +1,14 @@
+paths:
+    tests: tests
+    output: tests/_output
+    data: tests/_data
+    support: tests/_support
+    envs: tests/_envs
+modules:
+    - Asserts
+bootstrap: bootstrap.php
+settings:
+    colors: true
+    memory_limit: 1024M
+include:
+    - tests/cases/*

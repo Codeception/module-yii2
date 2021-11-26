@@ -1,0 +1,18 @@
+paths:
+  tests: .
+  log: ../../_output
+  data: _data
+  support: ../../_support
+namespace: tests\
+extensions:
+  enabled:
+    - Codeception\Extension\RunFailed
+settings:
+  shuffle: true
+  coolstuff: false
+modules:
+  config:
+    Yii2:
+      configFile: config.php
+      transaction: true
+      cleanup: true
