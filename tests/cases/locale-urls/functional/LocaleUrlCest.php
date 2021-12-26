@@ -18,7 +18,7 @@ class LocaleUrlCest
     }
     public function testFormSubmit(FunctionalTester $I)
     {
-        $I->amOnPage(['site/form']);
+        $I->amOnPage('site/form');
         $I->seeResponseCodeIs(200);
 
         $I->fillField('#test', 'test');

@@ -15,7 +15,7 @@ class SimpleCest
 
     public function testFormSubmit(FunctionalTester $I)
     {
-        $I->amOnPage(['site/form']);
+        $I->amOnPage('site/form');
         $I->seeResponseCodeIs(200);
 
         $I->fillField('#test', 'test');
@@ -25,7 +25,7 @@ class SimpleCest
 
     public function testFormSubmit2(FunctionalTester $I)
     {
-        $I->amOnPage(['site/form']);
+        $I->amOnPage('site/form');
         $I->seeResponseCodeIs(200);
         $I->submitForm('form', [
             'login-form[login]' => 'user',
@@ -37,7 +37,7 @@ class SimpleCest
     public function testException(FunctionalTester $I)
     {
         $I->expectException(new \Exception('This is not an HttpException'), function() use ($I) {
-            $I->amOnPage(['site/exception']);
+            $I->amOnPage('site/exception');
         });
         $I->assertInstanceOf(Application::class, \Yii::$app);
     }
@@ -47,19 +47,19 @@ class SimpleCest
         $e = new \Exception('This is not an HttpException');
         \Yii::$app->params['throw'] = $e;
         $I->expectException($e, function() use ($I) {
-            $I->amOnPage(['site/exception']);
+            $I->amOnPage('site/exception');
         });
     }
 
     public function testExitException(FunctionalTester $I)
     {
-        $I->amOnPage(['site/end']);
+        $I->amOnPage('site/end');
         $I->seeResponseCodeIs(500);
     }
 
     public function testEmptyResponse(FunctionalTester $I)
     {
-        $I->amOnPage(['site/empty-response']);
+        $I->amOnPage('site/empty-response');
         $I->seeResponseCodeIs(200);
     }
 

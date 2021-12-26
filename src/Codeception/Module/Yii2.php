@@ -153,7 +153,6 @@ use yii\db\Transaction;
  *
  * ```php
  * <?php
- * $I->amOnPage(['site/view','page'=>'about']);
  * $I->amOnPage('index-test.php?site/index');
  * $I->amOnPage('http://localhost/index-test.php?site/index');
  * $I->sendAjaxPostRequest(['/user/update', 'id' => 1], ['UserForm[name]' => 'G.Hopper']);
@@ -676,8 +675,6 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * $I->amOnPage('/');
      * // opens /register page
      * $I->amOnPage('/register');
-     * // opens customer view page for id 25
-     * $I->amOnPage(['customer/view', 'id' => 25]);
      * ```
      *
      * @param string|array $page the URI or route in array format
