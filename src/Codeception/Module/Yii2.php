@@ -12,6 +12,7 @@ use Codeception\Lib\Interfaces\MultiSession;
 use Codeception\Lib\Interfaces\PartedModule;
 use Codeception\TestInterface;
 use Codeception\Util\Debug;
+use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
 use Yii;
 use yii\base\Event;
 use yii\db\ActiveRecordInterface;
@@ -698,7 +699,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * @param bool $changeHistory
      * @return mixed
      */
-    protected function clientRequest($method, $uri, array $parameters = [], array $files = [], array $server = [], $content = null, $changeHistory = true)
+    protected function clientRequest(string $method, string $uri,  array $parameters = [],  array $files = [], array $server = [], string $content = null, bool $changeHistory = true): SymfonyCrawler
     {
         return parent::clientRequest($method, $this->client->createUrl($uri), $parameters, $files, $server, $content, $changeHistory);
     }
@@ -811,7 +812,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      *
      * @return array
      */
-    public function getInternalDomains()
+    public function getInternalDomains(): array
     {
         return $this->client->getInternalDomains();
     }
@@ -829,7 +830,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * @param string $val The value of the cookie
      * @param array $params Additional cookie params like `domain`, `path`, `expires` and `secure`.
      */
-    public function setCookie($name, $val, array $params = [])
+    public function setCookie($name, $val, $params = [])
     {
         parent::setCookie($name, $this->client->hashCookieData($name, $val), $params);
     }
