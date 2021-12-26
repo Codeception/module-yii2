@@ -306,7 +306,7 @@ class Yii2 extends Client
      *
      * @return \Symfony\Component\BrowserKit\Response
      */
-    public function doRequest($request)
+    public function doRequest(object $request)
     {
         $_COOKIE = $request->getCookies();
         $_SERVER = $request->getServer();
