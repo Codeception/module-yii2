@@ -663,6 +663,10 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      */
     public function amOnRoute(string $route, array $params = []): void
     {
+        if (Yii::$app->controller === null) {
+            $route = "/{$route}";
+        }
+        
         array_unshift($params, $route);
         $this->amOnPage(Url::to($params));
     }
