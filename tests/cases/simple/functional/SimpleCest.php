@@ -35,7 +35,7 @@ class SimpleCest
 
     public function testException(FunctionalTester $I)
     {
-        $I->expectException(new \Exception('This is not an HttpException'), function() use ($I) {
+        $I->expectThrowable(new \Exception('This is not an HttpException'), function() use ($I) {
             $I->amOnRoute('/site/exception');
         });
         $I->assertInstanceOf(Application::class, \Yii::$app);
@@ -45,7 +45,7 @@ class SimpleCest
     {
         $e = new \Exception('This is not an HttpException');
         \Yii::$app->params['throw'] = $e;
-        $I->expectException($e, function() use ($I) {
+        $I->expectThrowable($e, function() use ($I) {
             $I->amOnRoute('/site/exception');
         });
     }
@@ -64,7 +64,7 @@ class SimpleCest
 
     public function testMissingUser(FunctionalTester $I)
     {
-        $I->expectException(ModuleException::class, function() use ($I) {
+        $I->expectThrowable(ModuleException::class, function() use ($I) {
             $I->amLoggedInAs('nobody');
         });
         $I->amOnRoute('/site/index');
