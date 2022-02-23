@@ -1,5 +1,4 @@
 /.idea/
-/nbproject/
 /vendor/
 /composer.lock
 tests/_support
