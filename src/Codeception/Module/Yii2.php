@@ -19,6 +19,7 @@ use yii\db\ActiveRecordInterface;
 use yii\db\Connection;
 use yii\db\QueryInterface;
 use yii\db\Transaction;
+use yii\helpers\Url;
 
 /**
  * This module provides integration with [Yii framework](http://www.yiiframework.com/) (2.0).
@@ -663,7 +664,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
     public function amOnRoute(string $route, array $params = []): void
     {
         array_unshift($params, $route);
-        $this->amOnPage($params);
+        $this->amOnPage(Url::to($params));
     }
 
     /**

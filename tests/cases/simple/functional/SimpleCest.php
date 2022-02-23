@@ -15,9 +15,8 @@ class SimpleCest
 
     public function testFormSubmit(FunctionalTester $I)
     {
-        $I->amOnPage('site/form');
+        $I->amOnRoute('/site/form');
         $I->seeResponseCodeIs(200);
-
         $I->fillField('#test', 'test');
         $I->click('#submit');
         $I->canSeeResponseCodeIs(201);
@@ -25,7 +24,7 @@ class SimpleCest
 
     public function testFormSubmit2(FunctionalTester $I)
     {
-        $I->amOnPage('site/form');
+        $I->amOnRoute('/site/form');
         $I->seeResponseCodeIs(200);
         $I->submitForm('form', [
             'login-form[login]' => 'user',
@@ -37,7 +36,7 @@ class SimpleCest
     public function testException(FunctionalTester $I)
     {
         $I->expectException(new \Exception('This is not an HttpException'), function() use ($I) {
-            $I->amOnPage('site/exception');
+            $I->amOnRoute('/site/exception');
         });
         $I->assertInstanceOf(Application::class, \Yii::$app);
     }
@@ -47,19 +46,19 @@ class SimpleCest
         $e = new \Exception('This is not an HttpException');
         \Yii::$app->params['throw'] = $e;
         $I->expectException($e, function() use ($I) {
-            $I->amOnPage('site/exception');
+            $I->amOnRoute('/site/exception');
         });
     }
 
     public function testExitException(FunctionalTester $I)
     {
-        $I->amOnPage('site/end');
+        $I->amOnRoute('/site/end');
         $I->seeResponseCodeIs(500);
     }
 
     public function testEmptyResponse(FunctionalTester $I)
     {
-        $I->amOnPage('site/empty-response');
+        $I->amOnRoute('/site/empty-response');
         $I->seeResponseCodeIs(200);
     }
 
@@ -68,7 +67,7 @@ class SimpleCest
         $I->expectException(ModuleException::class, function() use ($I) {
             $I->amLoggedInAs('nobody');
         });
-        $I->amOnPage('site/index');
+        $I->amOnRoute('/site/index');
         $I->assertTrue(\Yii::$app->user->isGuest);
     }
 }
