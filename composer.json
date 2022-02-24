@@ -25,7 +25,7 @@
     "require-dev": {
         "yiisoft/yii2": "dev-master",
         "yiisoft/yii2-app-advanced": "dev-master",
-        "codeception/verify": "dev-master",
+        "codeception/verify": "<2",
         "codemix/yii2-localeurls": "^1.7",
         "codeception/module-asserts": "^3.0",
         "codeception/module-filesystem": "^3.0"
