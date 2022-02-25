@@ -132,7 +132,7 @@ use yii\helpers\Url;
  *
  * ```php
  * <?php
- * $I->haveFixtures(['posts' => PostsFixture::className()]);
+ * $I->haveFixtures(['posts' => PostsFixture::class]);
  * ```
  *
  * or, if you need to load fixtures before the test, you
@@ -143,7 +143,7 @@ use yii\helpers\Url;
  * // inside Cest file or Codeception\TestCase\Unit
  * public function _fixtures()
  * {
- *     return ['posts' => PostsFixture::className()]
+ *     return ['posts' => PostsFixture::class]
  * }
  * ```
  *
@@ -444,9 +444,9 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * ```php
      * <?php
      * $I->haveFixtures([
-     *     'posts' => PostsFixture::className(),
+     *     'posts' => PostsFixture::class,
      *     'user' => [
-     *         'class' => UserFixture::className(),
+     *         'class' => UserFixture::class,
      *         'dataFile' => '@tests/_data/models/user.php',
      *      ],
      * ]);
@@ -462,7 +462,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * public function _fixtures(){
      *     return [
      *         'user' => [
-     *             'class' => UserFixture::className(),
+     *             'class' => UserFixture::class,
      *             'dataFile' => codecept_data_dir() . 'user.php'
      *         ]
      *     ];
@@ -512,7 +512,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      *
      * ```php
      * <?php
-     * $I->haveFixtures(['users' => UserFixture::className()]);
+     * $I->haveFixtures(['users' => UserFixture::class]);
      *
      * $users = $I->grabFixture('users');
      *
