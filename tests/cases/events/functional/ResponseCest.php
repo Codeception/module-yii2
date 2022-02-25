@@ -17,11 +17,11 @@ class ResponseCest
             $sources[] = 'bootstrap';
         });
         $I->assertEmpty($sources);
-        $I->amOnPage('/');
+        $I->amOnRoute('/');
         $I->assertEquals(['config', 'bootstrap'], $sources);
 
         $sources = [];
-        $I->amOnPage('/');
+        $I->amOnRoute('/');
         $I->assertEquals(['config', 'bootstrap'], $sources);
 
     }
@@ -40,11 +40,11 @@ class ResponseCest
             $sources[] = 'bootstrap';
         });
         $I->assertEmpty($sources);
-        $I->amOnPage('/');
+        $I->amOnRoute('/');
         $I->assertEquals(['config', 'bootstrap'], $sources);
 
         $sources = [];
-        $I->amOnPage('/');
+        $I->amOnRoute('/');
 
         // The module should fall back to the CLEAN_CLEAR method and keep event handlers intact.
         $I->assertEquals(['config', 'bootstrap'], $sources);
@@ -66,14 +66,14 @@ class ResponseCest
         });
 
         $I->assertEmpty($sources);
-        $I->amOnPage('/');
+        $I->amOnRoute('/');
 
         // We recreated the response component, since it has an event handler in its config
         // that event handler will still work.
         $I->assertEquals(['config'], $sources);
 
         $sources = [];
-        $I->amOnPage('/');
+        $I->amOnRoute('/');
 
         // We recreated the response component, since it has an event handler in its config
         // that event handler will still work.

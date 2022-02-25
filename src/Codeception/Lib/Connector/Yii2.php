@@ -116,7 +116,7 @@ class Yii2 extends Client
         }
         Yii::$app = null;
         \yii\web\UploadedFile::reset();
-        if (method_exists(\yii\base\Event::className(), 'offAll')) {
+        if (method_exists(\yii\base\Event::class, 'offAll')) {
             \yii\base\Event::offAll();
         }
         Yii::setLogger(null);
