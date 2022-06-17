@@ -1,5 +1,5 @@
 {
-    "name":"codeception/module-yii2",
+    "name":"codeception/module-yii2", 
     "description":"Codeception module for Yii2 framework",
     "keywords":["codeception", "yii2"],
     "homepage":"http://codeception.com/",
