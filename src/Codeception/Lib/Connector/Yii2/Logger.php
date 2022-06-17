@@ -5,6 +5,23 @@ use Codeception\Util\Debug;
 
 class Logger extends \yii\log\Logger
 {
+    /**
+     * @var \SplQueue
+     */
+    private $logQueue;
+
+    /**
+     * @var int
+     */
+    private $maxLogItems;
+
+    public function __construct($maxLogItems = 5, $config = [])
+    {
+        parent::__construct($config);
+        $this->logQueue = new \SplQueue();
+        $this->maxLogItems = $maxLogItems;
+    }
+
     public function init()
     {
         // overridden to prevent register_shutdown_function
@@ -28,6 +45,27 @@ class Logger extends \yii\log\Logger
             $message = $message->__toString();
         }
 
-        Debug::debug("[$category] " .  \yii\helpers\VarDumper::export($message));
+        $logMessage = "[$category] " . \yii\helpers\VarDumper::export($message);
+
+        Debug::debug($logMessage);
+
+        $this->logQueue->enqueue($logMessage);
+        if ($this->logQueue->count() > $this->maxLogItems) {
+            $this->logQueue->dequeue();
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getAndClearLog()
+    {
+        $completeStr = '';
+        foreach ($this->logQueue as $item) {
+            $completeStr .= $item . PHP_EOL;
+        }
+        $this->logQueue = new \SplQueue();
+
+        return $completeStr;
     }
 }
