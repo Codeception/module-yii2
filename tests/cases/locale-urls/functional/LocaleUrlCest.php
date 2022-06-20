@@ -13,12 +13,12 @@ class LocaleUrlCest
 
     public function testMultipleGet(FunctionalTester $I)
     {
-        $I->amOnPage('/en/site/form');
-        $I->amOnPage('/en/site/form');
+        $I->amOnRoute('/en/site/form');
+        $I->amOnRoute('/en/site/form');
     }
     public function testFormSubmit(FunctionalTester $I)
     {
-        $I->amOnPage(['site/form']);
+        $I->amOnRoute('site/form');
         $I->seeResponseCodeIs(200);
 
         $I->fillField('#test', 'test');
@@ -28,7 +28,7 @@ class LocaleUrlCest
 
     public function testFormSubmit2(FunctionalTester $I)
     {
-        $I->amOnPage('/en/site/form');
+        $I->amOnRoute('/en/site/form');
         $I->seeResponseCodeIs(200);
         $I->submitForm('form', [
             'login-form[login]' => 'user',

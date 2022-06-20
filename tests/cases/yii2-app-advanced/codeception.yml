@@ -2,7 +2,7 @@ namespace: frontend\tests
 actor_suffix: Tester
 paths:
     tests: ../../../vendor/yiisoft/yii2-app-advanced/frontend/tests
-    log: ../../_output
+    output: ../../_output
     data: ../../../vendor/yiisoft/yii2-app-advanced/frontend/tests/_data
     support: ../../../vendor/yiisoft/yii2-app-advanced/frontend/tests/_support
 bootstrap: _bootstrap.php
