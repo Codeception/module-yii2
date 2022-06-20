@@ -9,7 +9,7 @@ return [
             'cookieValidationKey' => 'test'
         ],
         'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
+            'class' => 'yii\symfonymailer\Mailer',
         ],
     ],
 ];
