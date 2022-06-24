@@ -510,6 +510,10 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      */
     public function grabFixtures()
     {
+        if (!$this->loadedFixtures) {
+            return [];
+        }
+
         return call_user_func_array(
             'array_merge',
             array_map( // merge all fixtures from all fixture stores
