@@ -333,7 +333,9 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
         // load fixtures before db transaction
         if ($test instanceof \Codeception\Test\Cest) {
-            $this->loadFixtures($test->getTestClass());
+            $this->loadFixtures($test->getTestInstance());
+        } elseif ($test instanceof \Codeception\Test\TestCaseWrapper) {
+            $this->loadFixtures($test->getTestCase());
         } else {
             $this->loadFixtures($test);
         }
