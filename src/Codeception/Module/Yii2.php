@@ -397,8 +397,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
     public function _failed(TestInterface $test, $fail)
     {
-        $log = $this->yiiLogger->getAndClearLog();
-        if (! empty($log)) {
+        if ($this->yiiLogger && $log = $this->yiiLogger->getAndClearLog()) {
             $test->getMetadata()->addReport('yii-log', $log);
         }
 
