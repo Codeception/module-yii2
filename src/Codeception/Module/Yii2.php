@@ -22,7 +22,7 @@ use yii\db\Transaction;
 use yii\helpers\Url;
 
 /**
- * This module provides integration with [Yii framework](http://www.yiiframework.com/) (2.0).
+ * This module provides integration with [Yii framework](https://www.yiiframework.com/) (2.0).
  *
  * It initializes the Yii framework in a test environment and provides actions
  * for functional testing.
@@ -126,7 +126,7 @@ use yii\helpers\Url;
  * ## Fixtures
  *
  * This module allows to use
- * [fixtures](http://www.yiiframework.com/doc-2.0/guide-test-fixtures.html)
+ * [fixtures](https://www.yiiframework.com/doc-2.0/guide-test-fixtures.html)
  * inside a test. There are two ways to do that. Fixtures can either be loaded
  * with the [haveFixtures](#haveFixtures) method inside a test:
  *
