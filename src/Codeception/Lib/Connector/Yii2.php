@@ -333,7 +333,7 @@ class Yii2 extends Client
         $_SERVER['REQUEST_METHOD'] = strtoupper($request->getMethod());
         $_SERVER['QUERY_STRING'] = (string)$queryString;
 
-        parse_str($queryString, $params);
+        parse_str($queryString ?: '', $params);
         foreach ($params as $k => $v) {
             $_GET[$k] = $v;
         }
