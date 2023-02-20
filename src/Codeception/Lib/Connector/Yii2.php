@@ -10,11 +10,11 @@ use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\Response;
 use Yii;
 use yii\base\ExitException;
+use yii\base\UserException;
 use yii\base\Security;
 use yii\mail\MessageInterface;
 use yii\web\Application;
 use yii\web\ErrorHandler;
-use yii\web\HttpException;
 use yii\web\Request;
 use yii\web\Response as YiiResponse;
 
@@ -367,7 +367,7 @@ class Yii2 extends Client
             $app->trigger($app::EVENT_AFTER_REQUEST);
             $response->send();
         } catch (\Exception $e) {
-            if ($e instanceof HttpException) {
+            if ($e instanceof UserException) {
                 // Don't discard output and pass exception handling to Yii to be able
                 // to expect error response codes in tests.
                 $app->errorHandler->discardExistingOutput = false;
