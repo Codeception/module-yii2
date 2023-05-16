@@ -704,7 +704,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * $I->amOnPage('/register');
      * ```
      *
-     * @param string|array $page the URI or route in array format
+     * @param string $page the page URI
      */
     public function amOnPage(string $page): void
     {
