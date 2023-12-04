@@ -480,7 +480,7 @@ class Yii2 extends Client
         return $config;
     }
 
-    public function restart()
+    public function restart(): void
     {
         parent::restart();
         $this->resetApplication();
