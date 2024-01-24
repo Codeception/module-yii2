@@ -3,6 +3,7 @@
 
 namespace Codeception\Lib\Connector\Yii2;
 
+use Codeception\Util\Debug;
 use yii\base\Event;
 use yii\db\Connection;
 use yii\db\Transaction;
@@ -30,7 +31,7 @@ class TransactionForcer extends ConnectionWatcher
     }
 
 
-    protected function connectionOpened(Connection $connection)
+    protected function connectionOpened(Connection $connection): void
     {
         parent::connectionOpened($connection);
         /**
@@ -80,7 +81,7 @@ TEXT
         $this->transactions[$key] = $connection->beginTransaction();
     }
 
-    public function rollbackAll()
+    public function rollbackAll(): void
     {
         /** @var Transaction $transaction */
         foreach ($this->transactions as $transaction) {

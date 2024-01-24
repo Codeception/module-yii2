@@ -13,10 +13,10 @@ use yii\db\Connection;
  */
 class ConnectionWatcher
 {
-    private $handler;
+    private \Closure $handler;
 
     /** @var Connection[] */
-    private $connections = [];
+    private array $connections = [];
 
     public function __construct()
     {
@@ -27,27 +27,25 @@ class ConnectionWatcher
         };
     }
 
-    protected function connectionOpened(Connection $connection)
+    protected function connectionOpened(Connection $connection): void
     {
         $this->debug('Connection opened!');
-        if ($connection instanceof Connection) {
-            $this->connections[] = $connection;
-        }
+        $this->connections[] = $connection;
     }
 
-    public function start()
+    public function start(): void
     {
         Event::on(Connection::class, Connection::EVENT_AFTER_OPEN, $this->handler);
         $this->debug('watching new connections');
     }
 
-    public function stop()
+    public function stop(): void
     {
         Event::off(Connection::class, Connection::EVENT_AFTER_OPEN, $this->handler);
         $this->debug('no longer watching new connections');
     }
 
-    public function closeAll()
+    public function closeAll(): void
     {
         $count = count($this->connections);
         $this->debug("closing all ($count) connections");
@@ -56,7 +54,7 @@ class ConnectionWatcher
         }
     }
 
-    protected function debug($message)
+    protected function debug($message): void
     {
         $title = (new \ReflectionClass($this))->getShortName();
         if (is_array($message) or is_object($message)) {

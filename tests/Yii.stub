@@ -1,0 +1,38 @@
+<?php declare(strict_types=1);
+
+
+
+namespace yii {
+    use \yii\base\Application;
+
+    class BaseYii
+    {
+        /**
+         * @var Application|null $app
+         */
+        public static $app;
+    }
+}
+
+namespace yii\base {
+
+    class Application {}
+}
+
+namespace yii\web {
+    class Response {
+        /**
+         * @var array{0: resource, 1:int, 2:int}|callable|resource|null
+         */
+        public $stream;
+    }
+
+    class Request {
+        /**
+         * @param string|null $url
+         * @return void
+         */
+        public function setBaseUrl($url) {}
+    }
+
+}
