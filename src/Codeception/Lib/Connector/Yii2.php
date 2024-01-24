@@ -329,9 +329,9 @@ class Yii2 extends Client
         $yiiRequest = $app->getRequest();
         if ($request->getContent() !== null) {
             $yiiRequest->setRawBody($request->getContent());
-            $yiiRequest->setBodyParams([]);
+            $yiiRequest->setBodyParams(null);
         } else {
-            $yiiRequest->setRawBody('');
+            $yiiRequest->setRawBody(null);
             $yiiRequest->setBodyParams($_POST);
         }
         $yiiRequest->setQueryParams($_GET);

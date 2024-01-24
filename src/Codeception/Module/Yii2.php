@@ -691,36 +691,6 @@ final class Yii2 extends Framework implements ActiveRecord, MultiSession, Parted
     }
 
     /**
-     * Opens the page for the given relative URI or route.
-     *
-     * ``` php
-     * <?php
-     * // opens front page
-     * $I->amOnPage('/');
-     * // opens /register page
-     * $I->amOnPage('/register');
-     * ```
-     *
-     * @param string $page the page URI
-     */
-    public function amOnPage(string $page): void
-    {
-        parent::amOnPage($page);
-    }
-
-    /**
-     * To support to use the behavior of urlManager component
-     * for the methods like this: amOnPage(), sendAjaxRequest() and etc.
-     * @param array $parameters
-     * @param array $files
-     * @param array $server
-     */
-    protected function clientRequest(string $method, string $uri,  array $parameters = [],  array $files = [], array $server = [], string $content = null, bool $changeHistory = true): SymfonyCrawler
-    {
-        return parent::clientRequest($method, \Yii::$app->urlManager->createUrl($uri), $parameters, $files, $server, $content, $changeHistory);
-    }
-
-    /**
      * Gets a component from the Yii container. Throws an exception if the
      * component is not available
      *
@@ -729,12 +699,10 @@ final class Yii2 extends Framework implements ActiveRecord, MultiSession, Parted
      * $mailer = $I->grabComponent('mailer');
      * ```
      *
-     * @param $component
-     * @return mixed
      * @throws \Codeception\Exception\ModuleException
      * @deprecated in your tests you can use \Yii::$app directly.
      */
-    public function grabComponent(mixed $component)
+    public function grabComponent(string $component): null|object
     {
         try {
             return $this->getClient()->getComponent($component);
