@@ -1,0 +1,20 @@
+#includes:
+#    - phpstan-baseline.neon
+parameters:
+    reportUnmatchedIgnoredErrors: true
+    dynamicConstantNames:
+      - CONSOLE
+      - YII_DEBUG
+    level: 5
+    paths:
+      - src
+    checkMaybeUndefinedVariables: true
+    checkGenericClassInNonGenericObjectType: false
+    ignoreErrors:
+        # All Yii setters accept `null` but their phpdoc is incorrect.
+        - message: '~^Parameter #1 \$(.+) of method yii\\web\\Request::set(.+)\(\) expects (.+), null given.$~'
+          path: 'src/'
+        - message: '~^Variable \$_COOKIE in isset\(\) always exists and is not nullable.$~'
+          path: 'src/'
+    stubFiles:
+        - tests/Yii.stub

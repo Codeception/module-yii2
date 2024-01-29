@@ -1,25 +1,25 @@
 <?php
 namespace Codeception\Module;
 
-use Codeception\Configuration;
 use Codeception\Exception\ConfigurationException;
 use Codeception\Exception\ModuleConfigException;
 use Codeception\Exception\ModuleException;
 use Codeception\Lib\Connector\Yii2 as Yii2Connector;
+use Codeception\Lib\Connector\Yii2\ConnectionWatcher;
+use Codeception\Lib\Connector\Yii2\Logger;
+use Codeception\Lib\Connector\Yii2\TransactionForcer;
 use Codeception\Lib\Framework;
 use Codeception\Lib\Interfaces\ActiveRecord;
 use Codeception\Lib\Interfaces\MultiSession;
 use Codeception\Lib\Interfaces\PartedModule;
 use Codeception\TestInterface;
-use Codeception\Util\Debug;
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
 use Yii;
-use yii\base\Event;
-use yii\db\ActiveRecordInterface;
-use yii\db\Connection;
-use yii\db\QueryInterface;
-use yii\db\Transaction;
+use yii\base\Security;
+use yii\db\ActiveQueryInterface;
 use yii\helpers\Url;
+use yii\web\Application;
+use yii\web\IdentityInterface;
 
 /**
  * This module provides integration with [Yii framework](https://www.yiiframework.com/) (2.0).
@@ -164,9 +164,8 @@ use yii\helpers\Url;
  * Maintainer: **samdark**
  * Stability: **stable**
  *
- * @property \Codeception\Lib\Connector\Yii2 $client
  */
-class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
+final class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 {
     /**
      * Application config file must be set.
@@ -196,29 +195,32 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
     /**
      * Helper to manage database connections
-     * @var Yii2Connector\ConnectionWatcher
      */
-    private $connectionWatcher;
+    private ConnectionWatcher $connectionWatcher;
 
     /**
      * Helper to force database transaction
-     * @var Yii2Connector\TransactionForcer
      */
-    private $transactionForcer;
+    private TransactionForcer $transactionForcer;
 
     /**
      * @var array The contents of $_SERVER upon initialization of this object.
      * This is only used to restore it upon object destruction.
      * It MUST not be used anywhere else.
      */
-    private $server;
+    private array $server;
 
-    /**
-     * @var Yii2Connector\Logger
-     */
-    private $yiiLogger;
+    private Logger $yiiLogger;
 
-    public function _initialize()
+    private function getClient(): \Codeception\Lib\Connector\Yii2|null
+    {
+        if (isset($this->client) && !$this->client instanceof \Codeception\Lib\Connector\Yii2) {
+            throw new \RuntimeException('The Yii2 module must be used with the Yii2 browser client');
+        }
+        return $this->client;
+    }
+
+    public function _initialize(): void
     {
         if ($this->config['transaction'] === null) {
             $this->config['transaction'] = $this->backupConfig['transaction'] = $this->config['cleanup'];
@@ -234,13 +236,13 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * Module configuration changed inside a test.
      * We always re-create the application.
      */
-    protected function onReconfigure()
+    protected function onReconfigure(): void
     {
         parent::onReconfigure();
-        $this->client->resetApplication();
+        $this->getClient()->resetApplication();
         $this->configureClient($this->config);
         $this->yiiLogger->getAndClearLog();
-        $this->client->startApp($this->yiiLogger);
+        $this->getClient()->startApp($this->yiiLogger);
     }
 
     /**
@@ -248,7 +250,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * Note this is done separately from the request cycle since someone might call
      * `Url::to` before doing a request, which would instantiate the request component with incorrect server params.
      */
-    private function initServerGlobal()
+    private function initServerGlobal(): void
     {
 
         $entryUrl = $this->config['entryUrl'];
@@ -290,22 +292,22 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         }
     }
 
-    protected function configureClient(array $settings)
+    protected function configureClient(array $settings): void
     {
         $settings['configFile'] = codecept_absolute_path($settings['configFile']);
 
         foreach ($settings as $key => $value) {
             if (property_exists($this->client, $key)) {
-                $this->client->$key = $value;
+                $this->getClient()->$key = $value;
             }
         }
-        $this->client->resetApplication();
+        $this->getClient()->resetApplication();
     }
 
     /**
      * Instantiates the client based on module configuration
      */
-    protected function recreateClient()
+    protected function recreateClient(): void
     {
         $entryUrl = $this->config['entryUrl'];
         $entryFile = $this->config['entryScript'] ?: basename($entryUrl);
@@ -322,13 +324,13 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         $this->configureClient($this->config);
     }
 
-    public function _before(TestInterface $test)
+    public function _before(TestInterface $test): void
     {
         $this->recreateClient();
         $this->yiiLogger = new Yii2Connector\Logger();
-        $this->client->startApp($this->yiiLogger);
+        $this->getClient()->startApp($this->yiiLogger);
 
-        $this->connectionWatcher = new Yii2Connector\ConnectionWatcher();
+        $this->connectionWatcher = new ConnectionWatcher();
         $this->connectionWatcher->start();
 
         // load fixtures before db transaction
@@ -346,16 +348,14 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
     /**
      * load fixtures before db transaction
-     *
-     * @param mixed $test instance of test class
      */
-    private function loadFixtures($test)
+    private function loadFixtures(object $test): void
     {
         $this->debugSection('Fixtures', 'Loading fixtures');
         if (empty($this->loadedFixtures)
             && method_exists($test, $this->_getConfig('fixturesMethod'))
         ) {
-            $connectionWatcher = new Yii2Connector\ConnectionWatcher();
+            $connectionWatcher = new ConnectionWatcher();
             $connectionWatcher->start();
             $this->haveFixtures(call_user_func([$test, $this->_getConfig('fixturesMethod')]));
             $connectionWatcher->stop();
@@ -364,7 +364,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         $this->debugSection('Fixtures', 'Done');
     }
 
-    public function _after(TestInterface $test)
+    public function _after(TestInterface $test): void
     {
         $_SESSION = [];
         $_FILES = [];
@@ -382,9 +382,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
             $this->loadedFixtures = [];
         }
 
-        if ($this->client !== null) {
-            $this->client->resetApplication();
-        }
+        $this->getClient()?->resetApplication();
 
         if (isset($this->connectionWatcher)) {
             $this->connectionWatcher->stop();
@@ -395,24 +393,25 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         parent::_after($test);
     }
 
-    public function _failed(TestInterface $test, $fail)
+    public function _failed(TestInterface $test, $fail): void
     {
-        if ($this->yiiLogger && $log = $this->yiiLogger->getAndClearLog()) {
+        $log = $this->yiiLogger->getAndClearLog();
+        if ($log !== '') {
             $test->getMetadata()->addReport('yii-log', $log);
         }
 
         parent::_failed($test, $fail);
     }
 
-    protected function startTransactions()
+    protected function startTransactions(): void
     {
         if ($this->config['transaction']) {
-            $this->transactionForcer = new Yii2Connector\TransactionForcer($this->config['ignoreCollidingDSN']);
+            $this->transactionForcer = new TransactionForcer($this->config['ignoreCollidingDSN']);
             $this->transactionForcer->start();
         }
     }
 
-    protected function rollbackTransactions()
+    protected function rollbackTransactions(): void
     {
         if (isset($this->transactionForcer)) {
             $this->transactionForcer->rollbackAll();
@@ -441,13 +440,12 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * ```
      * Requires the `user` component to be enabled and configured.
      *
-     * @param $user
      * @throws \Codeception\Exception\ModuleException
      */
-    public function amLoggedInAs($user)
+    public function amLoggedInAs(int|string|IdentityInterface $user): void
     {
         try {
-            $this->client->findAndLoginUser($user);
+            $this->getClient()?->findAndLoginUser($user);
         } catch (ConfigurationException $e) {
             throw new ModuleException($this, $e->getMessage());
         } catch (\RuntimeException $e) {
@@ -491,7 +489,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * @param $fixtures
      * @part fixtures
      */
-    public function haveFixtures($fixtures)
+    public function haveFixtures($fixtures): void
     {
         if (empty($fixtures)) {
             return;
@@ -571,15 +569,15 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * $user_id = $I->haveRecord('app\models\User', array('name' => 'Davert'));
      * ?>
      * ```
-     *
-     * @param $model
-     * @param array $attributes
+     * @template T of \yii\db\ActiveRecord
+     * @param class-string<T> $model
+     * @param array<string, mixed> $attributes
      * @return mixed
      * @part orm
      */
-    public function haveRecord($model, $attributes = [])
+    public function haveRecord(string $model, $attributes = []): mixed
     {
-        /** @var $record \yii\db\ActiveRecord  * */
+        /** @var T $record   **/
         $record = \Yii::createObject($model);
         $record->setAttributes($attributes, false);
         $res = $record->save(false);
@@ -596,8 +594,8 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * $I->seeRecord('app\models\User', array('name' => 'davert'));
      * ```
      *
-     * @param $model
-     * @param array $attributes
+     * @param class-string<\yii\db\ActiveRecord> $model
+     * @param array<string, mixed> $attributes
      * @part orm
      */
     public function seeRecord(string $model, array $attributes = []): void
@@ -616,8 +614,8 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * $I->dontSeeRecord('app\models\User', array('name' => 'davert'));
      * ```
      *
-     * @param $model
-     * @param array $attributes
+     * @param class-string<\yii\db\ActiveRecord> $model
+     * @param array<string, mixed> $attributes
      * @part orm
      */
     public function dontSeeRecord(string $model, array $attributes = []): void
@@ -636,35 +634,34 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * $category = $I->grabRecord('app\models\User', array('name' => 'davert'));
      * ```
      *
-     * @param $model
-     * @param array $attributes
-     * @return mixed
+     * @param class-string<\yii\db\ActiveRecord> $model
+     * @param array<string, mixed> $attributes
      * @part orm
      */
-    public function grabRecord(string $model, array $attributes = []): mixed
+    public function grabRecord(string $model, array $attributes = []): \yii\db\ActiveRecord|null|array
     {
         return $this->findRecord($model, $attributes);
     }
 
     /**
-     * @param string $model Class name
-     * @param array $attributes
-     * @return mixed
+     * @param class-string<\yii\db\ActiveRecord> $model Class name
+     * @param array<string, mixed> $attributes
      */
-    protected function findRecord(string $model, array $attributes = []): mixed
+    protected function findRecord(string $model, array $attributes = []): \yii\db\ActiveRecord | null | array
     {
         if (!class_exists($model)) {
             throw new \RuntimeException("Class $model does not exist");
         }
         $rc = new \ReflectionClass($model);
         if ($rc->hasMethod('find')
+            /** @phpstan-ignore-next-line */
             && ($findMethod = $rc->getMethod('find'))
             && $findMethod->isStatic()
             && $findMethod->isPublic()
             && $findMethod->getNumberOfRequiredParameters() === 0
         ) {
             $activeQuery = $findMethod->invoke(null);
-            if ($activeQuery instanceof QueryInterface) {
+            if ($activeQuery instanceof ActiveQueryInterface) {
                 return $activeQuery->andWhere($attributes)->one();
             }
 
@@ -694,41 +691,6 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
     }
 
     /**
-     * Opens the page for the given relative URI or route.
-     *
-     * ``` php
-     * <?php
-     * // opens front page
-     * $I->amOnPage('/');
-     * // opens /register page
-     * $I->amOnPage('/register');
-     * ```
-     *
-     * @param string $page the page URI
-     */
-    public function amOnPage(string $page): void
-    {
-        parent::amOnPage($page);
-    }
-
-    /**
-     * To support to use the behavior of urlManager component
-     * for the methods like this: amOnPage(), sendAjaxRequest() and etc.
-     * @param $method
-     * @param $uri
-     * @param array $parameters
-     * @param array $files
-     * @param array $server
-     * @param null $content
-     * @param bool $changeHistory
-     * @return mixed
-     */
-    protected function clientRequest(string $method, string $uri,  array $parameters = [],  array $files = [], array $server = [], string $content = null, bool $changeHistory = true): SymfonyCrawler
-    {
-        return parent::clientRequest($method, $this->client->createUrl($uri), $parameters, $files, $server, $content, $changeHistory);
-    }
-
-    /**
      * Gets a component from the Yii container. Throws an exception if the
      * component is not available
      *
@@ -737,15 +699,13 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * $mailer = $I->grabComponent('mailer');
      * ```
      *
-     * @param $component
-     * @return mixed
      * @throws \Codeception\Exception\ModuleException
      * @deprecated in your tests you can use \Yii::$app directly.
      */
-    public function grabComponent(mixed $component)
+    public function grabComponent(string $component): null|object
     {
         try {
-            return $this->client->getComponent($component);
+            return $this->getClient()->getComponent($component);
         } catch (ConfigurationException $e) {
             throw new ModuleException($this, $e->getMessage());
         }
@@ -805,7 +765,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
     public function grabSentEmails(): array
     {
         try {
-            return $this->client->getEmails();
+            return $this->getClient()->getEmails();
         } catch (ConfigurationException $e) {
             throw new ModuleException($this, $e->getMessage());
         }
@@ -838,7 +798,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      */
     public function getInternalDomains(): array
     {
-        return $this->client->getInternalDomains();
+        return $this->getClient()->getInternalDomains();
     }
 
     private function defineConstants(): void
@@ -856,7 +816,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      */
     public function setCookie($name, $val, $params = [])
     {
-        parent::setCookie($name, $this->client->hashCookieData($name, $val), $params);
+        parent::setCookie($name, $this->getClient()->hashCookieData($name, $val), $params);
     }
 
     /**
@@ -866,8 +826,8 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      */
     public function createAndSetCsrfCookie(string $val): array
     {
-        $masked = $this->client->maskToken($val);
-        $name = $this->client->getCsrfParamName();
+        $masked = (new Security())->maskToken($val);
+        $name = $this->getClient()->getCsrfParamName();
         $this->setCookie($name, $val);
         return [$name, $masked];
     }
@@ -885,7 +845,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      */
     public function _initializeSession(): void
     {
-        $this->client->removeContext();
+        $this->getClient()->restart();
         $this->headers = [];
         $_SESSION = [];
         $_COOKIE = [];
@@ -893,15 +853,15 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
     /**
      * Return the session content for future restoring. Implements MultiSession.
-     * @return array backup data
+     * @return array<string, mixed> backup data
      */
     public function _backupSession(): array
     {
-        if (isset(Yii::$app) && Yii::$app->has('session', true) && Yii::$app->session->useCustomStorage) {
+        if (Yii::$app instanceof Application && Yii::$app->has('session', true) && Yii::$app->session->useCustomStorage) {
             throw new ModuleException($this, "Yii2 MultiSession only supports the default session backend.");
         }
         return [
-            'clientContext' => $this->client->getContext(),
+            'clientContext' => $this->getClient()->getContext(),
             'headers' => $this->headers,
             'cookie' => isset($_COOKIE) ? $_COOKIE : [],
             'session' => isset($_SESSION) ? $_SESSION : [],
@@ -910,20 +870,21 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
     /**
      * Restore a session. Implements MultiSession.
-     * @param array output of _backupSession()
+     * @param array<mixed> $session output of _backupSession()
      */
     public function _loadSession($session): void
     {
-        $this->client->setContext($session['clientContext']);
+        $this->getClient()->setContext($session['clientContext']);
         $this->headers = $session['headers'];
         $_SESSION = $session['session'];
         $_COOKIE = $session['cookie'];
 
         // reset Yii::$app->user
         if (isset(Yii::$app)) {
-            $definitions = Yii::$app->getComponents(true);
-            if (Yii::$app->has('user', true)) {
-                Yii::$app->set('user', $definitions['user']);
+            $app = Yii::$app;
+            $definitions = $app->getComponents(true);
+            if ($app->has('user', true)) {
+                $app->set('user', $definitions['user']);
             }
         }
     }
