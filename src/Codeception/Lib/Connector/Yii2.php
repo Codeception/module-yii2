@@ -133,8 +133,8 @@ class Yii2 extends Client
     public function findAndLoginUser(int|string|IdentityInterface $user): void
     {
         $app = $this->getApplication();
-        $user = $app->get('user');
-        if (!$user instanceof User) {
+        $userComponent = $app->get('user');
+        if (!$userComponent instanceof User) {
             throw new ConfigurationException('The user component is not configured');
         }
 
