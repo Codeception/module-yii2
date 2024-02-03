@@ -142,13 +142,13 @@ class Yii2 extends Client
             $identity = $user;
         } else {
             // class name implementing IdentityInterface
-            $identityClass = $user->identityClass;
+            $identityClass = $userComponent->identityClass;
             $identity = call_user_func([$identityClass, 'findIdentity'], $user);
             if (!isset($identity)) {
                 throw new \RuntimeException('User not found');
             }
         }
-        $user->login($identity);
+        $userComponent->login($identity);
     }
 
     /**
