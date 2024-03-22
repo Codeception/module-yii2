@@ -154,8 +154,8 @@ use yii\web\IdentityInterface;
  *
  * ```php
  * <?php
- * $I->amOnPage('index-test.php?site/index');
- * $I->amOnPage('http://localhost/index-test.php?site/index');
+ * $I->amOnPage('index-test.php?r=site/index');
+ * $I->amOnPage('http://localhost/index-test.php?r=site/index');
  * $I->sendAjaxPostRequest(['/user/update', 'id' => 1], ['UserForm[name]' => 'G.Hopper']);
  * ```
  *
