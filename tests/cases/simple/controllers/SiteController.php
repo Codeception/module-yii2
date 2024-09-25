@@ -44,6 +44,16 @@ HTML;
         \Yii::$app->end();
     }
 
+    public function actionTypeError()
+    {
+        $testClass = new class {
+            public ?int $intType = 0;
+        };
+
+        $testClass->intType = 'string';
+
+        return $testClass->intType;
+    }
 
     /**
      * @param Action $action

@@ -10,6 +10,7 @@ use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar;
 use Symfony\Component\BrowserKit\History;
 use Symfony\Component\BrowserKit\Response;
+use Throwable;
 use Yii;
 use yii\base\ExitException;
 use yii\base\Security;
@@ -345,16 +346,9 @@ class Yii2 extends Client
             $response = $app->handleRequest($yiiRequest);
             $app->trigger($app::EVENT_AFTER_REQUEST);
             $response->send();
-        } catch (\Exception $e) {
-            if ($e instanceof UserException) {
-                // Don't discard output and pass exception handling to Yii to be able
-                // to expect error response codes in tests.
-                $app->errorHandler->discardExistingOutput = false;
-                $app->errorHandler->handleException($e);
-            } elseif (!$e instanceof ExitException) {
-                // for exceptions not related to Http, we pass them to Codeception
-                throw $e;
-            }
+        } catch (Throwable $e) {
+            $app->errorHandler->discardExistingOutput = false;
+            $app->errorHandler->handleException($e);
             $response = $app->response;
         }
 
