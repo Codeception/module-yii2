@@ -35,19 +35,18 @@ class SimpleCest
 
     public function testException(FunctionalTester $I)
     {
-        $I->expectThrowable(new \Exception('This is not an HttpException'), function() use ($I) {
-            $I->amOnRoute('/site/exception');
-        });
-        $I->assertInstanceOf(Application::class, \Yii::$app);
+        $I->amOnRoute('/site/exception');
+        $I->seeResponseCodeIsServerError();
+        $content = $I->grabPageSource();
+        $I->assertStringStartsWith("<pre>Exception &apos;Exception&apos; with message &apos;This is not an HttpException&apos;", $content);
     }
 
-    public function testExceptionInBeforeRequest(FunctionalTester $I)
+    public function testTypeError(FunctionalTester $I)
     {
-        $e = new \Exception('This is not an HttpException');
-        \Yii::$app->params['throw'] = $e;
-        $I->expectThrowable($e, function() use ($I) {
-            $I->amOnRoute('/site/exception');
-        });
+        $I->amOnRoute('/site/type-error');
+        $I->seeResponseCodeIsServerError();
+        $content = $I->grabPageSource();
+        $I->assertStringStartsWith('<pre>Exception &apos;TypeError&apos; with message &apos;Cannot assign string to property', $content);
     }
 
     public function testExitException(FunctionalTester $I)
