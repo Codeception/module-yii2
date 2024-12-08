@@ -250,7 +250,7 @@ class Yii2 extends Client
         return $this->getApplication()->request->csrfParam;
     }
 
-    public function startApp(\yii\log\Logger $logger = null): void
+    public function startApp(?\yii\log\Logger $logger = null): void
     {
         codecept_debug('Starting application');
         $config = require($this->configFile);
