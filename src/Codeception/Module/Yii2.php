@@ -723,11 +723,11 @@ final class Yii2 extends Framework implements ActiveRecord, MultiSession, Parted
      * $I->seeEmailIsSent(3);
      * ```
      *
-     * @param int $num
+     * @param int|null $num
      * @throws \Codeception\Exception\ModuleException
      * @part email
      */
-    public function seeEmailIsSent(int $num = null): void
+    public function seeEmailIsSent(?int $num = null): void
     {
         if ($num === null) {
             $this->assertNotEmpty($this->grabSentEmails(), 'emails were sent');
