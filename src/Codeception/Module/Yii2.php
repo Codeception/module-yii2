@@ -165,7 +165,7 @@ use yii\web\IdentityInterface;
  * Stability: **stable**
  *
  */
-final class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
+class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 {
     /**
      * Application config file must be set.
