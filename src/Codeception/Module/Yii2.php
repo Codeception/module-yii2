@@ -102,6 +102,7 @@ use yii\web\IdentityInterface;
  * * `orm` - include only `haveRecord/grabRecord/seeRecord/dontSeeRecord` actions.
  * * `fixtures` - use fixtures inside tests with `haveFixtures/grabFixture/grabFixtures` actions.
  * * `email` - include email actions `seeEmailsIsSent/grabLastSentEmail/...`
+ * * `route` - include route actions `amOnRoute`
  *
  * See [WebDriver module](https://codeception.com/docs/modules/WebDriver#Loading-Parts-from-other-Modules)
  * for general information on how to load parts of a framework module.
@@ -117,7 +118,7 @@ use yii\web\IdentityInterface;
  *             browser: firefox
  *         - Yii2:
  *             configFile: 'config/test.php'
- *             part: orm # allow to use AR methods
+ *             part: orm, route # allow to use AR methods and route method
  *             transaction: false # don't wrap test in transaction
  *             cleanup: false # don't cleanup the fixtures
  *             entryScript: index-test.php
@@ -422,7 +423,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
     public function _parts(): array
     {
-        return ['orm', 'init', 'fixtures', 'email'];
+        return ['orm', 'init', 'fixtures', 'email','route'];
     }
 
     /**
@@ -679,6 +680,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      *
      * @param string $route A route
      * @param array $params Additional route parameters
+     * @part route 
      */
     public function amOnRoute(string $route, array $params = []): void
     {
