@@ -118,7 +118,7 @@ use yii\web\IdentityInterface;
  *             browser: firefox
  *         - Yii2:
  *             configFile: 'config/test.php'
- *             part: orm, route # allow to use AR methods and route method
+ *             part: [orm, route] # allow to use AR methods and route method
  *             transaction: false # don't wrap test in transaction
  *             cleanup: false # don't cleanup the fixtures
  *             entryScript: index-test.php
