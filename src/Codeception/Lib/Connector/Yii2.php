@@ -15,6 +15,7 @@ use yii\base\ExitException;
 use yii\base\Security;
 use yii\base\UserException;
 use yii\mail\MessageInterface;
+use yii\symfonymailer\Mailer;
 use yii\web\Application;
 use yii\web\ErrorHandler;
 use yii\web\IdentityInterface;
@@ -422,33 +423,20 @@ class Yii2 extends Client
      */
     protected function mockMailer(array $config): array
     {
-        // options that make sense for mailer mock
-        $allowedOptions = [
-            'htmlLayout',
-            'textLayout',
-            'messageConfig',
-            'messageClass',
-            'useFileTransport',
-            'fileTransportPath',
-            'fileTransportCallback',
-            'view',
-            'viewPath',
-        ];
-
         $mailerConfig = [
             'class' => TestMailer::class,
             'callback' => function (MessageInterface $message) {
                 $this->emails[] = $message;
-            }
+            },
+            'mailer' => [
+                'class' => Mailer::class,
+            ]
         ];
 
-        if (isset($config['components']['mailer']) && is_array($config['components']['mailer'])) {
-            foreach ($config['components']['mailer'] as $name => $value) {
-                if (in_array($name, $allowedOptions, true)) {
-                    $mailerConfig[$name] = $value;
-                }
-            }
+        if (isset($config['components']['mailer'])) {
+            $mailerConfig['mailer'] = $config['components']['mailer'];
         }
+
         $config['components']['mailer'] = $mailerConfig;
 
         return $config;
