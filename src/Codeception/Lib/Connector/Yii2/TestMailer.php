@@ -1,11 +1,15 @@
 <?php
 namespace Codeception\Lib\Connector\Yii2;
 
+use ReflectionClass;
+use yii\base\BaseObject;
+use yii\base\InvalidConfigException;
 use yii\base\UnknownMethodException;
 use yii\base\UnknownPropertyException;
 use yii\di\Instance;
 use yii\mail\BaseMailer;
 use yii\mail\MailerInterface;
+use yii\mail\MessageInterface;
 
 class TestMailer extends BaseMailer
 {
@@ -23,7 +27,7 @@ class TestMailer extends BaseMailer
      * @inheritdoc
      * @throws InvalidConfigException
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->mailer = Instance::ensure($this->mailer, MailerInterface::class);
@@ -72,20 +76,31 @@ class TestMailer extends BaseMailer
     /**
      * @inheritdoc
      */
-    public function compose($view = null, array $params = [])
+    public function compose($view = null, array $params = []): MessageInterface
     {
         $message = $this->mailer->compose($view, $params);
-        $message->mailer = $this;
+
+        if ($message instanceof BaseObject && $message->canSetProperty('mailer')) {
+            /** @phpstan-ignore property.notFound */
+            $message->mailer = $this;
+        } else {
+            $reflection = new ReflectionClass($message);
+            if ($reflection->hasProperty('mailer')) {
+                /** @phpstan-ignore property.notFound */
+                $message->mailer = $this;
+            }
+        }
+
         return $message;
     }
 
-    protected function sendMessage($message)
+    protected function sendMessage($message): bool
     {
         call_user_func($this->callback, $message);
         return true;
     }
 
-    protected function saveMessage($message)
+    protected function saveMessage($message): bool
     {
         call_user_func($this->callback, $message);
         return true;

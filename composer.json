@@ -29,7 +29,8 @@
         "codemix/yii2-localeurls": "^1.7",
         "codeception/module-asserts": ">= 3.0",
         "codeception/module-filesystem": "> 3.0",
-        "phpstan/phpstan": "^1.10"
+        "phpstan/phpstan": "^1.10",
+        "yiisoft/yii2-swiftmailer": "^2.0.0"
     },
     "autoload":{
         "classmap": ["src/"]

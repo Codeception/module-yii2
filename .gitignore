@@ -5,3 +5,4 @@
 tests/_support
 tests/_output
 tests/cases/yii2-app-advanced/_data/db.sqlite
+.env

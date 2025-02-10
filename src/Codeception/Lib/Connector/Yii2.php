@@ -14,8 +14,8 @@ use Yii;
 use yii\base\ExitException;
 use yii\base\Security;
 use yii\base\UserException;
+use yii\helpers\ArrayHelper;
 use yii\mail\MessageInterface;
-use yii\symfonymailer\Mailer;
 use yii\web\Application;
 use yii\web\ErrorHandler;
 use yii\web\IdentityInterface;
@@ -429,13 +429,22 @@ class Yii2 extends Client
                 $this->emails[] = $message;
             },
             'mailer' => [
-                'class' => Mailer::class,
-                'transportFactory' => new NullTransportFactory()
+                'class' => \yii\symfonymailer\Mailer::class
             ]
         ];
 
-        if (isset($config['components']['mailer'])) {
-            $mailerConfig['mailer'] = $config['components']['mailer'];
+        if (isset($config['components']['mailer']) && is_array($config['components']['mailer'])) {
+            $mailerConfig['mailer'] = ArrayHelper::merge($mailerConfig['mailer'], $config['components']['mailer']);
+        }
+
+        /**
+         * Set transports only if known mailers that have this field is used
+         */
+        if ($mailerConfig['mailer']['class'] instanceof \yii\symfonymailer\Mailer) {
+            $mailerConfig['mailer']['transport'] = \Symfony\Component\Mailer\Transport\NullTransport::class;
+        }
+        if ($mailerConfig['mailer']['class'] instanceof \yii\swiftmailer\Mailer) {
+            $mailerConfig['mailer']['transport'] = \Swift_Transport_NullTransport::class;
         }
 
         $config['components']['mailer'] = $mailerConfig;
