@@ -430,6 +430,7 @@ class Yii2 extends Client
             },
             'mailer' => [
                 'class' => Mailer::class,
+                'transportFactory' => new NullTransportFactory()
             ]
         ];
 
