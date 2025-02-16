@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class PageCest {
 
     public function testCache(\tests\FunctionalTester $I)

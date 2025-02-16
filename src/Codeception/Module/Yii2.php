@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Codeception\Module;
 
 use Codeception\Exception\ConfigurationException;
@@ -735,7 +738,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
             $this->assertNotEmpty($this->grabSentEmails(), 'emails were sent');
             return;
         }
-        $this->assertEquals($num, count($this->grabSentEmails()), 'number of sent emails is equal to ' . $num);
+        $this->assertSame($num, count($this->grabSentEmails()), 'number of sent emails is equal to ' . $num);
     }
 
     /**
@@ -757,7 +760,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * <?php
      * $I->seeEmailIsSent();
      * $messages = $I->grabSentEmails();
-     * $I->assertEquals('admin@site,com', $messages[0]->getTo());
+     * $I->assertSame('admin@site,com', $messages[0]->getTo());
      * ```
      *
      * @part email
@@ -780,7 +783,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * <?php
      * $I->seeEmailIsSent();
      * $message = $I->grabLastSentEmail();
-     * $I->assertEquals('admin@site,com', $message->getTo());
+     * $I->assertSame('admin@site,com', $message->getTo());
      * ```
      * @part email
      */

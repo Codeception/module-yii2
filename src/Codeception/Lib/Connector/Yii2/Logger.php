@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Codeception\Lib\Connector\Yii2;
 
 use Codeception\Util\Debug;
