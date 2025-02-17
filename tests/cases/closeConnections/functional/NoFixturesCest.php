@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace tests\closeConnections;
 
 use Codeception\Example;
@@ -20,6 +22,6 @@ class NoFixturesCest
      */
     public function NoConnections(FunctionalTester $I, Example $example)
     {
-        $I->assertEquals(SqlliteHelper::connectionCount(), $example['count']);
+        $I->assertSame(SqlliteHelper::connectionCount(), $example['count']);
     }
 }

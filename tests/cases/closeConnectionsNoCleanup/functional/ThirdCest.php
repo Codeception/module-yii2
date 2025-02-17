@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace tests\closeConnectionsNoCleanup;
 
 use tests\FunctionalTester;
@@ -11,7 +13,7 @@ class ThirdCest
     public function NoConnections1(FunctionalTester $I)
     {
         $count = SqlliteHelper::connectionCount();
-        $I->assertEquals(0, $count);
+        $I->assertSame(0, $count);
     }
 
     public function OnlyOneConnection2(FunctionalTester $I)
@@ -23,7 +25,7 @@ class ThirdCest
         ]);
 
         $count = SqlliteHelper::connectionCount();
-        $I->assertEquals(1, $count);
+        $I->assertSame(1, $count);
     }
 
     public function OnlyOneConnection3(FunctionalTester $I)
@@ -35,6 +37,6 @@ class ThirdCest
         ]);
 
         $count = SqlliteHelper::connectionCount();
-        $I->assertEquals(1, $count);
+        $I->assertSame(1, $count);
     }
 }

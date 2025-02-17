@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace tests\closeConnectionsNoCleanup;
 
 use tests\FunctionalTester;
@@ -20,19 +22,19 @@ class FixturesCest
     public function NoConnections1(FunctionalTester $I)
     {
         $count = SqlliteHelper::connectionCount();
-        $I->assertEquals(0, $count);
+        $I->assertSame(0, $count);
     }
 
     public function NoConnections2(FunctionalTester $I)
     {
         $count = SqlliteHelper::connectionCount();
-        $I->assertEquals(0, $count);
+        $I->assertSame(0, $count);
     }
 
     public function NoConnections3(FunctionalTester $I)
     {
         $count = SqlliteHelper::connectionCount();
-        $I->assertEquals(0, $count);
+        $I->assertSame(0, $count);
     }
 
 }

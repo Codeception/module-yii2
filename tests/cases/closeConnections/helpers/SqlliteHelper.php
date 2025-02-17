@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace tests\helpers;
 
 class SqlliteHelper
@@ -9,7 +11,7 @@ class SqlliteHelper
     public static function getTmpFile()
     {
         if (empty(self::$temp_name)) {
-            self::$temp_name = tempnam(null, '/file0');
+            self::$temp_name = tempnam('', '/file0');
         }
         return self::$temp_name;
     }

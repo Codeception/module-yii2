@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace app\simple\controllers;
 use app\simple\helpers\EmptyString;
 use yii\base\Action;

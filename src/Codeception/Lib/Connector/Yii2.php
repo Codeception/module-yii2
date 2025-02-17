@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Codeception\Lib\Connector;
 
 use Codeception\Exception\ConfigurationException;
@@ -402,10 +405,11 @@ class Yii2 extends Client
                     : $cookie->value;
                 $value = $security->hashData(serialize($data), $validationKey);
             }
+            $expires = is_int($cookie->expire) ? (string)$cookie->expire : null;
             $c = new Cookie(
                 $cookie->name,
                 $value,
-                $cookie->expire,
+                $expires,
                 $cookie->path,
                 $cookie->domain,
                 $cookie->secure,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace app\localeurls\controllers;
 use yii\helpers\Url;
 use yii\web\Controller;
