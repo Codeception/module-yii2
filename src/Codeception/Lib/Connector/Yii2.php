@@ -17,6 +17,7 @@ use Yii;
 use yii\base\ExitException;
 use yii\base\Security;
 use yii\base\UserException;
+use yii\helpers\ArrayHelper;
 use yii\mail\MessageInterface;
 use yii\web\Application;
 use yii\web\ErrorHandler;
@@ -426,33 +427,30 @@ class Yii2 extends Client
      */
     protected function mockMailer(array $config): array
     {
-        // options that make sense for mailer mock
-        $allowedOptions = [
-            'htmlLayout',
-            'textLayout',
-            'messageConfig',
-            'messageClass',
-            'useFileTransport',
-            'fileTransportPath',
-            'fileTransportCallback',
-            'view',
-            'viewPath',
-        ];
-
         $mailerConfig = [
             'class' => TestMailer::class,
             'callback' => function (MessageInterface $message) {
                 $this->emails[] = $message;
-            }
+            },
+            'mailer' => [
+                'class' => \yii\symfonymailer\Mailer::class
+            ]
         ];
 
         if (isset($config['components']['mailer']) && is_array($config['components']['mailer'])) {
-            foreach ($config['components']['mailer'] as $name => $value) {
-                if (in_array($name, $allowedOptions, true)) {
-                    $mailerConfig[$name] = $value;
-                }
-            }
+            $mailerConfig['mailer'] = ArrayHelper::merge($mailerConfig['mailer'], $config['components']['mailer']);
         }
+
+        /**
+         * Set transports only if known mailers that have this field is used
+         */
+        if ($mailerConfig['mailer']['class'] instanceof \yii\symfonymailer\Mailer) {
+            $mailerConfig['mailer']['transport'] = \Symfony\Component\Mailer\Transport\NullTransport::class;
+        }
+        if ($mailerConfig['mailer']['class'] instanceof \yii\swiftmailer\Mailer) {
+            $mailerConfig['mailer']['transport'] = \Swift_Transport_NullTransport::class;
+        }
+
         $config['components']['mailer'] = $mailerConfig;
 
         return $config;
