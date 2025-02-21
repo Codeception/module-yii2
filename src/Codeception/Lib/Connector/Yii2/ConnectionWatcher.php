@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Codeception\Lib\Connector\Yii2;
 
+use Closure;
+use JsonSerializable;
+use ReflectionClass;
 use yii\base\Event;
 use yii\db\Connection;
-use ReflectionClass;
 
 /**
  * Class ConnectionWatcher
@@ -15,7 +17,7 @@ use ReflectionClass;
  */
 class ConnectionWatcher
 {
-    private \Closure $handler;
+    private Closure $handler;
 
     /** @var Connection[] */
     private array $connections = [];
@@ -56,7 +58,7 @@ class ConnectionWatcher
         }
     }
 
-    protected function debug(mixed $message): void
+    protected function debug(string|array|JsonSerializable $message): void
     {
         $title = (new ReflectionClass($this))->getShortName();
         if (is_array($message) || is_object($message)) {

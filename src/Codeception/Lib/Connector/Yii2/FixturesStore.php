@@ -11,16 +11,13 @@ class FixturesStore
 {
     use FixtureTrait;
 
-    protected mixed $data;
-
     /**
      * Expects fixtures config
      *
      * FixturesStore constructor.
      */
-    public function __construct(mixed $data)
+    public function __construct(protected mixed $data)
     {
-        $this->data = $data;
     }
 
     public function fixtures(): mixed
@@ -28,6 +25,9 @@ class FixturesStore
         return $this->data;
     }
 
+    /**
+     * @return array{initDbFixture: array{class: class-string}}
+     */
     public function globalFixtures(): array
     {
         return [

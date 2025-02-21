@@ -18,6 +18,7 @@ use Codeception\Lib\Interfaces\PartedModule;
 use Codeception\TestInterface;
 use ReflectionClass;
 use RuntimeException;
+use Symfony\Component\BrowserKit\AbstractBrowser;
 use Yii;
 use yii\base\Security;
 use yii\db\ActiveQueryInterface;
@@ -174,7 +175,6 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 {
     /**
      * Application config file must be set.
-     * @var array
      */
     protected array $config = [
         'fixturesMethod' => '_fixtures',
@@ -217,9 +217,9 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
     private Logger $yiiLogger;
 
-    private function getClient(): ?\Codeception\Lib\Connector\Yii2
+    private function getClient(): ?Yii2Connector
     {
-        if (isset($this->client) && !($this->client instanceof \Codeception\Lib\Connector\Yii2)) {
+        if ($this->client instanceof AbstractBrowser && !($this->client instanceof Yii2Connector)) {
             throw new RuntimeException('The Yii2 module must be used with the Yii2 browser client');
         }
         return $this->client ?? null;
@@ -275,20 +275,20 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         $pathToConfig = codecept_absolute_path($this->config['configFile']);
         if (!is_file($pathToConfig)) {
             throw new ModuleConfigException(
-                __CLASS__,
+                self::class,
                 "The application config file does not exist: " . $pathToConfig
             );
         }
         $validMethods = implode(", ", Yii2Connector::CLEAN_METHODS);
         if (!in_array($this->config['responseCleanMethod'], Yii2Connector::CLEAN_METHODS, true)) {
             throw new ModuleConfigException(
-                __CLASS__,
+                self::class,
                 "The response clean method must be one of: " . $validMethods
             );
         }
         if (!in_array($this->config['requestCleanMethod'], Yii2Connector::CLEAN_METHODS, true)) {
             throw new ModuleConfigException(
-                __CLASS__,
+                self::class,
                 "The request clean method must be one of: " . $validMethods
             );
         }
@@ -351,7 +351,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
     private function loadFixtures(object $test): void
     {
         $this->debugSection('Fixtures', 'Loading fixtures');
-        if (empty($this->loadedFixtures)
+        if ($this->loadedFixtures === []
             && method_exists($test, $this->_getConfig('fixturesMethod'))
         ) {
             $connectionWatcher = new ConnectionWatcher();
@@ -502,11 +502,10 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * Array of fixture instances
      *
      * @part fixtures
-     * @return array
      */
     public function grabFixtures()
     {
-        if (!$this->loadedFixtures) {
+        if ($this->loadedFixtures === []) {
             return [];
         }
 
@@ -562,7 +561,6 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * @template T of \yii\db\ActiveRecord
      * @param class-string<T> $model
      * @param array<string, mixed> $attributes
-     * @return mixed
      * @part orm
      */
     public function haveRecord(string $model, $attributes = []): mixed
@@ -713,7 +711,6 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * $I->seeEmailIsSent(3);
      * ```
      *
-     * @param int|null $num
      * @throws \Codeception\Exception\ModuleException
      * @part email
      */
@@ -749,7 +746,6 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * ```
      *
      * @part email
-     * @return array
      * @throws \Codeception\Exception\ModuleException
      */
     public function grabSentEmails(): array
@@ -781,8 +777,6 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
     /**
      * Returns a list of regex patterns for recognized domain names
-     *
-     * @return array
      */
     public function getInternalDomains(): array
     {
@@ -791,9 +785,9 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
     private function defineConstants(): void
     {
-        defined('YII_DEBUG') or define('YII_DEBUG', true);
-        defined('YII_ENV') or define('YII_ENV', 'test');
-        defined('YII_ENABLE_ERROR_HANDLER') or define('YII_ENABLE_ERROR_HANDLER', false);
+        defined('YII_DEBUG') || define('YII_DEBUG', true);
+        defined('YII_ENV') || define('YII_ENV', 'test');
+        defined('YII_ENABLE_ERROR_HANDLER') || define('YII_ENABLE_ERROR_HANDLER', false);
     }
 
     /**

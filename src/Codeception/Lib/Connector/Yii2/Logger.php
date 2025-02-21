@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Codeception\Lib\Connector\Yii2;
 
 use Codeception\Util\Debug;
-use yii\helpers\VarDumper;
 use yii\base\Exception as YiiException;
+use yii\helpers\VarDumper;
 use yii\log\Logger as YiiLogger;
 
 class Logger extends YiiLogger
@@ -26,7 +26,7 @@ class Logger extends YiiLogger
 
     /**
      * @param string|array|YiiException $message
-     * @param mixed $level
+     * @param self::LEVEL_INFO|self::LEVEL_WARNING|self::LEVEL_ERROR $level
      * @param mixed $category
      */
     public function log($message, $level, $category = 'application'): void

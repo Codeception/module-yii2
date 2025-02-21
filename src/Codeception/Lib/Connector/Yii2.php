@@ -181,7 +181,7 @@ class Yii2 extends Client
         if ($urlManager->enablePrettyUrl) {
             foreach ($urlManager->rules as $rule) {
                 /** @var \yii\web\UrlRule $rule */
-                if (isset($rule->host)) {
+                if ($rule->host !== null) {
                     $domains[] = $this->getDomainRegex($rule->host);
                 }
             }
@@ -228,10 +228,10 @@ class Yii2 extends Client
             $template = $matches[1];
         }
         $parameters = [];
-        if (strpos($template, '<') !== false) {
+        if (str_contains($template, '<')) {
             $template = preg_replace_callback(
                 '/<(?:\w+):?([^>]+)?>/u',
-                function ($matches) use (&$parameters) {
+                function ($matches) use (&$parameters): string {
                     $key = '__' . count($parameters) . '__';
                     $parameters[$key] = $matches[1] ?? '\w+';
                     return $key;
@@ -258,7 +258,7 @@ class Yii2 extends Client
         codecept_debug('Starting application');
         $config = require($this->configFile);
         if (!isset($config['class'])) {
-            $config['class'] = $this->applicationClass ?? 'yii\web\Application';
+            $config['class'] = $this->applicationClass ?? \yii\web\Application::class;
         }
 
         if (isset($config['container'])) {
@@ -267,10 +267,9 @@ class Yii2 extends Client
         }
 
         $config = $this->mockMailer($config);
-        /** @var \yii\base\Application $app */
         Yii::$app = Yii::createObject($config);
 
-        if ($logger !== null) {
+        if ($logger instanceof \yii\log\Logger) {
             Yii::setLogger($logger);
         } else {
             Yii::setLogger(new Logger());
@@ -502,9 +501,9 @@ class Yii2 extends Client
         $method = $this->responseCleanMethod;
         // First check the current response object.
         if (
-            ($app->response->hasEventHandlers(\yii\web\Response::EVENT_BEFORE_SEND)
-                || $app->response->hasEventHandlers(\yii\web\Response::EVENT_AFTER_SEND)
-                || $app->response->hasEventHandlers(\yii\web\Response::EVENT_AFTER_PREPARE)
+            ($app->response->hasEventHandlers(YiiResponse::EVENT_BEFORE_SEND)
+                || $app->response->hasEventHandlers(YiiResponse::EVENT_AFTER_SEND)
+                || $app->response->hasEventHandlers(YiiResponse::EVENT_AFTER_PREPARE)
                 || count($app->response->getBehaviors()) > 0)
             && $method === self::CLEAN_RECREATE
         ) {
@@ -549,14 +548,14 @@ TEXT
                 $request->getHeaders()->removeAll();
                 $request->setBaseUrl(null);
                 $request->setHostInfo(null);
-                $request->setPathInfo('');
-                $request->setScriptFile('');
-                $request->setScriptUrl('');
-                $request->setUrl('');
+                $request->setPathInfo(null);
+                $request->setScriptFile(null);
+                $request->setScriptUrl(null);
+                $request->setUrl(null);
                 $request->setPort(0);
                 $request->setSecurePort(0);
-                $request->setAcceptableContentTypes([]);
-                $request->setAcceptableLanguages([]);
+                $request->setAcceptableContentTypes(null);
+                $request->setAcceptableLanguages(null);
             })(),
             self::CLEAN_MANUAL => null,
             default => throw new \InvalidArgumentException("Unknown method: $method"),

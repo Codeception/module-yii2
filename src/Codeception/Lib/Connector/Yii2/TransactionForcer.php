@@ -15,15 +15,13 @@ use yii\db\Transaction;
  */
 class TransactionForcer extends ConnectionWatcher
 {
-    private bool $ignoreCollidingDSN;
     private array $pdoCache = [];
     private array $dsnCache = [];
     private array $transactions = [];
 
-    public function __construct(bool $ignoreCollidingDSN)
+    public function __construct(private bool $ignoreCollidingDSN)
     {
         parent::__construct();
-        $this->ignoreCollidingDSN = $ignoreCollidingDSN;
     }
 
     protected function connectionOpened(Connection $connection): void
