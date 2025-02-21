@@ -217,12 +217,15 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
     private Logger $yiiLogger;
 
-    private function getClient(): ?Yii2Connector
+    private function getClient(): Yii2Connector
     {
-        if ($this->client instanceof AbstractBrowser && !($this->client instanceof Yii2Connector)) {
+        if (!isset($this->client)) {
+            throw new RuntimeException('Browser not initialized');
+        }
+        if (!$this->client instanceof Yii2Connector) {
             throw new RuntimeException('The Yii2 module must be used with the Yii2 browser client');
         }
-        return $this->client ?? null;
+        return $this->client;
     }
 
     public function _initialize(): void
@@ -846,7 +849,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
             'clientContext' => $this->getClient()->getContext(),
             'headers' => $this->headers,
             'cookie' => $_COOKIE,
-            'session' => $_SESSION,
+            'session' => $_SESSION ?? [],
         ];
     }
 

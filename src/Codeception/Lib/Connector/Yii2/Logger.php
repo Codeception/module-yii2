@@ -27,7 +27,7 @@ class Logger extends YiiLogger
     /**
      * @param string|array|YiiException $message
      * @param self::LEVEL_INFO|self::LEVEL_WARNING|self::LEVEL_ERROR $level
-     * @param mixed $category
+     * @param string $category
      */
     public function log($message, $level, $category = 'application'): void
     {

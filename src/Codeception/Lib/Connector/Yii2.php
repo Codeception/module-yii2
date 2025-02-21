@@ -8,6 +8,7 @@ use Codeception\Exception\ConfigurationException;
 use Codeception\Lib\Connector\Yii2\Logger;
 use Codeception\Lib\Connector\Yii2\TestMailer;
 use Codeception\Util\Debug;
+use InvalidArgumentException;
 use Symfony\Component\BrowserKit\AbstractBrowser as Client;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar;
@@ -521,7 +522,7 @@ TEXT
             self::CLEAN_FORCE_RECREATE, self::CLEAN_RECREATE => $app->set('response', $app->getComponents()['response']),
             self::CLEAN_CLEAR => $app->response->clear(),
             self::CLEAN_MANUAL => null,
-            default => throw new \InvalidArgumentException("Unknown method: $method"),
+            default => throw new InvalidArgumentException("Unknown method: $method"),
         };
     }
 
@@ -558,7 +559,7 @@ TEXT
                 $request->setAcceptableLanguages(null);
             })(),
             self::CLEAN_MANUAL => null,
-            default => throw new \InvalidArgumentException("Unknown method: $method"),
+            default => throw new InvalidArgumentException("Unknown method: $method"),
         };
     }
 
