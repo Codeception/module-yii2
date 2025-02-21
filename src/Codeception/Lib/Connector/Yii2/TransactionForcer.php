@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Codeception\Lib\Connector\Yii2;
 
 use Codeception\Util\Debug;
-use yii\base\Event;
 use yii\db\Connection;
 use yii\db\Transaction;
 
@@ -16,21 +15,16 @@ use yii\db\Transaction;
  */
 class TransactionForcer extends ConnectionWatcher
 {
-    private $ignoreCollidingDSN;
+    private bool $ignoreCollidingDSN;
+    private array $pdoCache = [];
+    private array $dsnCache = [];
+    private array $transactions = [];
 
-    private $pdoCache = [];
-
-    private $dsnCache;
-
-    private $transactions = [];
-
-    public function __construct(
-        $ignoreCollidingDSN
-    ) {
+    public function __construct(bool $ignoreCollidingDSN)
+    {
         parent::__construct();
         $this->ignoreCollidingDSN = $ignoreCollidingDSN;
     }
-
 
     protected function connectionOpened(Connection $connection): void
     {
@@ -47,9 +41,8 @@ class TransactionForcer extends ConnectionWatcher
             'pass' => $connection->password,
             'attributes' => $connection->attributes,
             'emulatePrepare' => $connection->emulatePrepare,
-            'charset' => $connection->charset
+            'charset' => $connection->charset,
         ]));
-
         /*
          * If keys match we assume connections are "similar enough".
          */
@@ -58,7 +51,6 @@ class TransactionForcer extends ConnectionWatcher
         } else {
             $this->pdoCache[$key] = $connection->pdo;
         }
-
         if (isset($this->dsnCache[$connection->dsn])
             && $this->dsnCache[$connection->dsn] !== $key
             && !$this->ignoreCollidingDSN
@@ -72,12 +64,10 @@ TEXT
             );
             Debug::pause();
         }
-
         if (isset($this->transactions[$key])) {
             $this->debug('Reusing PDO, so no need for a new transaction');
             return;
         }
-
         $this->debug('Transaction started for: ' . $connection->dsn);
         $this->transactions[$key] = $connection->beginTransaction();
     }
@@ -91,7 +81,6 @@ TEXT
                 $this->debug('Transaction cancelled; all changes reverted.');
             }
         }
-
         $this->transactions = [];
         $this->pdoCache = [];
         $this->dsnCache = [];

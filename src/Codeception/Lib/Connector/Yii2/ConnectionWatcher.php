@@ -6,6 +6,7 @@ namespace Codeception\Lib\Connector\Yii2;
 
 use yii\base\Event;
 use yii\db\Connection;
+use ReflectionClass;
 
 /**
  * Class ConnectionWatcher
@@ -21,7 +22,7 @@ class ConnectionWatcher
 
     public function __construct()
     {
-        $this->handler = function (Event $event) {
+        $this->handler = function (Event $event): void {
             if ($event->sender instanceof Connection) {
                 $this->connectionOpened($event->sender);
             }
@@ -55,10 +56,10 @@ class ConnectionWatcher
         }
     }
 
-    protected function debug($message): void
+    protected function debug(mixed $message): void
     {
-        $title = (new \ReflectionClass($this))->getShortName();
-        if (is_array($message) or is_object($message)) {
+        $title = (new ReflectionClass($this))->getShortName();
+        if (is_array($message) || is_object($message)) {
             $message = stripslashes(json_encode($message));
         }
         codecept_debug("[$title] $message");
