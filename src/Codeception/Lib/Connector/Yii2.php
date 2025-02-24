@@ -388,9 +388,9 @@ class Yii2 extends Client
 
         $content = ob_get_clean();
         if (empty($content) && !empty($yiiResponse->content) && !isset($yiiResponse->stream)) {
-            throw new \Exception('No content was sent from Yii application');
+            throw new \RuntimeException('No content was sent from Yii application');
         } elseif ($content === false) {
-            throw new \Exception('Failed to get output buffer');
+            throw new \RuntimeException('Failed to get output buffer');
         }
 
         return new Response($content, $yiiResponse->statusCode, $yiiResponse->getHeaders()->toArray());
