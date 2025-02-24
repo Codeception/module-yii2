@@ -848,7 +848,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         return [
             'clientContext' => $this->getClient()->getContext(),
             'headers' => $this->headers,
-            'cookie' => $_COOKIE,
+            'cookie' => $_COOKIE ?? [],
             'session' => $_SESSION ?? [],
         ];
     }
