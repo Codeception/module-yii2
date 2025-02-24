@@ -10,7 +10,6 @@ use tests\helpers\SqlliteHelper;
 
 class NoFixturesCest
 {
-
     protected function numberProvider()
     {
         return array_pad([], 5, ['count' => 0]);

@@ -10,13 +10,13 @@ $config = \yii\helpers\ArrayHelper::merge(require __DIR__ . '/../../../vendor/yi
     'components' => [
         'db' => [
             'class' => yii\db\Connection::class,
-            'dsn' => 'sqlite:' . codecept_output_dir('/db.sqlite')
+            'dsn' => 'sqlite:' . codecept_output_dir('/db.sqlite'),
         ],
         'request' => [
-            'cookieValidationKey' => 'test'
+            'cookieValidationKey' => 'test',
         ],
         'assetManager' => [
-            'basePath' => sys_get_temp_dir()
+            'basePath' => sys_get_temp_dir(),
         ],
         'mailer' => [
             'viewPath' => '@common/mail',
@@ -24,9 +24,9 @@ $config = \yii\helpers\ArrayHelper::merge(require __DIR__ . '/../../../vendor/yi
     ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm' => '@vendor/npm-asset'
+        '@npm' => '@vendor/npm-asset',
     ],
-    'vendorPath' => __DIR__ . '/../../../vendor'
+    'vendorPath' => __DIR__ . '/../../../vendor',
 ]);
 
 return $config;

@@ -8,7 +8,6 @@ use yii\web\Application;
 
 class LocaleUrlCest
 {
-
     public function testInstantiation(FunctionalTester $I)
     {
         $I->assertInstanceOf(Application::class, \Yii::$app);

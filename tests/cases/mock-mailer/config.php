@@ -1,4 +1,5 @@
 <?php
+
 return [
     'id' => 'Simple',
     'basePath' => __DIR__,
@@ -6,7 +7,7 @@ return [
     'components' => [
         'request' => [
             'enableCsrfValidation' => false,
-            'cookieValidationKey' => 'test'
+            'cookieValidationKey' => 'test',
         ],
         'mailer' => [
             'class' => 'yii\symfonymailer\Mailer',

@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace app\simple\helpers;
 
-
 use yii\web\IdentityInterface;
 
 class DummyUser implements IdentityInterface
 {
-
     /**
      * Finds an identity by the given ID.
      * @param string|int $id the ID to be looked for

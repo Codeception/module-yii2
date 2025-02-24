@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 namespace app\localeurls\controllers;
+
 use yii\helpers\Url;
 use yii\web\Controller;
 
 class SiteController extends Controller
 {
-
     public function actionForm()
     {
         $action = Url::to(['site/post']);

@@ -9,15 +9,15 @@ return [
     'components' => [
         'request' => [
             'enableCsrfValidation' => false,
-            'cookieValidationKey' => 'test'
+            'cookieValidationKey' => 'test',
         ],
         'user' => [
-            'identityClass' => DummyUser::class
-        ]
+            'identityClass' => DummyUser::class,
+        ],
     ],
-    'on beforeRequest' => function() {
+    'on beforeRequest' => function () {
         if (isset(\Yii::$app->params['throw'])) {
             throw \Yii::$app->params['throw'];
         }
-    }
+    },
 ];

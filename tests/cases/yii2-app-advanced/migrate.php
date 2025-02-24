@@ -8,10 +8,10 @@ $config = \yii\helpers\ArrayHelper::merge(require __DIR__ . '/../../../vendor/yi
     'components' => [
         'db' => [
             'class' => yii\db\Connection::class,
-	    'dsn' => 'sqlite:' . __DIR__ . '/_data/db.sqlite'
-	],
+            'dsn' => 'sqlite:' . __DIR__ . '/_data/db.sqlite',
+        ],
     ],
-    'vendorPath' => __DIR__ . '/../../../vendor'
+    'vendorPath' => __DIR__ . '/../../../vendor',
 ]);
 
 return $config;

@@ -9,7 +9,7 @@ return [
     'components' => [
         'request' => [
             'enableCsrfValidation' => false,
-            'cookieValidationKey' => 'test'
+            'cookieValidationKey' => 'test',
         ],
         'urlManager' => [
             'class' => UrlManager::class,
@@ -17,15 +17,15 @@ return [
             'showScriptName' => false,
             'enableLanguagePersistence' => false,
             'enableLocaleUrls' => true,
-            'languages' => ['nl', 'en']
-        ]
+            'languages' => ['nl', 'en'],
+        ],
     ],
-    'on beforeRequest' => function(\yii\base\Event $event) {
+    'on beforeRequest' => function (\yii\base\Event $event) {
         $app = $event->sender;
         if ($app->has('urlManager', true)) {
             $config = $app->getComponents()['urlManager'];
             \Codeception\Util\Debug::debug('Resetting url manager: ' . print_r($config, true));
             $app->set('urlManager', $config);
         }
-    }
+    },
 ];

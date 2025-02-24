@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-class PageCest {
-
+class PageCest
+{
     public function testCache(\tests\FunctionalTester $I)
     {
         $I->amOnRoute('user/index');

@@ -12,8 +12,8 @@ class UserController extends \yii\web\Controller
     {
         return [
             'cache' => [
-                'class' => PageCache::class
-            ]
+                'class' => PageCache::class,
+            ],
         ];
     }
 

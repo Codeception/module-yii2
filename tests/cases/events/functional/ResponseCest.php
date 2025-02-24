@@ -9,14 +9,13 @@ use yii\base\Event;
 
 class ResponseCest
 {
-
     public function testAfterSend(FunctionalTester $I)
     {
         $sources = [];
-        \Yii::$app->on('responseBeforeSendConfig', function(Event $event) use (&$sources) {
+        \Yii::$app->on('responseBeforeSendConfig', function (Event $event) use (&$sources) {
             $sources[] = 'config';
         });
-        \Yii::$app->on('responseBeforeSendBootstrap', function(Event $event) use (&$sources) {
+        \Yii::$app->on('responseBeforeSendBootstrap', function (Event $event) use (&$sources) {
             $sources[] = 'bootstrap';
         });
         $I->assertEmpty($sources);
@@ -32,14 +31,14 @@ class ResponseCest
     public function testAfterSendWithRecreate(FunctionalTester $I, \Codeception\Module\Yii2 $module)
     {
         $module->_reconfigure([
-            'responseCleanMethod' => Yii2::CLEAN_RECREATE
+            'responseCleanMethod' => Yii2::CLEAN_RECREATE,
         ]);
         $module->client->startApp();
         $sources = [];
-        \Yii::$app->on('responseBeforeSendConfig', function(Event $event) use (&$sources) {
+        \Yii::$app->on('responseBeforeSendConfig', function (Event $event) use (&$sources) {
             $sources[] = 'config';
         });
-        \Yii::$app->on('responseBeforeSendBootstrap', function(Event $event) use (&$sources) {
+        \Yii::$app->on('responseBeforeSendBootstrap', function (Event $event) use (&$sources) {
             $sources[] = 'bootstrap';
         });
         $I->assertEmpty($sources);
@@ -57,14 +56,14 @@ class ResponseCest
     public function testAfterSendWithForcedRecreate(FunctionalTester $I, \Codeception\Module\Yii2 $module)
     {
         $module->_reconfigure([
-            'responseCleanMethod' => Yii2::CLEAN_FORCE_RECREATE
+            'responseCleanMethod' => Yii2::CLEAN_FORCE_RECREATE,
         ]);
         $module->client->startApp();
         $sources = [];
-        \Yii::$app->on('responseBeforeSendConfig', function(Event $event) use (&$sources) {
+        \Yii::$app->on('responseBeforeSendConfig', function (Event $event) use (&$sources) {
             $sources[] = 'config';
         });
-        \Yii::$app->on('responseBeforeSendBootstrap', function(Event $event) use (&$sources) {
+        \Yii::$app->on('responseBeforeSendBootstrap', function (Event $event) use (&$sources) {
             $sources[] = 'bootstrap';
         });
 

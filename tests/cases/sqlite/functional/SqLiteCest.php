@@ -17,7 +17,7 @@ class SqLiteCest
         return [
             [
                 'class' => TestFixture::class,
-                'dbComponents' => ['db1', 'db21']
+                'dbComponents' => ['db1', 'db21'],
             ],
         ];
     }

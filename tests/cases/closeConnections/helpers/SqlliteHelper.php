@@ -20,7 +20,7 @@ class SqlliteHelper
     {
         $path = self::$temp_name;
         $count = shell_exec("lsof -w {$path} | grep {$path} | wc -l");
-        return (int)$count;
+        return (int) $count;
     }
 
     public static function debug()
