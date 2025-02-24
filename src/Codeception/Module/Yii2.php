@@ -421,7 +421,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         ) {
             $connectionWatcher = new ConnectionWatcher();
             $connectionWatcher->start();
-            $this->haveFixtures($test->{$this->config['fixturesMethod']});
+            $this->haveFixtures($test->{$this->config['fixturesMethod']}());
             $connectionWatcher->stop();
             $connectionWatcher->closeAll();
         }
