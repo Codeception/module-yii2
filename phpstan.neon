@@ -5,7 +5,7 @@ parameters:
     dynamicConstantNames:
       - CONSOLE
       - YII_DEBUG
-    level: 5
+    level: 9
     paths:
       - src
     checkMaybeUndefinedVariables: true
