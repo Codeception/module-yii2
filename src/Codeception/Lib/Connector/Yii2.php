@@ -15,6 +15,7 @@ use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar;
 use Symfony\Component\BrowserKit\History;
 use Symfony\Component\BrowserKit\Request as BrowserkitRequest;
+use yii\web\Request as YiiRequest;
 use Symfony\Component\BrowserKit\Response;
 use Yii;
 use yii\base\Component;
@@ -123,11 +124,11 @@ class Yii2 extends Client
         return Yii::$app ?? throw new \RuntimeException('Failed to create Yii2 application');
     }
 
-    private function getWebRequest(): Request
+    private function getWebRequest(): YiiRequest
     {
         $request = $this->getApplication()->request;
-        if (!$request instanceof Request) {
-            throw new \RuntimeException('Request component is not of type ' . Request::class);
+        if (!$request instanceof YiiRequest) {
+            throw new \RuntimeException('Request component is not of type ' . YiiRequest::class);
         }
         return $request;
     }
@@ -181,15 +182,11 @@ class Yii2 extends Client
      */
     public function hashCookieData(string $name, string $value): string
     {
-        $app = $this->getApplication();
-        $request = $app->getRequest();
-        if (!$request instanceof Request) {
-            throw new \RuntimeException("Can't do cookie operations on non-web requests");
-        }
+        $request = $this->getWebRequest();
         if (!$request->enableCookieValidation) {
             return $value;
         }
-        return $app->security->hashData(serialize([$name, $value]), $request->cookieValidationKey);
+        return $this->getApplication()->security->hashData(serialize([$name, $value]), $request->cookieValidationKey);
     }
 
     /**
@@ -367,9 +364,9 @@ class Yii2 extends Client
              * Sending the response is problematic because it tries to send headers.
              */
             $app->trigger($app::EVENT_BEFORE_REQUEST);
-            $response = $app->handleRequest($yiiRequest);
+            $yiiResponse = $app->handleRequest($yiiRequest);
             $app->trigger($app::EVENT_AFTER_REQUEST);
-            $response->send();
+            $yiiResponse->send();
         } catch (\Exception $e) {
             if ($e instanceof UserException) {
                 // Don't discard output and pass exception handling to Yii to be able
@@ -383,20 +380,20 @@ class Yii2 extends Client
             $response = $app->response;
         }
 
-        $this->encodeCookies($response, $yiiRequest, $app->security);
+        $this->encodeCookies($yiiResponse, $yiiRequest, $app->security);
 
-        if ($response->isRedirection) {
-            Debug::debug("[Redirect with headers]" . print_r($response->getHeaders()->toArray(), true));
+        if ($yiiResponse->isRedirection) {
+            Debug::debug("[Redirect with headers]" . print_r($yiiResponse->getHeaders()->toArray(), true));
         }
 
         $content = ob_get_clean();
-        if (empty($content) && !empty($response->content) && !isset($response->stream)) {
+        if (empty($content) && !empty($yiiResponse->content) && !isset($yiiResponse->stream)) {
             throw new \Exception('No content was sent from Yii application');
         } elseif ($content === false) {
             throw new \Exception('Failed to get output buffer');
         }
 
-        return new Response($content, $response->statusCode, $response->getHeaders()->toArray());
+        return new Response($content, $yiiResponse->statusCode, $yiiResponse->getHeaders()->toArray());
     }
 
     /**
@@ -405,7 +402,7 @@ class Yii2 extends Client
      */
     protected function encodeCookies(
         YiiResponse $response,
-        Request $request,
+        YiiRequest $request,
         Security $security
     ): void {
         if ($request->enableCookieValidation) {
@@ -520,7 +517,7 @@ class Yii2 extends Client
      */
     public function closeSession(): void
     {
-        $app = \Yii::$app;
+        $app = $this->getApplication();
         if ($app instanceof \yii\web\Application && $app->has('session', true)) {
             $app->session->close();
         }

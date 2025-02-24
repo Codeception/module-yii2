@@ -22,6 +22,7 @@ use Symfony\Component\BrowserKit\CookieJar;
 use Symfony\Component\BrowserKit\History;
 use Yii;
 use yii\base\Security;
+use yii\web\Application as WebApplication;
 use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecordInterface;
 use yii\helpers\Url;
@@ -750,27 +751,6 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
     }
 
     /**
-     * Gets a component from the Yii container. Throws an exception if the
-     * component is not available
-     *
-     * ```php
-     * <?php
-     * $mailer = $I->grabComponent('mailer');
-     * ```
-     *
-     * @throws \Codeception\Exception\ModuleException
-     * @deprecated in your tests you can use \Yii::$app directly.
-     */
-    public function grabComponent(string $component): null|object
-    {
-        try {
-            return $this->getClient()->getComponent($component);
-        } catch (ConfigurationException $e) {
-            throw new ModuleException($this, $e->getMessage());
-        }
-    }
-
-    /**
      * Checks that an email is sent.
      *
      * ```php
@@ -913,7 +893,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      */
     public function _backupSession(): array
     {
-        if (Yii::$app instanceof Application && Yii::$app->has('session', true) && Yii::$app->session->useCustomStorage) {
+        if (Yii::$app instanceof WebApplication && Yii::$app->has('session', true) && Yii::$app->session->useCustomStorage) {
             throw new ModuleException($this, "Yii2 MultiSession only supports the default session backend.");
         }
         return [
