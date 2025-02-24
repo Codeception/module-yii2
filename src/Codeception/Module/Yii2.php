@@ -368,6 +368,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         $client->recreateApplication = $settings['recreateApplication'];
         $client->closeSessionOnRecreateApplication = $settings['closeSessionOnRecreateApplication'];
         $client->applicationClass = $settings['applicationClass'];
+        $client->mailMethod = $settings['mailMethod'];
         $client->resetApplication();
     }
 
