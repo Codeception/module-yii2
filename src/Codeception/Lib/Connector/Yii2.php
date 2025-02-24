@@ -295,7 +295,7 @@ class Yii2 extends Client
                 return true;
             },
             self::MAIL_IGNORE => null// Do nothing
-        }
+        };
         Yii::$app = Yii::createObject($config);
 
         if ($logger instanceof \yii\log\Logger) {
