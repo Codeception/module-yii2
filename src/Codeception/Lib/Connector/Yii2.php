@@ -8,6 +8,7 @@ use Codeception\Exception\ConfigurationException;
 use Codeception\Lib\Connector\Yii2\Logger;
 use Codeception\Lib\Connector\Yii2\TestMailer;
 use Codeception\Util\Debug;
+use InvalidArgumentException;
 use Symfony\Component\BrowserKit\AbstractBrowser as Client;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar;
@@ -114,7 +115,7 @@ class Yii2 extends Client
     public function resetApplication(bool $closeSession = true): void
     {
         codecept_debug('Destroying application');
-        if (true === $closeSession) {
+        if ($closeSession) {
             $this->closeSession();
         }
         Yii::$app = null;
@@ -141,13 +142,13 @@ class Yii2 extends Client
             throw new ConfigurationException('The user component is not configured');
         }
 
-        if ($user instanceof \yii\web\IdentityInterface) {
+        if ($user instanceof IdentityInterface) {
             $identity = $user;
         } else {
             // class name implementing IdentityInterface
             $identityClass = $userComponent->identityClass;
-            $identity = call_user_func([$identityClass, 'findIdentity'], $user);
-            if (!isset($identity)) {
+            $identity = $identityClass::findIdentity($user);
+            if ($identity === null) {
                 throw new \RuntimeException('User not found');
             }
         }
@@ -181,7 +182,7 @@ class Yii2 extends Client
         if ($urlManager->enablePrettyUrl) {
             foreach ($urlManager->rules as $rule) {
                 /** @var \yii\web\UrlRule $rule */
-                if (isset($rule->host)) {
+                if ($rule->host !== null) {
                     $domains[] = $this->getDomainRegex($rule->host);
                 }
             }
@@ -228,12 +229,12 @@ class Yii2 extends Client
             $template = $matches[1];
         }
         $parameters = [];
-        if (strpos($template, '<') !== false) {
+        if (str_contains($template, '<')) {
             $template = preg_replace_callback(
                 '/<(?:\w+):?([^>]+)?>/u',
-                function ($matches) use (&$parameters) {
+                function ($matches) use (&$parameters): string {
                     $key = '__' . count($parameters) . '__';
-                    $parameters[$key] = isset($matches[1]) ? $matches[1] : '\w+';
+                    $parameters[$key] = $matches[1] ?? '\w+';
                     return $key;
                 },
                 $template
@@ -258,24 +259,18 @@ class Yii2 extends Client
         codecept_debug('Starting application');
         $config = require($this->configFile);
         if (!isset($config['class'])) {
-            if (null !== $this->applicationClass) {
-                $config['class'] = $this->applicationClass;
-            } else {
-                $config['class'] = 'yii\web\Application';
-            }
+            $config['class'] = $this->applicationClass ?? \yii\web\Application::class;
         }
 
-        if (isset($config['container']))
-        {
+        if (isset($config['container'])) {
             Yii::configure(Yii::$container, $config['container']);
             unset($config['container']);
         }
 
         $config = $this->mockMailer($config);
-        /** @var \yii\base\Application $app */
         Yii::$app = Yii::createObject($config);
 
-        if ($logger !== null) {
+        if ($logger instanceof \yii\log\Logger) {
             Yii::setLogger($logger);
         } else {
             Yii::setLogger(new Logger());
@@ -325,9 +320,6 @@ class Yii2 extends Client
         foreach ($app->log->targets as $target) {
             $target->enabled = false;
         }
-
-
-
 
         $yiiRequest = $app->getRequest();
         if ($request->getContent() !== null) {
@@ -441,7 +433,7 @@ class Yii2 extends Client
 
         $mailerConfig = [
             'class' => TestMailer::class,
-            'callback' => function (MessageInterface $message) {
+            'callback' => function (MessageInterface $message): void {
                 $this->emails[] = $message;
             }
         ];
@@ -474,7 +466,7 @@ class Yii2 extends Client
     {
         return [
             'cookieJar' => $this->cookieJar,
-            'history' => $this->history,
+            'history'   => $this->history,
         ];
     }
 
@@ -509,11 +501,12 @@ class Yii2 extends Client
     {
         $method = $this->responseCleanMethod;
         // First check the current response object.
-        if (($app->response->hasEventHandlers(\yii\web\Response::EVENT_BEFORE_SEND)
-                || $app->response->hasEventHandlers(\yii\web\Response::EVENT_AFTER_SEND)
-                || $app->response->hasEventHandlers(\yii\web\Response::EVENT_AFTER_PREPARE)
-                || count($app->response->getBehaviors()) > 0
-            ) && $method === self::CLEAN_RECREATE
+        if (
+            ($app->response->hasEventHandlers(YiiResponse::EVENT_BEFORE_SEND)
+                || $app->response->hasEventHandlers(YiiResponse::EVENT_AFTER_SEND)
+                || $app->response->hasEventHandlers(YiiResponse::EVENT_AFTER_PREPARE)
+                || count($app->response->getBehaviors()) > 0)
+            && $method === self::CLEAN_RECREATE
         ) {
             Debug::debug(<<<TEXT
 [WARNING] You are attaching event handlers or behaviors to the response object. But the Yii2 module is configured to recreate
@@ -525,17 +518,12 @@ TEXT
             $method = self::CLEAN_CLEAR;
         }
 
-        switch ($method) {
-            case self::CLEAN_FORCE_RECREATE:
-            case self::CLEAN_RECREATE:
-                $app->set('response', $app->getComponents()['response']);
-                break;
-            case self::CLEAN_CLEAR:
-                $app->response->clear();
-                break;
-            case self::CLEAN_MANUAL:
-                break;
-        }
+        match ($method) {
+            self::CLEAN_FORCE_RECREATE, self::CLEAN_RECREATE => $app->set('response', $app->getComponents()['response']),
+            self::CLEAN_CLEAR => $app->response->clear(),
+            self::CLEAN_MANUAL => null,
+            default => throw new InvalidArgumentException("Unknown method: $method"),
+        };
     }
 
     protected function resetRequest(Application $app): void
@@ -555,12 +543,9 @@ TEXT
             $method = self::CLEAN_CLEAR;
         }
 
-        switch ($method) {
-            case self::CLEAN_FORCE_RECREATE:
-            case self::CLEAN_RECREATE:
-                $app->set('request', $app->getComponents()['request']);
-                break;
-            case self::CLEAN_CLEAR:
+        match ($method) {
+            self::CLEAN_FORCE_RECREATE, self::CLEAN_RECREATE => $app->set('request', $app->getComponents()['request']),
+            self::CLEAN_CLEAR => (function () use ($request): void {
                 $request->getHeaders()->removeAll();
                 $request->setBaseUrl(null);
                 $request->setHostInfo(null);
@@ -572,11 +557,10 @@ TEXT
                 $request->setSecurePort(0);
                 $request->setAcceptableContentTypes(null);
                 $request->setAcceptableLanguages(null);
-
-                break;
-            case self::CLEAN_MANUAL:
-                break;
-        }
+            })(),
+            self::CLEAN_MANUAL => null,
+            default => throw new InvalidArgumentException("Unknown method: $method"),
+        };
     }
 
     /**

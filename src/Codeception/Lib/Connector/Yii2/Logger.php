@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace Codeception\Lib\Connector\Yii2;
 
 use Codeception\Util\Debug;
+use yii\base\Exception as YiiException;
 use yii\helpers\VarDumper;
+use yii\log\Logger as YiiLogger;
 
-class Logger extends \yii\log\Logger
+class Logger extends YiiLogger
 {
     private \SplQueue $logQueue;
 
-    public function __construct(private int $maxLogItems = 5, $config = [])
+    public function __construct(private int $maxLogItems = 5, array $config = [])
     {
         parent::__construct($config);
         $this->logQueue = new \SplQueue();
@@ -23,33 +25,28 @@ class Logger extends \yii\log\Logger
     }
 
     /**
-     * @param string|array<mixed>|\yii\base\Exception $message
-     * @param $level
-     * @param $category
-     * @return void
+     * @param string|array|YiiException $message
+     * @param self::LEVEL_INFO|self::LEVEL_WARNING|self::LEVEL_ERROR $level
+     * @param string $category
      */
     public function log($message, $level, $category = 'application'): void
     {
         if (!in_array($level, [
-            \yii\log\Logger::LEVEL_INFO,
-            \yii\log\Logger::LEVEL_WARNING,
-            \yii\log\Logger::LEVEL_ERROR,
-        ])) {
+            self::LEVEL_INFO,
+            self::LEVEL_WARNING,
+            self::LEVEL_ERROR,
+        ], true)) {
             return;
         }
         if (str_starts_with($category, 'yii\db\Command')) {
             return; // don't log queries
         }
-
         // https://github.com/Codeception/Codeception/issues/3696
-        if ($message instanceof \yii\base\Exception) {
+        if ($message instanceof YiiException) {
             $message = $message->__toString();
         }
-
         $logMessage = "[$category] " . VarDumper::export($message);
-
         Debug::debug($logMessage);
-
         $this->logQueue->enqueue($logMessage);
         if ($this->logQueue->count() > $this->maxLogItems) {
             $this->logQueue->dequeue();
@@ -58,12 +55,8 @@ class Logger extends \yii\log\Logger
 
     public function getAndClearLog(): string
     {
-        $completeStr = '';
-        foreach ($this->logQueue as $item) {
-            $completeStr .= $item . PHP_EOL;
-        }
+        $logs = iterator_to_array($this->logQueue);
         $this->logQueue = new \SplQueue();
-
-        return $completeStr;
+        return implode(PHP_EOL, $logs) . PHP_EOL;
     }
 }

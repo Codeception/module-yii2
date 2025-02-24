@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Codeception\Lib\Connector\Yii2;
 
+use Closure;
+use JsonSerializable;
+use ReflectionClass;
 use yii\base\Event;
 use yii\db\Connection;
 
@@ -14,14 +17,14 @@ use yii\db\Connection;
  */
 class ConnectionWatcher
 {
-    private \Closure $handler;
+    private Closure $handler;
 
     /** @var Connection[] */
     private array $connections = [];
 
     public function __construct()
     {
-        $this->handler = function (Event $event) {
+        $this->handler = function (Event $event): void {
             if ($event->sender instanceof Connection) {
                 $this->connectionOpened($event->sender);
             }
@@ -55,10 +58,10 @@ class ConnectionWatcher
         }
     }
 
-    protected function debug($message): void
+    protected function debug(string|array|JsonSerializable $message): void
     {
-        $title = (new \ReflectionClass($this))->getShortName();
-        if (is_array($message) or is_object($message)) {
+        $title = (new ReflectionClass($this))->getShortName();
+        if (is_array($message) || is_object($message)) {
             $message = stripslashes(json_encode($message));
         }
         codecept_debug("[$title] $message");
