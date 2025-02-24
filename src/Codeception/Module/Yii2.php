@@ -179,38 +179,43 @@ use yii\web\IdentityInterface;
  *
  * Maintainer: **samdark**
  * Stability: **stable**
- *
+ * @phpstan-type ClientConfig array{
+ *     responseCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
+ *     requestCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
+ *     mailMethod: Yii2Connector::MAIL_CATCH|Yii2Connector::MAIL_IGNORE|Yii2Connector::MAIL_EVENT_AFTER|Yii2Connector::MAIL_EVENT_BEFORE,
+ *     recreateComponents: list<string>,
+ *     recreateApplication: bool,
+ *     closeSessionOnRecreateApplication: bool,
+ *     applicationClass: class-string<\yii\base\Application>|null,
+ *     configFile: string
+ * }
  * @phpstan-type ModuleConfig array{
- *      fixturesMethod: string,
- *      cleanup: bool,
- *      ignoreCollidingDSN: bool,
- *      transaction: bool|null,
- *      entryScript: string,
- *      entryUrl: string,
- *      configFile: string|null,
- *      responseCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
- *      requestCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
- *      recreateComponents: list<string>,
- *      recreateApplication: bool,
- *      closeSessionOnRecreateApplication: bool,
- *      mailMethod: Yii2Connector::MAIL_CATCH|Yii2Connector::MAIL_IGNORE|Yii2Connector::MAIL_EVENT_AFTER|Yii2Connector::MAIL_EVENT_BEFORE,
- *      applicationClass: class-string<\yii\base\Application>|null
+ *     configFile: string|null,
+ *     fixturesMethod: string,
+ *     cleanup: bool,
+ *     ignoreCollidingDSN: bool,
+ *     transaction: bool|null,
+ *     entryScript: string,
+ *     entryUrl: string,
+ *     responseCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
+ *     requestCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
+ *     mailMethod: Yii2Connector::MAIL_CATCH|Yii2Connector::MAIL_IGNORE|Yii2Connector::MAIL_EVENT_AFTER|Yii2Connector::MAIL_EVENT_BEFORE,
+ *     recreateComponents: list<string>,
+ *     recreateApplication: bool,
+ *     closeSessionOnRecreateApplication: bool,
+ *     applicationClass: class-string<\yii\base\Application>|null
  *  }
  *
  * @phpstan-type ValidConfig (ModuleConfig & array{
  *       transaction: bool|null,
- *       configFile: string,
+ *       configFile: string
  *   })
- * @phpstan-type SessionBackup array{cookie: array<mixed>, session: array<mixed>, headers: array<string, string>, clientContext: array{ cookieJar: CookieJar, history: History }}
- * @phpstan-type ClientConfig array{
- *       configFile: string,
- *       responseCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
- *       requestCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
- *       recreateComponents: list<string>,
- *       recreateApplication: bool,
- *       closeSessionOnRecreateApplication: bool,
- *       applicationClass: class-string<\yii\base\Application>|null
- *   }
+ * @phpstan-type SessionBackup array{
+ *     cookie: array<mixed>,
+ *     session: array<mixed>,
+ *     headers: array<string, string>,
+ *     clientContext: array{ cookieJar: CookieJar, history: History }
+ * }
  */
 class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 {
