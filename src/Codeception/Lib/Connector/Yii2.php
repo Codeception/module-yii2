@@ -15,20 +15,16 @@ use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar;
 use Symfony\Component\BrowserKit\History;
 use Symfony\Component\BrowserKit\Request as BrowserkitRequest;
-use yii\web\Request as YiiRequest;
 use Symfony\Component\BrowserKit\Response;
 use Yii;
-use yii\base\Component;
 use yii\base\Event;
 use yii\base\ExitException;
 use yii\base\Security;
 use yii\base\UserException;
 use yii\mail\BaseMessage;
-use yii\mail\MailEvent;
 use yii\web\Application;
-use yii\web\ErrorHandler;
 use yii\web\IdentityInterface;
-use yii\web\Request;
+use yii\web\Request as YiiRequest;
 use yii\web\Response as YiiResponse;
 use yii\web\User;
 
@@ -308,7 +304,11 @@ class Yii2 extends Client
         }
 
         $config = $this->mockMailer($config);
-        Yii::$app = Yii::createObject($config);
+        $app = Yii::createObject($config);
+        if (!$app instanceof \yii\base\Application) {
+            throw new ModuleConfigException($this, "Failed to initialize Yii2 app");
+        }
+        \Yii::$app = $app;
 
         if ($logger instanceof \yii\log\Logger) {
             Yii::setLogger($logger);

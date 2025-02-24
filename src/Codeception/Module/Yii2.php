@@ -22,14 +22,13 @@ use Symfony\Component\BrowserKit\CookieJar;
 use Symfony\Component\BrowserKit\History;
 use Yii;
 use yii\base\Security;
-use yii\web\Application as WebApplication;
 use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecordInterface;
 use yii\helpers\Url;
 use yii\mail\BaseMessage;
 use yii\mail\MessageInterface;
 use yii\test\Fixture;
-use yii\web\Application;
+use yii\web\Application as WebApplication;
 use yii\web\IdentityInterface;
 
 /**
