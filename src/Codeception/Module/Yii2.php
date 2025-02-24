@@ -86,6 +86,11 @@ use yii\web\IdentityInterface;
  *   changes will get discarded.
  * * `recreateApplication` - (default: `false`) whether to recreate the whole
  *   application before each request
+ * * `mailMethod` - (default: `catch`) Method for handling email via the 'mailer'
+ *   component. `ignore` will not do anything with mail, this means mails are not
+ *   inspectable by the test runner, using `before` or `after` will use mailer
+ *   events; making the mails inspectable but also allowing your default mail
+ *   handling to work
  *
  * You can use this module by setting params in your `functional.suite.yml`:
  *
@@ -187,6 +192,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         'requestCleanMethod' => Yii2Connector::CLEAN_RECREATE,
         'recreateComponents' => [],
         'recreateApplication' => false,
+        'mailMethod' => Yii2Connector::MAIL_CATCH,
         'closeSessionOnRecreateApplication' => true,
         'applicationClass' => null,
     ];
@@ -287,6 +293,12 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
             throw new ModuleConfigException(
                 self::class,
                 "The response clean method must be one of: " . $validMethods
+            );
+        }
+        if (!in_array($this->config['mailMethod'], Yii2Connector::MAIL_METHODS, true)) {
+            throw new ModuleConfigException(
+                self::class,
+                "The mail method must be one of: " . $validMethods
             );
         }
         if (!in_array($this->config['requestCleanMethod'], Yii2Connector::CLEAN_METHODS, true)) {

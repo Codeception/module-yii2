@@ -6,10 +6,11 @@ namespace Codeception\Lib\Connector\Yii2;
 
 use Closure;
 use yii\mail\BaseMailer;
+use yii\symfonymailer\Message;
 
 class TestMailer extends BaseMailer
 {
-    public $messageClass = \yii\symfonymailer\Message::class;
+    public $messageClass = Message::class;
 
     public Closure $callback;
 

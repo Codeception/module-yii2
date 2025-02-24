@@ -18,6 +18,9 @@ use Yii;
 use yii\base\ExitException;
 use yii\base\Security;
 use yii\base\UserException;
+use yii\mail\BaseMailer;
+use yii\mail\MailerInterface;
+use yii\mail\MailEvent;
 use yii\mail\MessageInterface;
 use yii\web\Application;
 use yii\web\ErrorHandler;
@@ -29,6 +32,19 @@ use yii\web\User;
 class Yii2 extends Client
 {
     use Shared\PhpSuperGlobalsConverter;
+
+    const MAIL_METHODS = [
+        self::MAIL_CATCH,
+        self::MAIL_EVENT_AFTER,
+        self::MAIL_EVENT_BEFORE,
+        self::MAIL_IGNORE
+    ];
+
+    public const MAIL_CATCH = 'catch';
+    public const MAIL_EVENT_AFTER = 'after';
+    public const MAIL_EVENT_BEFORE = 'before';
+    public const MAIL_IGNORE = 'ignore';
+
 
     const CLEAN_METHODS = [
         self::CLEAN_RECREATE,
@@ -64,6 +80,10 @@ class Yii2 extends Client
      */
     public $configFile;
 
+    /**
+     * @var self::MAIL_CATCH|self::MAIL_IGNORE|self::MAIL_AFTER|self::MAIL_BEFORE $mailMethod method for handling mails
+     */
+    public $mailMethod;
     /**
      * @var string method for cleaning the response object before each request
      */
@@ -267,7 +287,15 @@ class Yii2 extends Client
             unset($config['container']);
         }
 
-        $config = $this->mockMailer($config);
+        match ($this->mailMethod) {
+            self::MAIL_CATCH => $config= $this->mockMailer($config),
+            self::MAIL_EVENT_AFTER => $config['components']['mailer']['on ' . BaseMailer::EVENT_AFTER_SEND] = fn(MailEvent $event) => $this->emails[]  = $event->message,
+            self::MAIL_EVENT_BEFORE => $config['components']['mailer']['on ' . BaseMailer::EVENT_BEFORE_SEND] = function(MailEvent $event) {
+                $this->emails[]  = $event->message;
+                return true;
+            },
+            self::MAIL_IGNORE => null// Do nothing
+        }
         Yii::$app = Yii::createObject($config);
 
         if ($logger instanceof \yii\log\Logger) {
