@@ -193,24 +193,14 @@ use yii\web\IdentityInterface;
  *      recreateComponents: list<string>,
  *      recreateApplication: bool,
  *      closeSessionOnRecreateApplication: bool,
+ *      mailMethod: Yii2Connector::MAIL_CATCH|Yii2Connector::MAIL_IGNORE|Yii2Connector::MAIL_EVENT_AFTER|Yii2Connector::MAIL_EVENT_BEFORE,
  *      applicationClass: class-string<\yii\base\Application>|null
  *  }
  *
- * @phpstan-type ValidConfig array{
- *       fixturesMethod: string,
- *       cleanup: bool,
- *       ignoreCollidingDSN: bool,
+ * @phpstan-type ValidConfig (ModuleConfig & array{
  *       transaction: bool|null,
- *       entryScript: string,
- *       entryUrl: string,
  *       configFile: string,
- *       responseCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
- *       requestCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
- *       recreateComponents: list<string>,
- *       recreateApplication: bool,
- *       closeSessionOnRecreateApplication: bool,
- *       applicationClass: class-string<\yii\base\Application>|null
- *   }
+ *   })
  * @phpstan-type SessionBackup array{cookie: array<mixed>, session: array<mixed>, headers: array<string, string>, clientContext: array{ cookieJar: CookieJar, history: History }}
  * @phpstan-type ClientConfig array{
  *       configFile: string,
@@ -808,7 +798,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * ```
      *
      * @part email
-     * @return list<BaseMessage&MessageInterface> List of sent emails
+     * @return list<MessageInterface> List of sent emails
      * @throws \Codeception\Exception\ModuleException
      */
     public function grabSentEmails(): array
@@ -831,7 +821,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * ```
      * @part email
      */
-    public function grabLastSentEmail(): BaseMessage|null
+    public function grabLastSentEmail(): MessageInterface|null
     {
         $this->seeEmailIsSent();
         $messages = $this->grabSentEmails();

@@ -21,7 +21,9 @@ use yii\base\Event;
 use yii\base\ExitException;
 use yii\base\Security;
 use yii\base\UserException;
-use yii\mail\BaseMessage;
+use yii\mail\BaseMailer;
+use yii\mail\MailEvent;
+use yii\mail\MessageInterface;
 use yii\web\Application;
 use yii\web\IdentityInterface;
 use yii\web\Request as YiiRequest;
@@ -36,20 +38,21 @@ class Yii2 extends Client
 {
     use Shared\PhpSuperGlobalsConverter;
 
-    const MAIL_METHODS = [
+
+    public const array MAIL_METHODS = [
         self::MAIL_CATCH,
         self::MAIL_EVENT_AFTER,
         self::MAIL_EVENT_BEFORE,
         self::MAIL_IGNORE
     ];
 
-    public const MAIL_CATCH = 'catch';
-    public const MAIL_EVENT_AFTER = 'after';
-    public const MAIL_EVENT_BEFORE = 'before';
-    public const MAIL_IGNORE = 'ignore';
+    public const string MAIL_CATCH = 'catch';
+    public const string MAIL_EVENT_AFTER = 'after';
+    public const string MAIL_EVENT_BEFORE = 'before';
+    public const string MAIL_IGNORE = 'ignore';
 
 
-    const CLEAN_METHODS = [
+    const array CLEAN_METHODS = [
         self::CLEAN_RECREATE,
         self::CLEAN_CLEAR,
         self::CLEAN_FORCE_RECREATE,
@@ -59,55 +62,55 @@ class Yii2 extends Client
      * Clean the response object by recreating it.
      * This might lose behaviors / event handlers / other changes that are done in the application bootstrap phase.
      */
-    const CLEAN_RECREATE = 'recreate';
+    const string CLEAN_RECREATE = 'recreate';
     /**
      * Same as recreate but will not warn when behaviors / event handlers are lost.
      */
-    const CLEAN_FORCE_RECREATE = 'force_recreate';
+    const string CLEAN_FORCE_RECREATE = 'force_recreate';
     /**
      * Clean the response object by resetting specific properties via its' `clear()` method.
      * This will keep behaviors / event handlers, but could inadvertently leave some changes intact.
      * @see \yii\web\Response::clear()
      */
-    const CLEAN_CLEAR = 'clear';
+    const string CLEAN_CLEAR = 'clear';
 
     /**
      * Do not clean the response, instead the test writer will be responsible for manually resetting the response in
      * between requests during one test
      */
-    const CLEAN_MANUAL = 'manual';
+    const string CLEAN_MANUAL = 'manual';
 
 
     /**
      * @var string application config file
      */
-    public $configFile;
+    public string $configFile;
 
     /**
-     * @var self::MAIL_CATCH|self::MAIL_IGNORE|self::MAIL_AFTER|self::MAIL_BEFORE $mailMethod method for handling mails
+     * @var self::MAIL_CATCH|self::MAIL_IGNORE|self::MAIL_EVENT_AFTER|self::MAIL_EVENT_BEFORE method for handling mails
      */
-    public $mailMethod;
+    public string $mailMethod;
     /**
      * @var string method for cleaning the response object before each request
      */
-    public $responseCleanMethod;
+    public string $responseCleanMethod;
 
     /**
      * @var string method for cleaning the request object before each request
      */
-    public $requestCleanMethod;
+    public string $requestCleanMethod;
 
     /**
      * @var string[] List of component names that must be recreated before each request
      */
-    public $recreateComponents = [];
+    public array $recreateComponents = [];
 
     /**
      * This option is there primarily for backwards compatibility.
      * It means you cannot make any modification to application state inside your app, since they will get discarded.
      * @var bool whether to recreate the whole application before each request
      */
-    public $recreateApplication = false;
+    public bool $recreateApplication = false;
 
     /**
      * @var bool whether to close the session in between requests inside a single test, if recreateApplication is set to true
@@ -122,7 +125,7 @@ class Yii2 extends Client
 
 
     /**
-     * @var list<BaseMessage>
+     * @var list<MessageInterface>
      */
     private array $emails = [];
 
@@ -224,7 +227,7 @@ class Yii2 extends Client
 
     /**
      * @internal
-     * @return list<BaseMessage> List of sent emails
+     * @return list<MessageInterface> List of sent emails
      */
     public function getEmails(): array
     {
@@ -303,7 +306,13 @@ class Yii2 extends Client
             unset($config['container']);
         }
 
-        $config = $this->mockMailer($config);
+        match ($this->mailMethod) {
+            self::MAIL_CATCH => $config= $this->mockMailer($config),
+            self::MAIL_EVENT_AFTER => $config['components']['mailer']['on ' . BaseMailer::EVENT_AFTER_SEND] = fn(MailEvent $event) => $this->emails[]  = $event->message,
+            self::MAIL_EVENT_BEFORE => $config['components']['mailer']['on ' . BaseMailer::EVENT_BEFORE_SEND] = fn(MailEvent $event) => $this->emails[]  = $event->message,
+            self::MAIL_IGNORE => null// Do nothing
+        };
+
         $app = Yii::createObject($config);
         if (!$app instanceof \yii\base\Application) {
             throw new ModuleConfigException($this, "Failed to initialize Yii2 app");
@@ -468,7 +477,7 @@ class Yii2 extends Client
 
         $mailerConfig = [
             'class' => TestMailer::class,
-            'callback' => function (BaseMessage $message): void {
+            'callback' => function (MessageInterface $message): void {
                 $this->emails[] = $message;
             }
         ];
