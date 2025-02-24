@@ -1,5 +1,5 @@
-#includes:
-#    - phpstan-baseline.neon
+includes:
+    - phpstan-baseline.neon
 parameters:
     reportUnmatchedIgnoredErrors: true
     dynamicConstantNames:
@@ -8,6 +8,7 @@ parameters:
     level: 9
     paths:
       - src
+      - tests
     checkMaybeUndefinedVariables: true
     ignoreErrors:
         # All Yii setters accept `null` but their phpdoc is incorrect.
