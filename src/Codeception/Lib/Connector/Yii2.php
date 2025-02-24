@@ -32,7 +32,6 @@ use yii\web\Request;
 use yii\web\Response as YiiResponse;
 use yii\web\User;
 
-
 /**
  * @extends Client<BrowserkitRequest, Response>
  */
@@ -40,33 +39,33 @@ class Yii2 extends Client
 {
     use Shared\PhpSuperGlobalsConverter;
 
-    const CLEAN_METHODS = [
+    public const CLEAN_METHODS = [
         self::CLEAN_RECREATE,
         self::CLEAN_CLEAR,
         self::CLEAN_FORCE_RECREATE,
-        self::CLEAN_MANUAL
+        self::CLEAN_MANUAL,
     ];
     /**
      * Clean the response object by recreating it.
      * This might lose behaviors / event handlers / other changes that are done in the application bootstrap phase.
      */
-    const CLEAN_RECREATE = 'recreate';
+    public const CLEAN_RECREATE = 'recreate';
     /**
      * Same as recreate but will not warn when behaviors / event handlers are lost.
      */
-    const CLEAN_FORCE_RECREATE = 'force_recreate';
+    public const CLEAN_FORCE_RECREATE = 'force_recreate';
     /**
      * Clean the response object by resetting specific properties via its' `clear()` method.
      * This will keep behaviors / event handlers, but could inadvertently leave some changes intact.
      * @see \yii\web\Response::clear()
      */
-    const CLEAN_CLEAR = 'clear';
+    public const CLEAN_CLEAR = 'clear';
 
     /**
      * Do not clean the response, instead the test writer will be responsible for manually resetting the response in
      * between requests during one test
      */
-    const CLEAN_MANUAL = 'manual';
+    public const CLEAN_MANUAL = 'manual';
 
 
     /**
@@ -257,7 +256,7 @@ class Yii2 extends Client
                     $parameters[$key] = $matches[1] ?? '\w+';
                     return $key;
                 },
-                $template
+                $template,
             );
         }
         if ($template === null) {
@@ -327,7 +326,7 @@ class Yii2 extends Client
         $queryString = parse_url($uri, PHP_URL_QUERY);
         $_SERVER['REQUEST_URI'] = $queryString === null ? $pathString : $pathString . '?' . $queryString;
         $_SERVER['REQUEST_METHOD'] = strtoupper($request->getMethod());
-        $_SERVER['QUERY_STRING'] = (string)$queryString;
+        $_SERVER['QUERY_STRING'] = (string) $queryString;
 
         parse_str($queryString ?: '', $params);
         foreach ($params as $k => $v) {
@@ -403,7 +402,7 @@ class Yii2 extends Client
     protected function encodeCookies(
         YiiResponse $response,
         YiiRequest $request,
-        Security $security
+        Security $security,
     ): void {
         if ($request->enableCookieValidation) {
             $validationKey = $request->cookieValidationKey;
@@ -419,7 +418,7 @@ class Yii2 extends Client
                     : $cookie->value;
                 $value = $security->hashData(serialize($data), $validationKey);
             }
-            $expires = is_int($cookie->expire) ? (string)$cookie->expire : null;
+            $expires = is_int($cookie->expire) ? (string) $cookie->expire : null;
             $c = new Cookie(
                 $cookie->name,
                 $value,
@@ -427,7 +426,7 @@ class Yii2 extends Client
                 $cookie->path,
                 $cookie->domain,
                 $cookie->secure,
-                $cookie->httpOnly
+                $cookie->httpOnly,
             );
             $this->getCookieJar()->set($c);
         }
@@ -457,13 +456,15 @@ class Yii2 extends Client
             'class' => TestMailer::class,
             'callback' => function (BaseMessage $message): void {
                 $this->emails[] = $message;
-            }
+            },
         ];
 
         if (isset($config['components'])) {
             if (!is_array($config['components'])) {
-                throw new ModuleConfigException($this,
-                    "Yii2 config does not contain components key is not of type array");
+                throw new ModuleConfigException(
+                    $this,
+                    "Yii2 config does not contain components key is not of type array",
+                );
             }
         } else {
             $config['components'] = [];
@@ -538,12 +539,13 @@ class Yii2 extends Client
                 || count($app->response->getBehaviors()) > 0)
             && $method === self::CLEAN_RECREATE
         ) {
-            Debug::debug(<<<TEXT
+            Debug::debug(
+                <<<TEXT
 [WARNING] You are attaching event handlers or behaviors to the response object. But the Yii2 module is configured to recreate
 the response object, this means any behaviors or events that are not attached in the component config will be lost.
 We will fall back to clearing the response. If you are certain you want to recreate it, please configure
 responseCleanMethod = 'force_recreate' in the module.
-TEXT
+TEXT,
             );
             $method = self::CLEAN_CLEAR;
         }
@@ -563,12 +565,13 @@ TEXT
 
         // First check the current request object.
         if (count($request->getBehaviors()) > 0 && $method === self::CLEAN_RECREATE) {
-            Debug::debug(<<<TEXT
+            Debug::debug(
+                <<<TEXT
 [WARNING] You are attaching event handlers or behaviors to the request object. But the Yii2 module is configured to recreate
 the request object, this means any behaviors or events that are not attached in the component config will be lost.
 We will fall back to clearing the request. If you are certain you want to recreate it, please configure 
 requestCleanMethod = 'force_recreate' in the module.  
-TEXT
+TEXT,
             );
             $method = self::CLEAN_CLEAR;
         }

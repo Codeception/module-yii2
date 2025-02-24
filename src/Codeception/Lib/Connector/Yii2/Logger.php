@@ -38,11 +38,13 @@ class Logger extends YiiLogger
      */
     public function log($message, $level, $category = 'application'): void
     {
-        if (!in_array($level, [
-            self::LEVEL_INFO,
-            self::LEVEL_WARNING,
-            self::LEVEL_ERROR,
-        ], true)) {
+        if (
+            !in_array($level, [
+                self::LEVEL_INFO,
+                self::LEVEL_WARNING,
+                self::LEVEL_ERROR,
+            ], true)
+        ) {
             return;
         }
         if (str_starts_with($category, 'yii\db\Command')) {

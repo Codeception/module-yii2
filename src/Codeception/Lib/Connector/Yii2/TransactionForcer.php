@@ -55,19 +55,21 @@ class TransactionForcer extends ConnectionWatcher
          */
         if (isset($this->pdoCache[$key])) {
             $connection->pdo = $this->pdoCache[$key];
-        } elseif(isset($connection->pdo)) {
+        } elseif (isset($connection->pdo)) {
             $this->pdoCache[$key] = $connection->pdo;
         }
-        if (isset($this->dsnCache[$connection->dsn])
+        if (
+            isset($this->dsnCache[$connection->dsn])
             && $this->dsnCache[$connection->dsn] !== $key
             && !$this->ignoreCollidingDSN
         ) {
-            $this->debug(<<<TEXT
+            $this->debug(
+                <<<TEXT
 You use multiple connections to the same DSN ({$connection->dsn}) with different configuration.
 These connections will not see the same database state since we cannot share a transaction between different PDO
 instances.
 You can remove this message by adding 'ignoreCollidingDSN = true' in the module configuration.
-TEXT
+TEXT,
             );
             Debug::pause();
         }

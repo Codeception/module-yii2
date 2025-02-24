@@ -16,9 +16,7 @@ class FixturesStore
      *
      * FixturesStore constructor.
      */
-    public function __construct(protected mixed $data)
-    {
-    }
+    public function __construct(protected mixed $data) {}
 
     public function fixtures(): mixed
     {

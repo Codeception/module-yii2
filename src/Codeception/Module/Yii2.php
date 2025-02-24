@@ -316,7 +316,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
             'SCRIPT_NAME' => $entryScript,
             'SERVER_NAME' => $parsedUrl['host'] ?? '',
             'SERVER_PORT' => $parsedUrl['port'] ?? '80',
-            'HTTPS' => isset($parsedUrl['scheme']) && $parsedUrl['scheme'] === 'https'
+            'HTTPS' => isset($parsedUrl['scheme']) && $parsedUrl['scheme'] === 'https',
         ]);
     }
 
@@ -329,27 +329,27 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         if (!isset($this->config['configFile'])) {
             throw new ModuleConfigException(
                 self::class,
-                "The application config file was not configured"
+                "The application config file was not configured",
             );
         }
         $pathToConfig = codecept_absolute_path($this->config['configFile']);
         if (!is_file($pathToConfig)) {
             throw new ModuleConfigException(
                 self::class,
-                "The application config file does not exist: " . $pathToConfig
+                "The application config file does not exist: " . $pathToConfig,
             );
         }
         $validMethods = implode(", ", Yii2Connector::CLEAN_METHODS);
         if (!in_array($this->config['responseCleanMethod'], Yii2Connector::CLEAN_METHODS, true)) {
             throw new ModuleConfigException(
                 self::class,
-                "The response clean method must be one of: " . $validMethods
+                "The response clean method must be one of: " . $validMethods,
             );
         }
         if (!in_array($this->config['requestCleanMethod'], Yii2Connector::CLEAN_METHODS, true)) {
             throw new ModuleConfigException(
                 self::class,
-                "The request clean method must be one of: " . $validMethods
+                "The request clean method must be one of: " . $validMethods,
             );
         }
     }
@@ -384,7 +384,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
             'SCRIPT_NAME' => $entryScript,
             'SERVER_NAME' => $parsedUrl['host'] ?? '',
             'SERVER_PORT' => $parsedUrl['port'] ?? '80',
-            'HTTPS' => isset($parsedUrl['scheme']) && $parsedUrl['scheme'] === 'https'
+            'HTTPS' => isset($parsedUrl['scheme']) && $parsedUrl['scheme'] === 'https',
         ]);
         $this->validateConfig();
         $this->configureClient($this->config);
@@ -417,7 +417,8 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
     private function loadFixtures(object $test): void
     {
         $this->debugSection('Fixtures', 'Loading fixtures');
-        if ($this->loadedFixtures === []
+        if (
+            $this->loadedFixtures === []
             && method_exists($test, $this->config['fixturesMethod'])
         ) {
             $connectionWatcher = new ConnectionWatcher();
@@ -517,7 +518,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
     {
         try {
             $this->getClient()->findAndLoginUser($user);
-        } catch (ConfigurationException|RuntimeException $e) {
+        } catch (ConfigurationException | RuntimeException $e) {
             throw new ModuleException($this, $e->getMessage());
         }
     }
@@ -579,8 +580,8 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
     public function grabFixtures(): array
     {
         $result = [];
-        foreach($this->loadedFixtures as $store) {
-            foreach($store->getFixtures() as $name => $fixture) {
+        foreach ($this->loadedFixtures as $store) {
+            foreach ($store->getFixtures() as $name => $fixture) {
                 $result[$name] = $fixture;
             }
         }
@@ -616,7 +617,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         return match (true) {
             $index === null => $fixture,
             $fixture instanceof \yii\test\BaseActiveFixture => $fixture->getModel($index),
-            default => throw new ModuleException($this, "Fixture $name is not an instance of ActiveFixture and can't be loaded with second parameter")
+            default => throw new ModuleException($this, "Fixture $name is not an instance of ActiveFixture and can't be loaded with second parameter"),
         };
     }
 
@@ -713,7 +714,8 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
             throw new RuntimeException("Class $model does not exist");
         }
         $rc = new ReflectionClass($model);
-        if ($rc->hasMethod('find')
+        if (
+            $rc->hasMethod('find')
             /** @phpstan-ignore-next-line */
             && ($findMethod = $rc->getMethod('find'))
             && $findMethod->isStatic()
