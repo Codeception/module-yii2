@@ -58,11 +58,15 @@ class ConnectionWatcher
         }
     }
 
+    /**
+     * @param string|array<mixed>|JsonSerializable $message
+     * @return void
+     */
     protected function debug(string|array|JsonSerializable $message): void
     {
         $title = (new ReflectionClass($this))->getShortName();
         if (is_array($message) || is_object($message)) {
-            $message = stripslashes(json_encode($message));
+            $message = stripslashes(json_encode($message, JSON_THROW_ON_ERROR));
         }
         codecept_debug("[$title] $message");
     }

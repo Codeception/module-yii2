@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Codeception\Lib\Connector;
 
 use Codeception\Exception\ConfigurationException;
+use Codeception\Exception\ModuleConfigException;
 use Codeception\Lib\Connector\Yii2\Logger;
 use Codeception\Lib\Connector\Yii2\TestMailer;
 use Codeception\Util\Debug;
@@ -13,11 +14,15 @@ use Symfony\Component\BrowserKit\AbstractBrowser as Client;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar;
 use Symfony\Component\BrowserKit\History;
+use Symfony\Component\BrowserKit\Request as BrowserkitRequest;
 use Symfony\Component\BrowserKit\Response;
 use Yii;
+use yii\base\Component;
+use yii\base\Event;
 use yii\base\ExitException;
 use yii\base\Security;
 use yii\base\UserException;
+use yii\mail\BaseMessage;
 use yii\mail\MessageInterface;
 use yii\web\Application;
 use yii\web\ErrorHandler;
@@ -26,6 +31,10 @@ use yii\web\Request;
 use yii\web\Response as YiiResponse;
 use yii\web\User;
 
+
+/**
+ * @extends Client<BrowserkitRequest, Response>
+ */
 class Yii2 extends Client
 {
     use Shared\PhpSuperGlobalsConverter;
@@ -98,18 +107,29 @@ class Yii2 extends Client
     public string|null $applicationClass = null;
 
 
+    /**
+     * @var list<BaseMessage>
+     */
     private array $emails = [];
 
     /**
-     * @deprecated since 2.5, will become protected in 3.0. Directly access to \Yii::$app if you need to interact with it.
      * @internal
      */
-    public function getApplication(): \yii\base\Application
+    protected function getApplication(): \yii\base\Application
     {
         if (!isset(Yii::$app)) {
             $this->startApp();
         }
-        return Yii::$app;
+        return Yii::$app ?? throw new \RuntimeException('Failed to create Yii2 application');
+    }
+
+    private function getWebRequest(): Request
+    {
+        $request = $this->getApplication()->request;
+        if (!$request instanceof Request) {
+            throw new \RuntimeException('Request component is not of type ' . Request::class);
+        }
+        return $request;
     }
 
     public function resetApplication(bool $closeSession = true): void
@@ -120,9 +140,7 @@ class Yii2 extends Client
         }
         Yii::$app = null;
         \yii\web\UploadedFile::reset();
-        if (method_exists(\yii\base\Event::class, 'offAll')) {
-            \yii\base\Event::offAll();
-        }
+        Event::offAll();
         Yii::setLogger(null);
         // This resolves an issue with database connections not closing properly.
         gc_collect_cycles();
@@ -161,23 +179,27 @@ class Yii2 extends Client
      * @param string $value The value of the cookie
      * @return string The value to send to the browser
      */
-    public function hashCookieData($name, $value): string
+    public function hashCookieData(string $name, string $value): string
     {
         $app = $this->getApplication();
-        if (!$app->request->enableCookieValidation) {
+        $request = $app->getRequest();
+        if (!$request instanceof Request) {
+            throw new \RuntimeException("Can't do cookie operations on non-web requests");
+        }
+        if (!$request->enableCookieValidation) {
             return $value;
         }
-        return $app->security->hashData(serialize([$name, $value]), $app->request->cookieValidationKey);
+        return $app->security->hashData(serialize([$name, $value]), $request->cookieValidationKey);
     }
 
     /**
      * @internal
-     * @return array List of regex patterns for recognized domain names
+     * @return non-empty-list<string> List of regex patterns for recognized domain names
      */
     public function getInternalDomains(): array
     {
-        /** @var \yii\web\UrlManager $urlManager */
         $urlManager = $this->getApplication()->urlManager;
+
         $domains = [$this->getDomainRegex($urlManager->hostInfo)];
         if ($urlManager->enablePrettyUrl) {
             foreach ($urlManager->rules as $rule) {
@@ -187,12 +209,12 @@ class Yii2 extends Client
                 }
             }
         }
-        return array_unique($domains);
+        return array_values(array_unique($domains));
     }
 
     /**
      * @internal
-     * @return array List of sent emails
+     * @return list<BaseMessage> List of sent emails
      */
     public function getEmails(): array
     {
@@ -211,13 +233,14 @@ class Yii2 extends Client
     /**
      * @internal
      */
-    public function getComponent($name)
+    public function getComponent(string $name): object|null
     {
         $app = $this->getApplication();
-        if (!$app->has($name)) {
+        $result = $app->get($name, false);
+        if (!isset($result)) {
             throw new ConfigurationException("Component $name is not available in current application");
         }
-        return $app->get($name);
+        return $result;
     }
 
     /**
@@ -240,6 +263,9 @@ class Yii2 extends Client
                 $template
             );
         }
+        if ($template === null) {
+            throw new \RuntimeException("Failed to parse domain regex");
+        }
         $template = preg_quote($template);
         $template = strtr($template, $parameters);
         return '/^' . $template . '$/u';
@@ -251,7 +277,7 @@ class Yii2 extends Client
      */
     public function getCsrfParamName(): string
     {
-        return $this->getApplication()->request->csrfParam;
+        return $this->getWebRequest()->csrfParam;
     }
 
     public function startApp(?\yii\log\Logger $logger = null): void
@@ -268,7 +294,11 @@ class Yii2 extends Client
         }
 
         $config = $this->mockMailer($config);
-        Yii::$app = Yii::createObject($config);
+        $app = Yii::createObject($config);
+        if (!$app instanceof \yii\base\Application) {
+            throw new ModuleConfigException($this, "Failed to initialize Yii2 app");
+        }
+        \Yii::$app = $app;
 
         if ($logger instanceof \yii\log\Logger) {
             Yii::setLogger($logger);
@@ -278,9 +308,9 @@ class Yii2 extends Client
     }
 
     /**
-     * @param \Symfony\Component\BrowserKit\Request $request
+     * @param BrowserkitRequest $request
      */
-    public function doRequest(object $request): \Symfony\Component\BrowserKit\Response
+    public function doRequest(object $request): Response
     {
         $_COOKIE = $request->getCookies();
         $_SERVER = $request->getServer();
@@ -362,17 +392,12 @@ class Yii2 extends Client
         $content = ob_get_clean();
         if (empty($content) && !empty($response->content) && !isset($response->stream)) {
             throw new \Exception('No content was sent from Yii application');
+        } elseif ($content === false) {
+            throw new \Exception('Failed to get output buffer');
         }
 
         return new Response($content, $response->statusCode, $response->getHeaders()->toArray());
     }
-
-    protected function revertErrorHandler()
-    {
-        $handler = new ErrorHandler();
-        set_error_handler([$handler, 'errorHandler']);
-    }
-
 
     /**
      * Encodes the cookies and adds them to the headers.
@@ -433,11 +458,19 @@ class Yii2 extends Client
 
         $mailerConfig = [
             'class' => TestMailer::class,
-            'callback' => function (MessageInterface $message): void {
+            'callback' => function (BaseMessage $message): void {
                 $this->emails[] = $message;
             }
         ];
 
+        if (isset($config['components'])) {
+            if (!is_array($config['components'])) {
+                throw new ModuleConfigException($this,
+                    "Yii2 config does not contain components key is not of type array");
+            }
+        } else {
+            $config['components'] = [];
+        }
         if (isset($config['components']['mailer']) && is_array($config['components']['mailer'])) {
             foreach ($config['components']['mailer'] as $name => $value) {
                 if (in_array($name, $allowedOptions, true)) {
@@ -511,8 +544,8 @@ class Yii2 extends Client
             Debug::debug(<<<TEXT
 [WARNING] You are attaching event handlers or behaviors to the response object. But the Yii2 module is configured to recreate
 the response object, this means any behaviors or events that are not attached in the component config will be lost.
-We will fall back to clearing the response. If you are certain you want to recreate it, please configure 
-responseCleanMethod = 'force_recreate' in the module.  
+We will fall back to clearing the response. If you are certain you want to recreate it, please configure
+responseCleanMethod = 'force_recreate' in the module.
 TEXT
             );
             $method = self::CLEAN_CLEAR;

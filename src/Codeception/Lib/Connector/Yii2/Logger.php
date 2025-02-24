@@ -11,9 +11,16 @@ use yii\log\Logger as YiiLogger;
 
 class Logger extends YiiLogger
 {
+    /**
+     * @var \SplQueue<string>
+     */
     private \SplQueue $logQueue;
 
-    public function __construct(private int $maxLogItems = 5, array $config = [])
+    /**
+     * @param int $maxLogItems
+     * @param array<string, mixed> $config
+     */
+    public function __construct(private readonly int $maxLogItems = 5, array $config = [])
     {
         parent::__construct($config);
         $this->logQueue = new \SplQueue();
@@ -25,7 +32,7 @@ class Logger extends YiiLogger
     }
 
     /**
-     * @param string|array|YiiException $message
+     * @param string|array<mixed>|YiiException $message
      * @param self::LEVEL_INFO|self::LEVEL_WARNING|self::LEVEL_ERROR $level
      * @param string $category
      */
