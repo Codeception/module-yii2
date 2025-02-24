@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Method tests\\FunctionalTester\:\:amOnRoute\(\) has parameter \$params with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/_support/FunctionalTester.php
-
-		-
 			message: '#^Method tests\\FunctionalTester\:\:assertArrayHasKey\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -1201,13 +1195,7 @@ parameters:
 			path: tests/_support/FunctionalTester.php
 
 		-
-			message: '#^Method tests\\FunctionalTester\:\:getInternalDomains\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/_support/FunctionalTester.php
-
-		-
-			message: '#^Method tests\\FunctionalTester\:\:getInternalDomains\(\) should return array but returns mixed\.$#'
+			message: '#^Method tests\\FunctionalTester\:\:getInternalDomains\(\) should return non\-empty\-list\<string\> but returns mixed\.$#'
 			identifier: return.type
 			count: 1
 			path: tests/_support/FunctionalTester.php
@@ -1219,43 +1207,31 @@ parameters:
 			path: tests/_support/FunctionalTester.php
 
 		-
-			message: '#^Method tests\\FunctionalTester\:\:grabComponent\(\) should return object\|null but returns mixed\.$#'
-			identifier: return.type
-			count: 1
-			path: tests/_support/FunctionalTester.php
-
-		-
 			message: '#^Method tests\\FunctionalTester\:\:grabCookie\(\) has parameter \$params with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/_support/FunctionalTester.php
 
 		-
-			message: '#^Method tests\\FunctionalTester\:\:grabFixture\(\) has parameter \$index with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/_support/FunctionalTester.php
-
-		-
-			message: '#^Method tests\\FunctionalTester\:\:grabFixture\(\) has parameter \$name with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/_support/FunctionalTester.php
-
-		-
-			message: '#^Method tests\\FunctionalTester\:\:grabFixtures\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/_support/FunctionalTester.php
-
-		-
-			message: '#^Method tests\\FunctionalTester\:\:grabFixtures\(\) should return array but returns mixed\.$#'
+			message: '#^Method tests\\FunctionalTester\:\:grabFixture\(\) should return yii\\db\\ActiveRecord\|yii\\test\\Fixture\|null but returns mixed\.$#'
 			identifier: return.type
 			count: 1
 			path: tests/_support/FunctionalTester.php
 
 		-
-			message: '#^Method tests\\FunctionalTester\:\:grabLastSentEmail\(\) should return object but returns mixed\.$#'
+			message: '#^Method tests\\FunctionalTester\:\:grabFixtures\(\) has invalid return type tests\\_generated\\Fixture\.$#'
+			identifier: class.notFound
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabFixtures\(\) should return array\<string, tests\\_generated\\Fixture\> but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabLastSentEmail\(\) should return yii\\mail\\BaseMessage\|null but returns mixed\.$#'
 			identifier: return.type
 			count: 1
 			path: tests/_support/FunctionalTester.php
@@ -1279,25 +1255,37 @@ parameters:
 			path: tests/_support/FunctionalTester.php
 
 		-
+			message: '#^Method tests\\FunctionalTester\:\:grabRecord\(\) has invalid return type tests\\_generated\\ActiveRecordInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
 			message: '#^Method tests\\FunctionalTester\:\:grabRecord\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/_support/FunctionalTester.php
 
 		-
-			message: '#^Method tests\\FunctionalTester\:\:grabRecord\(\) should return array\|yii\\db\\ActiveRecord\|null but returns mixed\.$#'
+			message: '#^Method tests\\FunctionalTester\:\:grabRecord\(\) should return array\|yii\\db\\ActiveRecordInterface\|null but returns mixed\.$#'
 			identifier: return.type
 			count: 1
 			path: tests/_support/FunctionalTester.php
 
 		-
-			message: '#^Method tests\\FunctionalTester\:\:grabSentEmails\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Method tests\\FunctionalTester\:\:grabSentEmails\(\) has invalid return type tests\\_generated\\BaseMessage\.$#'
+			identifier: class.notFound
 			count: 1
 			path: tests/_support/FunctionalTester.php
 
 		-
-			message: '#^Method tests\\FunctionalTester\:\:grabSentEmails\(\) should return array but returns mixed\.$#'
+			message: '#^Method tests\\FunctionalTester\:\:grabSentEmails\(\) has invalid return type tests\\_generated\\MessageInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabSentEmails\(\) should return list\<tests\\_generated\\BaseMessage&tests\\_generated\\MessageInterface\> but returns mixed\.$#'
 			identifier: return.type
 			count: 1
 			path: tests/_support/FunctionalTester.php
@@ -1310,12 +1298,6 @@ parameters:
 
 		-
 			message: '#^Method tests\\FunctionalTester\:\:grabValueFrom\(\) has parameter \$field with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/_support/FunctionalTester.php
-
-		-
-			message: '#^Method tests\\FunctionalTester\:\:haveFixtures\(\) has parameter \$fixtures with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/_support/FunctionalTester.php
@@ -1459,18 +1441,6 @@ parameters:
 			path: tests/_support/FunctionalTester.php
 
 		-
-			message: '#^Method tests\\FunctionalTester\:\:setCookie\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/_support/FunctionalTester.php
-
-		-
-			message: '#^Method tests\\FunctionalTester\:\:setCookie\(\) has parameter \$params with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/_support/FunctionalTester.php
-
-		-
 			message: '#^Method tests\\FunctionalTester\:\:setServerParameters\(\) has parameter \$params with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -1491,6 +1461,12 @@ parameters:
 		-
 			message: '#^Method tests\\FunctionalTester\:\:uncheckOption\(\) has parameter \$option with no type specified\.$#'
 			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^PHPDoc tag @return with type array\<string, mixed\>\|tests\\_generated\\ActiveRecordInterface\|null is not subtype of native type array\|yii\\db\\ActiveRecordInterface\|null\.$#'
+			identifier: return.phpDocType
 			count: 1
 			path: tests/_support/FunctionalTester.php
 
