@@ -377,7 +377,7 @@ class Yii2 extends Client
                 // for exceptions not related to Http, we pass them to Codeception
                 throw $e;
             }
-            $response = $app->response;
+            $yiiResponse = $app->response;
         }
 
         $this->encodeCookies($yiiResponse, $yiiRequest, $app->security);
