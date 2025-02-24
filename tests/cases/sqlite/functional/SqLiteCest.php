@@ -25,15 +25,15 @@ class SqLiteCest
     public function testSharedPDO(FunctionalTester $I)
     {
         /** @var Connection $db1 */
-        $db1 = $I->grabComponent('db1');
+        $db1 = \Yii::$app->get('db1');
         $I->assertSame(['test'], $db1->schema->getTableNames('', true));
 
         /** @var Connection $db21 */
-        $db21 = $I->grabComponent('db21');
+        $db21 = \Yii::$app->get('db21');
         $I->assertSame(['test'], $db21->schema->getTableNames('', true));
 
         /** @var Connection $db22 */
-        $db22 = $I->grabComponent('db22');
+        $db22 = \Yii::$app->get('db22');
 
         $I->assertSame(['test'], $db22->schema->getTableNames('', true));
     }
@@ -41,7 +41,7 @@ class SqLiteCest
     public function testTransaction(FunctionalTester $I)
     {
         /** @var Connection $db1 */
-        $db1 = $I->grabComponent('db1');
+        $db1 = \Yii::$app->get('db1');
         $I->assertFalse($db1->isActive);
         $db1->open();
         $I->assertNotNull($db1->getTransaction());
