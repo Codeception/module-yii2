@@ -15,8 +15,17 @@ use yii\db\Transaction;
  */
 class TransactionForcer extends ConnectionWatcher
 {
+    /**
+     * @var array<string, \PDO>
+     */
     private array $pdoCache = [];
+    /**
+     * @var array<string, string>
+     */
     private array $dsnCache = [];
+    /**
+     * @var array<string, Transaction>
+     */
     private array $transactions = [];
 
     public function __construct(private bool $ignoreCollidingDSN)
@@ -40,13 +49,13 @@ class TransactionForcer extends ConnectionWatcher
             'attributes' => $connection->attributes,
             'emulatePrepare' => $connection->emulatePrepare,
             'charset' => $connection->charset,
-        ]));
+        ], JSON_THROW_ON_ERROR));
         /*
          * If keys match we assume connections are "similar enough".
          */
         if (isset($this->pdoCache[$key])) {
             $connection->pdo = $this->pdoCache[$key];
-        } else {
+        } elseif(isset($connection->pdo)) {
             $this->pdoCache[$key] = $connection->pdo;
         }
         if (isset($this->dsnCache[$connection->dsn])
