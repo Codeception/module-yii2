@@ -207,7 +207,6 @@ use yii\web\IdentityInterface;
  *       closeSessionOnRecreateApplication: bool,
  *       applicationClass: class-string<\yii\base\Application>|null
  *   }
- * @phpstan-type SessionBackup array{cookie: array<mixed>, session: array<mixed>, headers: array<string, string>, clientContext: array{ cookieJar: CookieJar, history: History }}
  * @phpstan-type ClientConfig array{
  *       configFile: string,
  *       responseCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
@@ -218,7 +217,7 @@ use yii\web\IdentityInterface;
  *       applicationClass: class-string<\yii\base\Application>|null
  *   }
  */
-final class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
+final class Yii2 extends Framework implements ActiveRecord, PartedModule
 {
     /**
      * @var list<Yii2Connector\FixturesStore>
@@ -887,63 +886,5 @@ final class Yii2 extends Framework implements ActiveRecord, MultiSession, Parted
         $_SERVER = $this->server;
     }
 
-    /**
-     * Initialize an empty session. Implements MultiSession.
-     */
-    public function _initializeSession(): void
-    {
-        $this->getClient()->restart();
-        $this->headers = [];
-        $_SESSION = [];
-        $_COOKIE = [];
-    }
 
-    /**
-     * Return the session content for future restoring. Implements MultiSession.
-     *
-     * @return SessionBackup
-     */
-    public function _backupSession(): array
-    {
-        if (Yii::$app instanceof WebApplication && Yii::$app->has('session', true) && Yii::$app->session->useCustomStorage) {
-            throw new ModuleException($this, "Yii2 MultiSession only supports the default session backend.");
-        }
-        return [
-            'clientContext' => $this->getClient()->getContext(),
-            'headers' => $this->headers,
-            // @phpstan-ignore nullCoalesce.variable
-            'cookie' => $_COOKIE ?? [],
-            'session' => $_SESSION ?? [],
-        ];
-    }
-
-    /**
-     * Restore a session. Implements MultiSession.
-     *
-     * @param SessionBackup $session output of _backupSession()
-     */
-    public function _loadSession($session): void
-    {
-        $this->getClient()->setContext($session['clientContext']);
-        $this->headers = $session['headers'];
-        $_SESSION = $session['session'];
-        $_COOKIE = $session['cookie'];
-        $app = Yii::$app;
-        if ($app?->has('user', true)) {
-            $definitions = $app->getComponents();
-            $app->set('user', $definitions['user']);
-        }
-    }
-
-    /**
-     * Close and dump a session. Implements MultiSession.
-     *
-     * @param mixed $session
-     */
-    public function _closeSession($session = null): void
-    {
-        if (! $session) {
-            $this->_initializeSession();
-        }
-    }
 }
