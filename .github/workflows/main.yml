@@ -28,6 +28,8 @@ jobs:
       run: composer install --prefer-dist --no-progress --no-interaction --no-suggest
     - name: Run PHPStan
       run: php vendor/bin/phpstan
+    - name: Run ECS
+      run: php vendor/bin/ecs
 
     - name: Run test suite
       run: |
