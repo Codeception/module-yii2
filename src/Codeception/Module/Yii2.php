@@ -13,13 +13,10 @@ use Codeception\Lib\Connector\Yii2\Logger;
 use Codeception\Lib\Connector\Yii2\TransactionForcer;
 use Codeception\Lib\Framework;
 use Codeception\Lib\Interfaces\ActiveRecord;
-use Codeception\Lib\Interfaces\MultiSession;
 use Codeception\Lib\Interfaces\PartedModule;
 use Codeception\TestInterface;
 use ReflectionClass;
 use RuntimeException;
-use Symfony\Component\BrowserKit\CookieJar;
-use Symfony\Component\BrowserKit\History;
 use Yii;
 use yii\base\Security;
 use yii\db\ActiveQueryInterface;
@@ -29,7 +26,6 @@ use yii\mail\BaseMessage;
 use yii\mail\MessageInterface;
 use yii\test\Fixture;
 use yii\web\Application;
-use yii\web\Application as WebApplication;
 use yii\web\IdentityInterface;
 
 /**
@@ -885,6 +881,4 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
 
         $_SERVER = $this->server;
     }
-
-
 }
