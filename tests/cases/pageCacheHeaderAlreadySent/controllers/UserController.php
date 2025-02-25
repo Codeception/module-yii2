@@ -6,14 +6,14 @@ namespace app\pageCacheHeaderAlreadySent\controllers;
 
 use yii\filters\PageCache;
 
-class UserController extends \yii\web\Controller
+final class UserController extends \yii\web\Controller
 {
     public function behaviors()
     {
         return [
             'cache' => [
-                'class' => PageCache::class
-            ]
+                'class' => PageCache::class,
+            ],
         ];
     }
 

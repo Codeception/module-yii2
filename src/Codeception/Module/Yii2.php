@@ -13,16 +13,12 @@ use Codeception\Lib\Connector\Yii2\Logger;
 use Codeception\Lib\Connector\Yii2\TransactionForcer;
 use Codeception\Lib\Framework;
 use Codeception\Lib\Interfaces\ActiveRecord;
-use Codeception\Lib\Interfaces\MultiSession;
 use Codeception\Lib\Interfaces\PartedModule;
 use Codeception\TestInterface;
 use ReflectionClass;
 use RuntimeException;
-use Symfony\Component\BrowserKit\CookieJar;
-use Symfony\Component\BrowserKit\History;
 use Yii;
 use yii\base\Security;
-use yii\web\Application as WebApplication;
 use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecordInterface;
 use yii\helpers\Url;
@@ -207,7 +203,6 @@ use yii\web\IdentityInterface;
  *       closeSessionOnRecreateApplication: bool,
  *       applicationClass: class-string<\yii\base\Application>|null
  *   }
- * @phpstan-type SessionBackup array{cookie: array<mixed>, session: array<mixed>, headers: array<string, string>, clientContext: array{ cookieJar: CookieJar, history: History }}
  * @phpstan-type ClientConfig array{
  *       configFile: string,
  *       responseCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
@@ -218,7 +213,7 @@ use yii\web\IdentityInterface;
  *       applicationClass: class-string<\yii\base\Application>|null
  *   }
  */
-class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
+final class Yii2 extends Framework implements ActiveRecord, PartedModule
 {
     /**
      * @var list<Yii2Connector\FixturesStore>
@@ -227,16 +222,17 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
     /**
      * Application config file must be set.
+     *
      * @var ModuleConfig
      */
     protected array $config = [
         'fixturesMethod' => '_fixtures',
-        'cleanup'     => true,
+        'cleanup' => true,
         'ignoreCollidingDSN' => false,
         'transaction' => true,
         'configFile' => null,
         'entryScript' => '',
-        'entryUrl'    => 'http://localhost/index-test.php',
+        'entryUrl' => 'http://localhost/index-test.php',
         'responseCleanMethod' => Yii2Connector::CLEAN_CLEAR,
         'requestCleanMethod' => Yii2Connector::CLEAN_RECREATE,
         'recreateComponents' => [],
@@ -266,10 +262,10 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
     private function getClient(): Yii2Connector
     {
-        if (!isset($this->client)) {
+        if (! isset($this->client)) {
             throw new RuntimeException('Browser not initialized');
         }
-        if (!$this->client instanceof Yii2Connector) {
+        if (! $this->client instanceof Yii2Connector) {
             throw new RuntimeException('The Yii2 module must be used with the Yii2 browser client');
         }
         return $this->client;
@@ -311,13 +307,16 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         $parsedUrl = parse_url($entryUrl);
         $entryFile = $this->config['entryScript'] ?: basename($entryUrl);
         $entryScript = $this->config['entryScript'] ?: ($parsedUrl['path'] ?? '');
-        $_SERVER = array_merge($_SERVER, [
+        $_SERVER = array_merge(
+            $_SERVER,
+            [
             'SCRIPT_FILENAME' => $entryFile,
             'SCRIPT_NAME' => $entryScript,
             'SERVER_NAME' => $parsedUrl['host'] ?? '',
             'SERVER_PORT' => $parsedUrl['port'] ?? '80',
-            'HTTPS' => isset($parsedUrl['scheme']) && $parsedUrl['scheme'] === 'https'
-        ]);
+            'HTTPS' => isset($parsedUrl['scheme']) && $parsedUrl['scheme'] === 'https',
+            ]
+        );
     }
 
     /**
@@ -326,34 +325,33 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
     protected function validateConfig(): void
     {
         parent::validateConfig();
-        if (!isset($this->config['configFile'])) {
+        if (! isset($this->config['configFile'])) {
             throw new ModuleConfigException(
                 self::class,
-                "The application config file was not configured"
+                "The application config file was not configured",
             );
         }
         $pathToConfig = codecept_absolute_path($this->config['configFile']);
-        if (!is_file($pathToConfig)) {
+        if (! is_file($pathToConfig)) {
             throw new ModuleConfigException(
                 self::class,
-                "The application config file does not exist: " . $pathToConfig
+                "The application config file does not exist: " . $pathToConfig,
             );
         }
         $validMethods = implode(", ", Yii2Connector::CLEAN_METHODS);
-        if (!in_array($this->config['responseCleanMethod'], Yii2Connector::CLEAN_METHODS, true)) {
+        if (! in_array($this->config['responseCleanMethod'], Yii2Connector::CLEAN_METHODS, true)) {
             throw new ModuleConfigException(
                 self::class,
-                "The response clean method must be one of: " . $validMethods
+                "The response clean method must be one of: " . $validMethods,
             );
         }
-        if (!in_array($this->config['requestCleanMethod'], Yii2Connector::CLEAN_METHODS, true)) {
+        if (! in_array($this->config['requestCleanMethod'], Yii2Connector::CLEAN_METHODS, true)) {
             throw new ModuleConfigException(
                 self::class,
-                "The request clean method must be one of: " . $validMethods
+                "The request clean method must be one of: " . $validMethods,
             );
         }
     }
-
 
     /**
      * @param ClientConfig $settings
@@ -379,13 +377,15 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         $parsedUrl = parse_url($entryUrl);
         $entryFile = $this->config['entryScript'] ?: basename($entryUrl);
         $entryScript = $this->config['entryScript'] ?: ($parsedUrl['path'] ?? '');
-        $this->client = new Yii2Connector([
+        $this->client = new Yii2Connector(
+            [
             'SCRIPT_FILENAME' => $entryFile,
             'SCRIPT_NAME' => $entryScript,
             'SERVER_NAME' => $parsedUrl['host'] ?? '',
             'SERVER_PORT' => $parsedUrl['port'] ?? '80',
-            'HTTPS' => isset($parsedUrl['scheme']) && $parsedUrl['scheme'] === 'https'
-        ]);
+            'HTTPS' => isset($parsedUrl['scheme']) && $parsedUrl['scheme'] === 'https',
+            ]
+        );
         $this->validateConfig();
         $this->configureClient($this->config);
     }
@@ -517,7 +517,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
     {
         try {
             $this->getClient()->findAndLoginUser($user);
-        } catch (ConfigurationException|RuntimeException $e) {
+        } catch (ConfigurationException | RuntimeException $e) {
             throw new ModuleException($this, $e->getMessage());
         }
     }
@@ -555,7 +555,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * ```
      * instead of calling `haveFixtures` in Cest `_before`
      *
-     * @part fixtures
+     * @part  fixtures
      * @param array<mixed> $fixtures
      */
     public function haveFixtures(array $fixtures): void
@@ -573,14 +573,14 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * Returns all loaded fixtures.
      * Array of fixture instances
      *
-     * @part fixtures
+     * @part   fixtures
      * @return array<string, Fixture>
      */
     public function grabFixtures(): array
     {
         $result = [];
-        foreach($this->loadedFixtures as $store) {
-            foreach($store->getFixtures() as $name => $fixture) {
+        foreach ($this->loadedFixtures as $store) {
+            foreach ($store->getFixtures() as $name => $fixture) {
                 $result[$name] = $fixture;
             }
         }
@@ -604,19 +604,19 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * ```
      *
      * @throws \Codeception\Exception\ModuleException if the fixture is not found
-     * @part fixtures
+     * @part   fixtures
      */
     public function grabFixture(string $name, null|string $index = null): Fixture|\yii\db\ActiveRecord|null
     {
         $fixtures = $this->grabFixtures();
-        if (!isset($fixtures[$name])) {
+        if (! isset($fixtures[$name])) {
             throw new ModuleException($this, "Fixture $name is not loaded");
         }
         $fixture = $fixtures[$name];
         return match (true) {
             $index === null => $fixture,
             $fixture instanceof \yii\test\BaseActiveFixture => $fixture->getModel($index),
-            default => throw new ModuleException($this, "Fixture $name is not an instance of ActiveFixture and can't be loaded with second parameter")
+            default => throw new ModuleException($this, "Fixture $name is not an instance of ActiveFixture and can't be loaded with second parameter"),
         };
     }
 
@@ -628,18 +628,21 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * $user_id = $I->haveRecord('app\models\User', array('name' => 'Davert'));
      * ?>
      * ```
+     *
      * @template T of \yii\db\ActiveRecord
-     * @param class-string<T> $model
-     * @param array<string, mixed> $attributes
-     * @part orm
+     * @param    class-string<T>      $model
+     * @param    array<string, mixed> $attributes
+     * @part     orm
      */
     public function haveRecord(string $model, $attributes = []): mixed
     {
-        /** @var T $record */
+        /**
+ * @var T $record
+*/
         $record = \Yii::createObject($model);
         $record->setAttributes($attributes, false);
         $res = $record->save(false);
-        if (!$res) {
+        if (! $res) {
             $this->fail("Record $model was not saved: " . \yii\helpers\Json::encode($record->errors));
         }
         return $record->primaryKey;
@@ -653,13 +656,13 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * ```
      *
      * @param class-string<\yii\db\ActiveRecord> $model
-     * @param array<string, mixed> $attributes
-     * @part orm
+     * @param array<string, mixed>               $attributes
+     * @part  orm
      */
     public function seeRecord(string $model, array $attributes = []): void
     {
         $record = $this->findRecord($model, $attributes);
-        if (!$record) {
+        if (! $record) {
             $this->fail("Couldn't find $model with " . json_encode($attributes));
         }
         $this->debugSection($model, json_encode($record));
@@ -673,8 +676,8 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * ```
      *
      * @param class-string<\yii\db\ActiveRecord> $model
-     * @param array<string, mixed> $attributes
-     * @part orm
+     * @param array<string, mixed>               $attributes
+     * @part  orm
      */
     public function dontSeeRecord(string $model, array $attributes = []): void
     {
@@ -692,10 +695,10 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * $category = $I->grabRecord('app\models\User', array('name' => 'davert'));
      * ```
      *
-     * @param class-string<\yii\db\ActiveRecord> $model
-     * @param array<string, mixed> $attributes
+     * @param  class-string<\yii\db\ActiveRecord> $model
+     * @param  array<string, mixed>               $attributes
      * @return ActiveRecordInterface|null|array<string, mixed>
-     * @part orm
+     * @part   orm
      */
     public function grabRecord(string $model, array $attributes = []): ActiveRecordInterface|null|array
     {
@@ -703,18 +706,17 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
     }
 
     /**
-     * @param class-string<\yii\db\ActiveRecord> $model Class name
-     * @param array<string, mixed> $attributes
+     * @param  class-string<\yii\db\ActiveRecord> $model      Class name
+     * @param  array<string, mixed>               $attributes
      * @return ActiveRecordInterface|null|array<mixed>
      */
     protected function findRecord(string $model, array $attributes = []): ActiveRecordInterface|null|array
     {
-        if (!class_exists($model)) {
+        if (! class_exists($model)) {
             throw new RuntimeException("Class $model does not exist");
         }
         $rc = new ReflectionClass($model);
         if ($rc->hasMethod('find')
-            /** @phpstan-ignore-next-line */
             && ($findMethod = $rc->getMethod('find'))
             && $findMethod->isStatic()
             && $findMethod->isPublic()
@@ -736,9 +738,9 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * $I->amOnRoute('site/view', ['page' => 'about']);
      * ```
      *
-     * @param string $route A route
+     * @param string                   $route  A route
      * @param array<int|string, mixed> $params Additional route parameters
-     * @part route
+     * @part  route
      */
     public function amOnRoute(string $route, array $params = []): void
     {
@@ -763,7 +765,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * ```
      *
      * @throws \Codeception\Exception\ModuleException
-     * @part email
+     * @part   email
      */
     public function seeEmailIsSent(?int $num = null): void
     {
@@ -796,7 +798,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * $I->assertSame('admin@site,com', $messages[0]->getTo());
      * ```
      *
-     * @part email
+     * @part   email
      * @return list<BaseMessage&MessageInterface> List of sent emails
      * @throws \Codeception\Exception\ModuleException
      */
@@ -818,6 +820,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
      * $message = $I->grabLastSentEmail();
      * $I->assertSame('admin@site,com', $message->getTo());
      * ```
+     *
      * @part email
      */
     public function grabLastSentEmail(): BaseMessage|null
@@ -830,6 +833,7 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
     /**
      * Returns a list of regex patterns for recognized domain names
+     *
      * @return non-empty-list<string>
      */
     public function getInternalDomains(): array
@@ -846,8 +850,9 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
     /**
      * Sets a cookie and, if validation is enabled, signs it.
-     * @param string $name The name of the cookie
-     * @param string $val The value of the cookie
+     *
+     * @param string                                                             $name   The name of the cookie
+     * @param string                                                             $val    The value of the cookie
      * @param array{domain?: string, path?: string, expires?: int, secure?:bool} $params Additional cookie params like `domain`, `path`, `expires` and `secure`.
      */
     public function setCookie($name, $val, $params = []): void
@@ -857,7 +862,8 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
 
     /**
      * Creates the CSRF Cookie.
-     * @param string $val The value of the CSRF token
+     *
+     * @param  string $val The value of the CSRF token
      * @return string[] Returns an array containing the name of the CSRF param and the masked CSRF token.
      */
     public function createAndSetCsrfCookie(string $val): array
@@ -874,62 +880,5 @@ class Yii2 extends Framework implements ActiveRecord, MultiSession, PartedModule
         codecept_debug('Suite done, restoring $_SERVER to original');
 
         $_SERVER = $this->server;
-    }
-
-    /**
-     * Initialize an empty session. Implements MultiSession.
-     */
-    public function _initializeSession(): void
-    {
-        $this->getClient()->restart();
-        $this->headers = [];
-        $_SESSION = [];
-        $_COOKIE = [];
-    }
-
-    /**
-     * Return the session content for future restoring. Implements MultiSession.
-     * @return SessionBackup
-     */
-    public function _backupSession(): array
-    {
-        if (Yii::$app instanceof WebApplication && Yii::$app->has('session', true) && Yii::$app->session->useCustomStorage) {
-            throw new ModuleException($this, "Yii2 MultiSession only supports the default session backend.");
-        }
-        return [
-            'clientContext' => $this->getClient()->getContext(),
-            'headers' => $this->headers,
-            // @phpstan-ignore nullCoalesce.variable
-            'cookie' => $_COOKIE ?? [],
-            'session' => $_SESSION ?? [],
-        ];
-    }
-
-    /**
-     * Restore a session. Implements MultiSession.
-     * @param SessionBackup $session output of _backupSession()
-     */
-    public function _loadSession($session): void
-    {
-        $this->getClient()->setContext($session['clientContext']);
-        $this->headers = $session['headers'];
-        $_SESSION = $session['session'];
-        $_COOKIE = $session['cookie'];
-        $app = Yii::$app;
-        if ($app?->has('user', true)) {
-            $definitions = $app->getComponents();
-            $app->set('user', $definitions['user']);
-        }
-    }
-
-    /**
-     * Close and dump a session. Implements MultiSession.
-     * @param mixed $session
-     */
-    public function _closeSession($session = null): void
-    {
-        if (!$session) {
-            $this->_initializeSession();
-        }
     }
 }

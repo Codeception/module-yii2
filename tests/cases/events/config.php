@@ -1,22 +1,25 @@
 <?php
+
+declare(strict_types=1);
+
 return [
     'id' => 'Response Events',
     'basePath' => __DIR__,
     'bootstrap' => [
-        function(\yii\web\Application $application) {
-            $application->response->on(\yii\web\Response::EVENT_BEFORE_SEND, function($event) use ($application) {
+        function (\yii\web\Application $application) {
+            $application->response->on(\yii\web\Response::EVENT_BEFORE_SEND, function ($event) use ($application) {
                 $application->trigger('responseBeforeSendBootstrap');
             });
-        }
+        },
     ],
     'components' => [
         'request' => [
-            'cookieValidationKey' => 'secret'
+            'cookieValidationKey' => 'secret',
         ],
         'response' => [
-            'on beforeSend' => function() {
+            'on beforeSend' => function () {
                 \Yii::$app->trigger('responseBeforeSendConfig');
-            }
-        ]
-    ]
+            },
+        ],
+    ],
 ];
