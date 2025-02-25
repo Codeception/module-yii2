@@ -33,6 +33,45 @@ namespace yii\web {
          * @return void
          */
         public function setBaseUrl($url) {}
+
+        /**
+         * @param array<mixed>|object|null $params
+         */
+        public function setBodyParams($params): void {}
+
+        /**
+         * @param list<string>|null $params
+         */
+        public function setAcceptableContentTypes($params): void {}
+        /**
+         * @param list<string>|null $params
+         */
+        public function setAcceptableLanguages($params): void {}
+
+        /**
+         * @param string|null $body
+         */
+        public function setRawBody($body): void {}
+
+        /**
+         * @param string|null $path
+         */
+        public function setPathInfo($path): void {}
+
+        /**
+         * @param string|null $path
+         */
+        public function setScriptUrl($path): void {}
+
+        /**
+         * @param string|null $path
+         */
+        public function setUrl($path): void {}
+
+         /**
+          * @param string|null $path
+          */
+        public function setScriptFile($path): void {}
     }
 
 }

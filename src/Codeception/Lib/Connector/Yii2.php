@@ -232,19 +232,6 @@ final class Yii2 extends Client
     }
 
     /**
-     * @internal
-     */
-    public function getComponent(string $name): object|null
-    {
-        $app = $this->getApplication();
-        $result = $app->get($name, false);
-        if (! isset($result)) {
-            throw new ConfigurationException("Component $name is not available in current application");
-        }
-        return $result;
-    }
-
-    /**
      * Getting domain regex from rule host template
      */
     private function getDomainRegex(string $template): string

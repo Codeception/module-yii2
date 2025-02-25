@@ -13,15 +13,14 @@ use yii\db\Connection;
 /**
  * Class ConnectionWatcher
  * This class will watch for new database connection and store a reference to the connection object.
- *
- * @package Codeception\Lib\Connector\Yii2
+ * @internal
  */
-final class ConnectionWatcher
+class ConnectionWatcher
 {
-    private Closure $handler;
+    private readonly Closure $handler;
 
     /**
-     * @var Connection[]
+     * @var list<Connection>
      */
     private array $connections = [];
 
