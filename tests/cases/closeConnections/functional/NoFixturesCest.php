@@ -8,7 +8,7 @@ use Codeception\Example;
 use tests\FunctionalTester;
 use tests\helpers\SqlliteHelper;
 
-class NoFixturesCest
+final class NoFixturesCest
 {
     protected function numberProvider()
     {
@@ -16,7 +16,6 @@ class NoFixturesCest
     }
 
     /**
-     * @param FunctionalTester $I
      * @dataProvider numberProvider
      */
     public function NoConnections(FunctionalTester $I, Example $example)

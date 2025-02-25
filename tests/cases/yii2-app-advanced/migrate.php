@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 file_put_contents(__DIR__ . '/../../../vendor/yiisoft/yii2-app-advanced/common/config/params-local.php', '<?php return [];');
 file_put_contents(__DIR__ . '/../../../vendor/yiisoft/yii2-app-advanced/console/config/params-local.php', '<?php return [];');
 

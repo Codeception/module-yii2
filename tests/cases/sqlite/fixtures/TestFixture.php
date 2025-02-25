@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace tests\fixtures;
 
 use yii\db\Connection;
-use yii\db\Exception;
 use yii\test\DbFixture;
 
-class TestFixture extends DbFixture
+final class TestFixture extends DbFixture
 {
     public $tableName = 'test';
+
     public $tableConfig = [
         'id' => 'int',
     ];

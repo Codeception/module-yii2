@@ -6,7 +6,7 @@ namespace tests;
 
 use yii\web\Application;
 
-class LocaleUrlCest
+final class LocaleUrlCest
 {
     public function testInstantiation(FunctionalTester $I)
     {
@@ -18,6 +18,7 @@ class LocaleUrlCest
         $I->amOnRoute('/en/site/form');
         $I->amOnRoute('/en/site/form');
     }
+
     public function testFormSubmit(FunctionalTester $I)
     {
         $I->amOnRoute('site/form');
@@ -38,5 +39,4 @@ class LocaleUrlCest
         ]);
         $I->canSeeResponseCodeIs(201);
     }
-
 }

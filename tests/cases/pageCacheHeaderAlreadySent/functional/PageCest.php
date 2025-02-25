@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class PageCest
+final class PageCest
 {
     public function testCache(\tests\FunctionalTester $I)
     {

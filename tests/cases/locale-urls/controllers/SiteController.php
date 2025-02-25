@@ -7,7 +7,7 @@ namespace app\localeurls\controllers;
 use yii\helpers\Url;
 use yii\web\Controller;
 
-class SiteController extends Controller
+final class SiteController extends Controller
 {
     public function actionForm()
     {

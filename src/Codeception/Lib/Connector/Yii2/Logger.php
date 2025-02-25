@@ -9,7 +9,7 @@ use yii\base\Exception as YiiException;
 use yii\helpers\VarDumper;
 use yii\log\Logger as YiiLogger;
 
-class Logger extends YiiLogger
+final class Logger extends YiiLogger
 {
     /**
      * @var \SplQueue<string>
@@ -17,11 +17,12 @@ class Logger extends YiiLogger
     private \SplQueue $logQueue;
 
     /**
-     * @param int $maxLogItems
      * @param array<string, mixed> $config
      */
-    public function __construct(private readonly int $maxLogItems = 5, array $config = [])
-    {
+    public function __construct(
+        private readonly int $maxLogItems = 5,
+        array $config = []
+    ) {
         parent::__construct($config);
         $this->logQueue = new \SplQueue();
     }
@@ -32,18 +33,21 @@ class Logger extends YiiLogger
     }
 
     /**
-     * @param string|array<mixed>|YiiException $message
+     * @param string|array<mixed>|YiiException                       $message
      * @param self::LEVEL_INFO|self::LEVEL_WARNING|self::LEVEL_ERROR $level
-     * @param string $category
+     * @param string                                                 $category
      */
     public function log($message, $level, $category = 'application'): void
     {
-        if (
-            !in_array($level, [
+        if (! in_array(
+            $level,
+            [
                 self::LEVEL_INFO,
                 self::LEVEL_WARNING,
                 self::LEVEL_ERROR,
-            ], true)
+                ],
+            true
+        )
         ) {
             return;
         }

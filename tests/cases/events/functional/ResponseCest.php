@@ -7,7 +7,7 @@ namespace tests;
 use Codeception\Lib\Connector\Yii2;
 use yii\base\Event;
 
-class ResponseCest
+final class ResponseCest
 {
     public function testAfterSend(FunctionalTester $I)
     {

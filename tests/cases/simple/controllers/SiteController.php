@@ -9,7 +9,7 @@ use yii\base\Action;
 use yii\helpers\Url;
 use yii\web\Controller;
 
-class SiteController extends Controller
+final class SiteController extends Controller
 {
     public function actionForm()
     {
@@ -45,7 +45,6 @@ HTML;
         \Yii::$app->response->statusCode = 500;
         \Yii::$app->end();
     }
-
 
     /**
      * @param Action $action

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace tests\helpers;
 
-class SqlliteHelper
+final class SqlliteHelper
 {
     protected static $temp_name;
 
@@ -30,5 +30,4 @@ class SqlliteHelper
         codecept_debug("Executing : $cmd");
         codecept_debug(shell_exec($cmd));
     }
-
 }

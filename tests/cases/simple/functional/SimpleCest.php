@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace tests;
 
 use Codeception\Exception\ModuleException;
-use yii\base\ExitException;
 use yii\web\Application;
 
-class SimpleCest
+final class SimpleCest
 {
     public function testInstantiation(FunctionalTester $I)
     {

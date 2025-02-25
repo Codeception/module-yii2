@@ -7,7 +7,7 @@ namespace tests;
 use tests\fixtures\TestFixture;
 use yii\db\Connection;
 
-class SqLiteCest
+final class SqLiteCest
 {
     /**
      * This is called before the database transaction is started.

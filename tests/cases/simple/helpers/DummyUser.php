@@ -6,7 +6,7 @@ namespace app\simple\helpers;
 
 use yii\web\IdentityInterface;
 
-class DummyUser implements IdentityInterface
+final class DummyUser implements IdentityInterface
 {
     /**
      * Finds an identity by the given ID.
