@@ -1957,12 +1957,6 @@ parameters:
 			path: tests/cases/simple/helpers/EmptyString.php
 
 		-
-			message: '#^Parameter \#1 \$directory of function tempnam expects string, null given\.$#'
-			identifier: argument.type
-			count: 3
-			path: tests/cases/sqlite/config.php
-
-		-
 			message: '#^Cannot call method get\(\) on yii\\base\\Application\|null\.$#'
 			identifier: method.nonObject
 			count: 2
