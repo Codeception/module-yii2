@@ -1,5 +1,5 @@
-#includes:
-#    - phpstan-baseline.neon
+includes:
+    - phpstan-baseline.neon
 parameters:
     exceptions:
         check:
@@ -13,6 +13,7 @@ parameters:
     level: 9
     paths:
       - src
+      - tests
     checkMaybeUndefinedVariables: true
     treatPhpDocTypesAsCertain: false
     ignoreErrors:

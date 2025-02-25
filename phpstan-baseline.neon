@@ -1,0 +1,2101 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertArrayHasKey\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertArrayHasKey\(\) has parameter \$array with generic interface ArrayAccess but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertArrayHasKey\(\) has parameter \$array with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertArrayNotHasKey\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertArrayNotHasKey\(\) has parameter \$array with generic interface ArrayAccess but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertArrayNotHasKey\(\) has parameter \$array with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertClassHasAttribute\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertClassHasStaticAttribute\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertClassNotHasAttribute\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertClassNotHasStaticAttribute\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertContains\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertContains\(\) has parameter \$haystack with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertContainsEquals\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertContainsEquals\(\) has parameter \$haystack with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertContainsOnly\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertContainsOnly\(\) has parameter \$haystack with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertContainsOnlyInstancesOf\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertContainsOnlyInstancesOf\(\) has parameter \$haystack with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertCount\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertCount\(\) has parameter \$haystack with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertDirectoryDoesNotExist\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertDirectoryExists\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertDirectoryIsNotReadable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertDirectoryIsNotWritable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertDirectoryIsReadable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertDirectoryIsWritable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertDoesNotMatchRegularExpression\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertEmpty\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertEquals\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertEqualsCanonicalizing\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertEqualsIgnoringCase\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertEqualsWithDelta\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertFalse\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertFileDoesNotExist\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertFileEquals\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertFileEqualsCanonicalizing\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertFileEqualsIgnoringCase\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertFileExists\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertFileIsNotReadable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertFileIsNotWritable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertFileIsReadable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertFileIsWritable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertFileNotEquals\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertFileNotEqualsCanonicalizing\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertFileNotEqualsIgnoringCase\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertFileNotExists\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertFinite\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertGreaterOrEquals\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertGreaterThan\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertGreaterThanOrEqual\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertInfinite\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertInstanceOf\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsArray\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsBool\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsCallable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsClosedResource\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsEmpty\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsFloat\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsInt\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsIterable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsNotArray\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsNotBool\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsNotCallable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsNotClosedResource\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsNotFloat\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsNotInt\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsNotIterable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsNotNumeric\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsNotObject\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsNotReadable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsNotResource\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsNotScalar\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsNotString\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsNotWritable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsNumeric\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsObject\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsReadable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsResource\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsScalar\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsString\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertIsWritable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertJson\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertJsonFileEqualsJsonFile\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertJsonFileNotEqualsJsonFile\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertJsonStringEqualsJsonFile\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertJsonStringEqualsJsonString\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertJsonStringNotEqualsJsonFile\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertJsonStringNotEqualsJsonString\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertLessOrEquals\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertLessThan\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertLessThanOrEqual\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertMatchesRegularExpression\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNan\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotContains\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotContains\(\) has parameter \$haystack with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotContainsEquals\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotContainsEquals\(\) has parameter \$haystack with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotContainsEquals\(\) has parameter \$needle with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotContainsOnly\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotContainsOnly\(\) has parameter \$haystack with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotCount\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotCount\(\) has parameter \$haystack with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotEmpty\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotEquals\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotEqualsCanonicalizing\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotEqualsIgnoringCase\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotEqualsWithDelta\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotFalse\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotInstanceOf\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotNull\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotRegExp\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotSame\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotSameSize\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotSameSize\(\) has parameter \$actual with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotSameSize\(\) has parameter \$expected with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNotTrue\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertNull\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertObjectHasAttribute\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertObjectNotHasAttribute\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertRegExp\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertSame\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertSameSize\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertSameSize\(\) has parameter \$actual with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertSameSize\(\) has parameter \$expected with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringContainsString\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringContainsStringIgnoringCase\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringEndsNotWith\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringEndsWith\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringEqualsFile\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringEqualsFileCanonicalizing\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringEqualsFileIgnoringCase\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringMatchesFormat\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringMatchesFormatFile\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringNotContainsString\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringNotContainsStringIgnoringCase\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringNotEqualsFile\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringNotEqualsFileCanonicalizing\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringNotEqualsFileIgnoringCase\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringNotMatchesFormat\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringNotMatchesFormatFile\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringStartsNotWith\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertStringStartsWith\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertThat\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertThatItsNot\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertTrue\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertXmlFileEqualsXmlFile\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertXmlFileNotEqualsXmlFile\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertXmlStringEqualsXmlFile\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertXmlStringEqualsXmlString\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertXmlStringNotEqualsXmlFile\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:assertXmlStringNotEqualsXmlString\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:attachFile\(\) has parameter \$field with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:canSee\(\) has parameter \$selector with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:canSeeCheckboxIsChecked\(\) has parameter \$checkbox with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:canSeeCookie\(\) has parameter \$cookie with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:canSeeCookie\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:canSeeElement\(\) has parameter \$attributes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:canSeeElement\(\) has parameter \$selector with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:canSeeInField\(\) has parameter \$field with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:canSeeInField\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:canSeeInFormFields\(\) has parameter \$formSelector with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:canSeeInFormFields\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:canSeeInTitle\(\) has parameter \$title with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:canSeeNumberOfElements\(\) has parameter \$selector with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:canSeeOptionIsSelected\(\) has parameter \$optionText with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:canSeeOptionIsSelected\(\) has parameter \$selector with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:cantSee\(\) has parameter \$selector with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:cantSeeCheckboxIsChecked\(\) has parameter \$checkbox with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:cantSeeCookie\(\) has parameter \$cookie with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:cantSeeCookie\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:cantSeeElement\(\) has parameter \$attributes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:cantSeeElement\(\) has parameter \$selector with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:cantSeeInField\(\) has parameter \$field with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:cantSeeInField\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:cantSeeInFormFields\(\) has parameter \$formSelector with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:cantSeeInFormFields\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:cantSeeInTitle\(\) has parameter \$title with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:cantSeeOptionIsSelected\(\) has parameter \$optionText with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:cantSeeOptionIsSelected\(\) has parameter \$selector with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:checkOption\(\) has parameter \$option with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:click\(\) has parameter \$context with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:click\(\) has parameter \$link with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:createAndSetCsrfCookie\(\) should return array\<string\> but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:dontSee\(\) has parameter \$selector with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:dontSeeCheckboxIsChecked\(\) has parameter \$checkbox with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:dontSeeCookie\(\) has parameter \$cookie with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:dontSeeCookie\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:dontSeeElement\(\) has parameter \$attributes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:dontSeeElement\(\) has parameter \$selector with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:dontSeeInField\(\) has parameter \$field with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:dontSeeInField\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:dontSeeInFormFields\(\) has parameter \$formSelector with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:dontSeeInFormFields\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:dontSeeInTitle\(\) has parameter \$title with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:dontSeeOptionIsSelected\(\) has parameter \$optionText with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:dontSeeOptionIsSelected\(\) has parameter \$selector with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:fail\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:fillField\(\) has parameter \$field with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:fillField\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:getInternalDomains\(\) should return non\-empty\-list\<string\> but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabAttributeFrom\(\) has parameter \$cssOrXpath with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabCookie\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabFixture\(\) should return yii\\db\\ActiveRecord\|yii\\test\\Fixture\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabFixtures\(\) has invalid return type tests\\_generated\\Fixture\.$#'
+			identifier: class.notFound
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabFixtures\(\) should return array\<string, tests\\_generated\\Fixture\> but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabLastSentEmail\(\) should return yii\\mail\\BaseMessage\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabMultiple\(\) has parameter \$cssOrXpath with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabMultiple\(\) should return array\<string\> but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabPageSource\(\) should return string but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabRecord\(\) has invalid return type tests\\_generated\\ActiveRecordInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabRecord\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabRecord\(\) should return array\|yii\\db\\ActiveRecordInterface\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabSentEmails\(\) has invalid return type tests\\_generated\\BaseMessage\.$#'
+			identifier: class.notFound
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabSentEmails\(\) has invalid return type tests\\_generated\\MessageInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabSentEmails\(\) should return list\<tests\\_generated\\BaseMessage&tests\\_generated\\MessageInterface\> but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabTextFrom\(\) has parameter \$cssOrXPathOrRegex with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:grabValueFrom\(\) has parameter \$field with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:markTestIncomplete\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:markTestSkipped\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:resetCookie\(\) has parameter \$cookie with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:resetCookie\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:see\(\) has parameter \$selector with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:seeCheckboxIsChecked\(\) has parameter \$checkbox with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:seeCookie\(\) has parameter \$cookie with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:seeCookie\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:seeElement\(\) has parameter \$attributes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:seeElement\(\) has parameter \$selector with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:seeInField\(\) has parameter \$field with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:seeInField\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:seeInFormFields\(\) has parameter \$formSelector with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:seeInFormFields\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:seeInTitle\(\) has parameter \$title with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:seeNumberOfElements\(\) has parameter \$selector with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:seeOptionIsSelected\(\) has parameter \$optionText with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:seeOptionIsSelected\(\) has parameter \$selector with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:selectOption\(\) has parameter \$option with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:selectOption\(\) has parameter \$select with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:sendAjaxGetRequest\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:sendAjaxPostRequest\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:sendAjaxRequest\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:setServerParameters\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:submitForm\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:submitForm\(\) has parameter \$selector with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\FunctionalTester\:\:uncheckOption\(\) has parameter \$option with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^PHPDoc tag @return with type array\<string, mixed\>\|tests\\_generated\\ActiveRecordInterface\|null is not subtype of native type array\|yii\\db\\ActiveRecordInterface\|null\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Parameter \#2 \$arguments of class Codeception\\Step\\Action constructor expects array\<string\>, list\<mixed\> given\.$#'
+			identifier: argument.type
+			count: 193
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Parameter \#2 \$arguments of class Codeception\\Step\\Assertion constructor expects array\<string\>, list\<mixed\> given\.$#'
+			identifier: argument.type
+			count: 23
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Parameter \#2 \$arguments of class Codeception\\Step\\Condition constructor expects array\<string\>, list\<mixed\> given\.$#'
+			identifier: argument.type
+			count: 4
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Parameter \#2 \$arguments of class Codeception\\Step\\ConditionalAssertion constructor expects array\<string\>, list\<mixed\> given\.$#'
+			identifier: argument.type
+			count: 39
+			path: tests/_support/FunctionalTester.php
+
+		-
+			message: '#^Method tests\\fixtures\\EmptyFixture\:\:load\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnections/fixtures/EmptyFixture.php
+
+		-
+			message: '#^Method tests\\fixtures\\EmptyFixture\:\:unload\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnections/fixtures/EmptyFixture.php
+
+		-
+			message: '#^Method tests\\closeConnections\\FixturesCest\:\:NoConnections\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnections/functional/FixturesCest.php
+
+		-
+			message: '#^Method tests\\closeConnections\\FixturesCest\:\:NoConnections\(\) has parameter \$example with no value type specified in iterable type Codeception\\Example\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/cases/closeConnections/functional/FixturesCest.php
+
+		-
+			message: '#^Method tests\\closeConnections\\FixturesCest\:\:_fixtures\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnections/functional/FixturesCest.php
+
+		-
+			message: '#^Method tests\\closeConnections\\FixturesCest\:\:numberProvider\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnections/functional/FixturesCest.php
+
+		-
+			message: '#^Method tests\\closeConnections\\FixturesInBeforeCest\:\:NoConnections\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnections/functional/FixturesInBeforeCest.php
+
+		-
+			message: '#^Method tests\\closeConnections\\FixturesInBeforeCest\:\:NoConnections\(\) has parameter \$example with no value type specified in iterable type Codeception\\Example\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/cases/closeConnections/functional/FixturesInBeforeCest.php
+
+		-
+			message: '#^Method tests\\closeConnections\\FixturesInBeforeCest\:\:_before\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnections/functional/FixturesInBeforeCest.php
+
+		-
+			message: '#^Method tests\\closeConnections\\FixturesInBeforeCest\:\:numberProvider\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnections/functional/FixturesInBeforeCest.php
+
+		-
+			message: '#^Method tests\\closeConnections\\NoFixturesCest\:\:NoConnections\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnections/functional/NoFixturesCest.php
+
+		-
+			message: '#^Method tests\\closeConnections\\NoFixturesCest\:\:NoConnections\(\) has parameter \$example with no value type specified in iterable type Codeception\\Example\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/cases/closeConnections/functional/NoFixturesCest.php
+
+		-
+			message: '#^Method tests\\closeConnections\\NoFixturesCest\:\:numberProvider\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnections/functional/NoFixturesCest.php
+
+		-
+			message: '#^Method tests\\helpers\\SqlliteHelper\:\:connectionCount\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnections/helpers/SqlliteHelper.php
+
+		-
+			message: '#^Method tests\\helpers\\SqlliteHelper\:\:debug\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnections/helpers/SqlliteHelper.php
+
+		-
+			message: '#^Method tests\\helpers\\SqlliteHelper\:\:getTmpFile\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnections/helpers/SqlliteHelper.php
+
+		-
+			message: '#^Property tests\\helpers\\SqlliteHelper\:\:\$temp_name has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/cases/closeConnections/helpers/SqlliteHelper.php
+
+		-
+			message: '#^Method tests\\closeConnectionsNoCleanup\\FixturesCest\:\:NoConnections1\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnectionsNoCleanup/functional/FixturesCest.php
+
+		-
+			message: '#^Method tests\\closeConnectionsNoCleanup\\FixturesCest\:\:NoConnections2\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnectionsNoCleanup/functional/FixturesCest.php
+
+		-
+			message: '#^Method tests\\closeConnectionsNoCleanup\\FixturesCest\:\:NoConnections3\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnectionsNoCleanup/functional/FixturesCest.php
+
+		-
+			message: '#^Method tests\\closeConnectionsNoCleanup\\FixturesCest\:\:_fixtures\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnectionsNoCleanup/functional/FixturesCest.php
+
+		-
+			message: '#^Method tests\\closeConnectionsNoCleanup\\FixturesInBeforeCest\:\:OnlyOneConnection1\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnectionsNoCleanup/functional/FixturesInBeforeCest.php
+
+		-
+			message: '#^Method tests\\closeConnectionsNoCleanup\\FixturesInBeforeCest\:\:OnlyOneConnection2\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnectionsNoCleanup/functional/FixturesInBeforeCest.php
+
+		-
+			message: '#^Method tests\\closeConnectionsNoCleanup\\FixturesInBeforeCest\:\:OnlyOneConnection3\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnectionsNoCleanup/functional/FixturesInBeforeCest.php
+
+		-
+			message: '#^Method tests\\closeConnectionsNoCleanup\\FixturesInBeforeCest\:\:_before\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnectionsNoCleanup/functional/FixturesInBeforeCest.php
+
+		-
+			message: '#^Method tests\\closeConnectionsNoCleanup\\ThirdCest\:\:NoConnections1\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnectionsNoCleanup/functional/ThirdCest.php
+
+		-
+			message: '#^Method tests\\closeConnectionsNoCleanup\\ThirdCest\:\:OnlyOneConnection2\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnectionsNoCleanup/functional/ThirdCest.php
+
+		-
+			message: '#^Method tests\\closeConnectionsNoCleanup\\ThirdCest\:\:OnlyOneConnection3\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/closeConnectionsNoCleanup/functional/ThirdCest.php
+
+		-
+			message: '#^Cannot call method trigger\(\) on yii\\base\\Application\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: tests/cases/events/config.php
+
+		-
+			message: '#^Method app\\controllers\\SiteController\:\:actionIndex\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/events/controllers/SiteController.php
+
+		-
+			message: '#^Cannot call method on\(\) on yii\\base\\Application\|null\.$#'
+			identifier: method.nonObject
+			count: 6
+			path: tests/cases/events/functional/ResponseCest.php
+
+		-
+			message: '#^Cannot call method startApp\(\) on Symfony\\Component\\BrowserKit\\AbstractBrowser\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: tests/cases/events/functional/ResponseCest.php
+
+		-
+			message: '#^Method tests\\ResponseCest\:\:testAfterSend\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/events/functional/ResponseCest.php
+
+		-
+			message: '#^Method tests\\ResponseCest\:\:testAfterSendWithForcedRecreate\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/events/functional/ResponseCest.php
+
+		-
+			message: '#^Method tests\\ResponseCest\:\:testAfterSendWithRecreate\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/events/functional/ResponseCest.php
+
+		-
+			message: '#^Cannot call method getComponents\(\) on object\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: tests/cases/locale-urls/config.php
+
+		-
+			message: '#^Cannot call method has\(\) on object\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: tests/cases/locale-urls/config.php
+
+		-
+			message: '#^Cannot call method set\(\) on object\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: tests/cases/locale-urls/config.php
+
+		-
+			message: '#^Access to an undefined property yii\\console\\Request\|yii\\web\\Request\:\:\$bodyParams\.$#'
+			identifier: property.notFound
+			count: 1
+			path: tests/cases/locale-urls/controllers/SiteController.php
+
+		-
+			message: '#^Access to an undefined property yii\\console\\Response\|yii\\web\\Response\:\:\$statusCode\.$#'
+			identifier: property.notFound
+			count: 1
+			path: tests/cases/locale-urls/controllers/SiteController.php
+
+		-
+			message: '#^Cannot access property \$request on yii\\base\\Application\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/cases/locale-urls/controllers/SiteController.php
+
+		-
+			message: '#^Cannot access property \$response on yii\\base\\Application\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/cases/locale-urls/controllers/SiteController.php
+
+		-
+			message: '#^Method app\\localeurls\\controllers\\SiteController\:\:actionForm\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/locale-urls/controllers/SiteController.php
+
+		-
+			message: '#^Method app\\localeurls\\controllers\\SiteController\:\:actionPost\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/locale-urls/controllers/SiteController.php
+
+		-
+			message: '#^Method tests\\LocaleUrlCest\:\:testFormSubmit\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/locale-urls/functional/LocaleUrlCest.php
+
+		-
+			message: '#^Method tests\\LocaleUrlCest\:\:testFormSubmit2\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/locale-urls/functional/LocaleUrlCest.php
+
+		-
+			message: '#^Method tests\\LocaleUrlCest\:\:testInstantiation\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/locale-urls/functional/LocaleUrlCest.php
+
+		-
+			message: '#^Method tests\\LocaleUrlCest\:\:testMultipleGet\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/locale-urls/functional/LocaleUrlCest.php
+
+		-
+			message: '#^Cannot access property \$mailer on yii\\base\\Application\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/cases/mock-mailer/controllers/SiteController.php
+
+		-
+			message: '#^Method app\\mockmailer\\controllers\\SiteController\:\:actionIndex\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/mock-mailer/controllers/SiteController.php
+
+		-
+			message: '#^Method app\\mockmailer\\controllers\\SiteController\:\:actionSendMailWithRedirect\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/mock-mailer/controllers/SiteController.php
+
+		-
+			message: '#^Method app\\mockmailer\\controllers\\SiteController\:\:actionSendMailWithoutRedirect\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/mock-mailer/controllers/SiteController.php
+
+		-
+			message: '#^Method app\\mockmailer\\controllers\\SiteController\:\:doSendMail\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/mock-mailer/controllers/SiteController.php
+
+		-
+			message: '#^Method tests\\MockMailerCest\:\:testCountMailSentWithRedirect\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/mock-mailer/functional/MockMailerCest.php
+
+		-
+			message: '#^Method tests\\MockMailerCest\:\:testCountMailSentWithoutRedirect\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/mock-mailer/functional/MockMailerCest.php
+
+		-
+			message: '#^Method tests\\MockMailerCest\:\:testInstantiation\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/mock-mailer/functional/MockMailerCest.php
+
+		-
+			message: '#^Method app\\pageCacheHeaderAlreadySent\\controllers\\UserController\:\:actionIndex\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/pageCacheHeaderAlreadySent/controllers/UserController.php
+
+		-
+			message: '#^Method app\\pageCacheHeaderAlreadySent\\controllers\\UserController\:\:behaviors\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/cases/pageCacheHeaderAlreadySent/controllers/UserController.php
+
+		-
+			message: '#^Method PageCest\:\:testCache\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/pageCacheHeaderAlreadySent/functional/PageCest.php
+
+		-
+			message: '#^Access to an undefined property yii\\console\\Request\|yii\\web\\Request\:\:\$bodyParams\.$#'
+			identifier: property.notFound
+			count: 1
+			path: tests/cases/simple/controllers/SiteController.php
+
+		-
+			message: '#^Access to an undefined property yii\\console\\Response\|yii\\web\\Response\:\:\$content\.$#'
+			identifier: property.notFound
+			count: 1
+			path: tests/cases/simple/controllers/SiteController.php
+
+		-
+			message: '#^Access to an undefined property yii\\console\\Response\|yii\\web\\Response\:\:\$statusCode\.$#'
+			identifier: property.notFound
+			count: 2
+			path: tests/cases/simple/controllers/SiteController.php
+
+		-
+			message: '#^Access to an undefined property yii\\console\\Response\|yii\\web\\Response\:\:\$stream\.$#'
+			identifier: property.notFound
+			count: 1
+			path: tests/cases/simple/controllers/SiteController.php
+
+		-
+			message: '#^Cannot access property \$request on yii\\base\\Application\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/cases/simple/controllers/SiteController.php
+
+		-
+			message: '#^Cannot access property \$response on yii\\base\\Application\|null\.$#'
+			identifier: property.nonObject
+			count: 4
+			path: tests/cases/simple/controllers/SiteController.php
+
+		-
+			message: '#^Cannot call method end\(\) on yii\\base\\Application\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: tests/cases/simple/controllers/SiteController.php
+
+		-
+			message: '#^Method app\\simple\\controllers\\SiteController\:\:actionEmptyResponse\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/simple/controllers/SiteController.php
+
+		-
+			message: '#^Method app\\simple\\controllers\\SiteController\:\:actionEnd\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/simple/controllers/SiteController.php
+
+		-
+			message: '#^Method app\\simple\\controllers\\SiteController\:\:actionException\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/simple/controllers/SiteController.php
+
+		-
+			message: '#^Method app\\simple\\controllers\\SiteController\:\:actionForm\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/simple/controllers/SiteController.php
+
+		-
+			message: '#^Method app\\simple\\controllers\\SiteController\:\:actionIndex\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/simple/controllers/SiteController.php
+
+		-
+			message: '#^Method app\\simple\\controllers\\SiteController\:\:actionPost\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/simple/controllers/SiteController.php
+
+		-
+			message: '#^Cannot access property \$params on yii\\base\\Application\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/cases/simple/functional/SimpleCest.php
+
+		-
+			message: '#^Cannot access property \$user on yii\\base\\Application\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: tests/cases/simple/functional/SimpleCest.php
+
+		-
+			message: '#^Method tests\\SimpleCest\:\:testEmptyResponse\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/simple/functional/SimpleCest.php
+
+		-
+			message: '#^Method tests\\SimpleCest\:\:testException\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/simple/functional/SimpleCest.php
+
+		-
+			message: '#^Method tests\\SimpleCest\:\:testExceptionInBeforeRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/simple/functional/SimpleCest.php
+
+		-
+			message: '#^Method tests\\SimpleCest\:\:testExitException\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/simple/functional/SimpleCest.php
+
+		-
+			message: '#^Method tests\\SimpleCest\:\:testFormSubmit\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/simple/functional/SimpleCest.php
+
+		-
+			message: '#^Method tests\\SimpleCest\:\:testFormSubmit2\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/simple/functional/SimpleCest.php
+
+		-
+			message: '#^Method tests\\SimpleCest\:\:testInstantiation\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/simple/functional/SimpleCest.php
+
+		-
+			message: '#^Method tests\\SimpleCest\:\:testMissingUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/simple/functional/SimpleCest.php
+
+		-
+			message: '#^Method app\\simple\\helpers\\DummyUser\:\:findIdentity\(\) should return yii\\web\\IdentityInterface but returns null\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/cases/simple/helpers/DummyUser.php
+
+		-
+			message: '#^Method app\\simple\\helpers\\DummyUser\:\:findIdentityByAccessToken\(\) should return yii\\web\\IdentityInterface but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: tests/cases/simple/helpers/DummyUser.php
+
+		-
+			message: '#^Method app\\simple\\helpers\\DummyUser\:\:getAuthKey\(\) should return string but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: tests/cases/simple/helpers/DummyUser.php
+
+		-
+			message: '#^Method app\\simple\\helpers\\DummyUser\:\:getId\(\) should return int\|string but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: tests/cases/simple/helpers/DummyUser.php
+
+		-
+			message: '#^Method app\\simple\\helpers\\DummyUser\:\:validateAuthKey\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: tests/cases/simple/helpers/DummyUser.php
+
+		-
+			message: '#^Method app\\simple\\helpers\\EmptyString\:\:__construct\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/cases/simple/helpers/EmptyString.php
+
+		-
+			message: '#^Method app\\simple\\helpers\\EmptyString\:\:getValue\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/simple/helpers/EmptyString.php
+
+		-
+			message: '#^Property app\\simple\\helpers\\EmptyString\:\:\$value has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/cases/simple/helpers/EmptyString.php
+
+		-
+			message: '#^Parameter \#1 \$directory of function tempnam expects string, null given\.$#'
+			identifier: argument.type
+			count: 3
+			path: tests/cases/sqlite/config.php
+
+		-
+			message: '#^Cannot call method get\(\) on yii\\base\\Application\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: tests/cases/sqlite/fixtures/TestFixture.php
+
+		-
+			message: '#^Method tests\\fixtures\\TestFixture\:\:load\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/sqlite/fixtures/TestFixture.php
+
+		-
+			message: '#^Method tests\\fixtures\\TestFixture\:\:unload\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/sqlite/fixtures/TestFixture.php
+
+		-
+			message: '#^Property tests\\fixtures\\TestFixture\:\:\$dbComponents has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/cases/sqlite/fixtures/TestFixture.php
+
+		-
+			message: '#^Property tests\\fixtures\\TestFixture\:\:\$tableConfig has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/cases/sqlite/fixtures/TestFixture.php
+
+		-
+			message: '#^Property tests\\fixtures\\TestFixture\:\:\$tableName has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/cases/sqlite/fixtures/TestFixture.php
+
+		-
+			message: '#^Cannot call method get\(\) on yii\\base\\Application\|null\.$#'
+			identifier: method.nonObject
+			count: 4
+			path: tests/cases/sqlite/functional/SqLiteCest.php
+
+		-
+			message: '#^Method tests\\SqLiteCest\:\:_fixtures\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/sqlite/functional/SqLiteCest.php
+
+		-
+			message: '#^Method tests\\SqLiteCest\:\:testSharedPDO\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/sqlite/functional/SqLiteCest.php
+
+		-
+			message: '#^Method tests\\SqLiteCest\:\:testTransaction\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/cases/sqlite/functional/SqLiteCest.php
