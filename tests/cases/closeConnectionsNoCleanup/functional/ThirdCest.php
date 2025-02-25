@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace tests\closeConnectionsNoCleanup;
 
-use tests\FunctionalTester;
 use tests\fixtures\EmptyFixture;
+use tests\FunctionalTester;
 use tests\helpers\SqlliteHelper;
 
-class ThirdCest
+final class ThirdCest
 {
     public function NoConnections1(FunctionalTester $I)
     {

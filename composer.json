@@ -26,11 +26,10 @@
         "yiisoft/yii2": "dev-master",
         "yiisoft/yii2-app-advanced": "dev-master",
         "codeception/verify": "^3.0",
-        "codemix/yii2-localeurls": "^1.7",
         "codeception/module-asserts": ">= 3.0",
         "codeception/module-filesystem": "> 3.0",
         "phpstan/phpstan": "^2",
-        "rector/rector": "^2"
+        "symplify/easy-coding-standard": "^12.5"
     },
     "autoload":{
         "classmap": ["src/"]

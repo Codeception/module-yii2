@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 namespace app\simple\controllers;
+
 use app\simple\helpers\EmptyString;
 use yii\base\Action;
 use yii\helpers\Url;
 use yii\web\Controller;
 
-class SiteController extends Controller
+final class SiteController extends Controller
 {
-
     public function actionForm()
     {
         $action = Url::to(['site/post']);
@@ -46,13 +46,12 @@ HTML;
         \Yii::$app->end();
     }
 
-
     /**
      * @param Action $action
      * @return bool
      * @throws \yii\web\BadRequestHttpException
      */
-    public function  beforeAction($action)
+    public function beforeAction($action)
     {
         if ($action->id === 'empty-response') {
             \Yii::$app->response->stream = fopen('php://memory', 'r+');

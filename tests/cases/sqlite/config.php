@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 return [
     'id' => 'Simple',
     'basePath' => __DIR__,
@@ -6,19 +9,19 @@ return [
     'components' => [
         'db' => [
             'class' => yii\db\Connection::class,
-            'dsn' => 'sqlite:' . tempnam(null, '/file0')
+            'dsn' => 'sqlite:' . tempnam('', '/file0'),
         ],
         'db1' => [
             'class' => yii\db\Connection::class,
-            'dsn' => 'sqlite:' . tempnam(null, '/file1')
+            'dsn' => 'sqlite:' . tempnam('', '/file1'),
         ],
         'db21' => [
             'class' => yii\db\Connection::class,
-            'dsn' => 'sqlite:' . ($name = tempnam(null, '/file2'))
+            'dsn' => 'sqlite:' . ($name = tempnam('', '/file2')),
         ],
         'db22' => [
             'class' => yii\db\Connection::class,
-            'dsn' => 'sqlite:' . $name
-        ]
-    ]
+            'dsn' => 'sqlite:' . $name,
+        ],
+    ],
 ];

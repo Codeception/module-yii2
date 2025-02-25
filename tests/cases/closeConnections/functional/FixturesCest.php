@@ -9,7 +9,7 @@ use tests\fixtures\EmptyFixture;
 use tests\FunctionalTester;
 use tests\helpers\SqlliteHelper;
 
-class FixturesCest
+final class FixturesCest
 {
     public function _fixtures()
     {
@@ -26,12 +26,10 @@ class FixturesCest
     }
 
     /**
-     * @param FunctionalTester $I
      * @dataProvider numberProvider
      */
     public function NoConnections(FunctionalTester $I, Example $example)
     {
         $I->assertSame(SqlliteHelper::connectionCount(), $example['count']);
     }
-
 }
