@@ -17,9 +17,6 @@ parameters:
     checkMaybeUndefinedVariables: true
     treatPhpDocTypesAsCertain: false
     ignoreErrors:
-        # All Yii setters accept `null` but their phpdoc is incorrect.
-#        - message: '~^Parameter #1 \$(.+) of method yii\\web\\Request::set(.+)\(\) expects (.+), null given.$~'
-#          path: 'src/'
         # If you want to ignore missing generics errors in the future, you can add:
         # - identifier: missingType.generics
     stubFiles:
