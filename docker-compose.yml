@@ -1,9 +1,7 @@
 services:
-
   php80: &phpbase
-    user: ${UID}
+    user: ${UID:-1000}
     volumes:
-      - ${COMPOSER_HOME}:/.config/composer:delegated
       # Mount source-code for development
       - ./:/var/www/html
     env_file:
