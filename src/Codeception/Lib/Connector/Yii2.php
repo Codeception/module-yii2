@@ -308,7 +308,11 @@ class Yii2 extends Client
 
         match ($this->mailMethod) {
             self::MAIL_CATCH => $config= $this->mockMailer($config),
-            self::MAIL_EVENT_AFTER => $config['components']['mailer']['on ' . BaseMailer::EVENT_AFTER_SEND] = fn(MailEvent $event) => $this->emails[]  = $event->message,
+            self::MAIL_EVENT_AFTER => $config['components']['mailer']['on ' . BaseMailer::EVENT_AFTER_SEND] = function(MailEvent $event): void {
+                if ($event->isSuccessful) {
+                    $this->emails[]  = $event->message;
+                }
+            },
             self::MAIL_EVENT_BEFORE => $config['components']['mailer']['on ' . BaseMailer::EVENT_BEFORE_SEND] = fn(MailEvent $event) => $this->emails[]  = $event->message,
             self::MAIL_IGNORE => null// Do nothing
         };
