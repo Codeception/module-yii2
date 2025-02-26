@@ -17,6 +17,27 @@ namespace yii {
 namespace yii\base {
 
     class Application {}
+
+    class Model {}
+}
+
+namespace yii\db {
+    class BaseActiveRecord extends \yii\base\Model {
+        /**
+         * @param bool $asArray
+         * @return int|string|array<string, int|string>|null
+         */
+        public function getPrimaryKey($asArray = false) {}
+
+        /**
+         * @return bool
+         * @param bool $runValidation
+         * @param null|list<string> $attributeNames
+         * @phpstan-assert-if-true (int|string|array<string, int|string>) $this->getPrimaryKey()
+         */
+        public function save($runValidation = true, $attributeNames = null) {}
+
+    }
 }
 
 namespace yii\web {

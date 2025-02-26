@@ -28,7 +28,6 @@ use yii\helpers\Url;
 use yii\mail\BaseMessage;
 use yii\mail\MessageInterface;
 use yii\test\Fixture;
-use yii\web\Application;
 use yii\web\Application as WebApplication;
 use yii\web\IdentityInterface;
 
@@ -647,11 +646,10 @@ final class Yii2 extends Framework implements ActiveRecord, MultiSession, Parted
          */
         $record = \Yii::createObject($model);
         $record->setAttributes($attributes, false);
-        $res = $record->save(false);
-        if (! $res) {
+        if (! $record->save(false)) {
             $this->fail("Record $model was not saved: " . \yii\helpers\Json::encode($record->errors));
         }
-        return $record->primaryKey;
+        return $record->getPrimaryKey();
     }
 
     /**
