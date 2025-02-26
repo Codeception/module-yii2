@@ -206,8 +206,8 @@ use yii\web\IdentityInterface;
  *
  * @phpstan-type ValidConfig (ModuleConfig & array{
  *     transaction: bool|null,
-*      configFile: string
-*  })
+ *      configFile: string
+ *  })
  */
 final class Yii2 extends Framework implements ActiveRecord, PartedModule
 {
