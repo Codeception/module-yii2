@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace tests\closeConnectionsNoCleanup;
 
-use tests\FunctionalTester;
 use tests\fixtures\EmptyFixture;
+use tests\FunctionalTester;
 use tests\helpers\SqlliteHelper;
 
-class FixturesCest
+final class FixturesCest
 {
     public function _fixtures()
     {
@@ -36,5 +36,4 @@ class FixturesCest
         $count = SqlliteHelper::connectionCount();
         $I->assertSame(0, $count);
     }
-
 }

@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace tests;
 
 use Codeception\Exception\ModuleException;
-use yii\base\ExitException;
 use yii\web\Application;
 
-class SimpleCest
+final class SimpleCest
 {
-
     public function testInstantiation(FunctionalTester $I)
     {
         $I->assertInstanceOf(Application::class, \Yii::$app);
@@ -38,7 +36,7 @@ class SimpleCest
 
     public function testException(FunctionalTester $I)
     {
-        $I->expectThrowable(new \Exception('This is not an HttpException'), function() use ($I) {
+        $I->expectThrowable(new \Exception('This is not an HttpException'), function () use ($I) {
             $I->amOnRoute('/site/exception');
         });
         $I->assertInstanceOf(Application::class, \Yii::$app);
@@ -48,7 +46,7 @@ class SimpleCest
     {
         $e = new \Exception('This is not an HttpException');
         \Yii::$app->params['throw'] = $e;
-        $I->expectThrowable($e, function() use ($I) {
+        $I->expectThrowable($e, function () use ($I) {
             $I->amOnRoute('/site/exception');
         });
     }
@@ -67,7 +65,7 @@ class SimpleCest
 
     public function testMissingUser(FunctionalTester $I)
     {
-        $I->expectThrowable(ModuleException::class, function() use ($I) {
+        $I->expectThrowable(ModuleException::class, function () use ($I) {
             $I->amLoggedInAs('nobody');
         });
         $I->amOnRoute('/site/index');

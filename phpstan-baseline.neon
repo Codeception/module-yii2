@@ -1705,84 +1705,6 @@ parameters:
 			path: tests/cases/events/functional/ResponseCest.php
 
 		-
-			message: '#^Cannot call method getComponents\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: tests/cases/locale-urls/config.php
-
-		-
-			message: '#^Cannot call method has\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: tests/cases/locale-urls/config.php
-
-		-
-			message: '#^Cannot call method set\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: tests/cases/locale-urls/config.php
-
-		-
-			message: '#^Access to an undefined property yii\\console\\Request\|yii\\web\\Request\:\:\$bodyParams\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/cases/locale-urls/controllers/SiteController.php
-
-		-
-			message: '#^Access to an undefined property yii\\console\\Response\|yii\\web\\Response\:\:\$statusCode\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/cases/locale-urls/controllers/SiteController.php
-
-		-
-			message: '#^Cannot access property \$request on yii\\base\\Application\|null\.$#'
-			identifier: property.nonObject
-			count: 1
-			path: tests/cases/locale-urls/controllers/SiteController.php
-
-		-
-			message: '#^Cannot access property \$response on yii\\base\\Application\|null\.$#'
-			identifier: property.nonObject
-			count: 1
-			path: tests/cases/locale-urls/controllers/SiteController.php
-
-		-
-			message: '#^Method app\\localeurls\\controllers\\SiteController\:\:actionForm\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/cases/locale-urls/controllers/SiteController.php
-
-		-
-			message: '#^Method app\\localeurls\\controllers\\SiteController\:\:actionPost\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/cases/locale-urls/controllers/SiteController.php
-
-		-
-			message: '#^Method tests\\LocaleUrlCest\:\:testFormSubmit\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/cases/locale-urls/functional/LocaleUrlCest.php
-
-		-
-			message: '#^Method tests\\LocaleUrlCest\:\:testFormSubmit2\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/cases/locale-urls/functional/LocaleUrlCest.php
-
-		-
-			message: '#^Method tests\\LocaleUrlCest\:\:testInstantiation\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/cases/locale-urls/functional/LocaleUrlCest.php
-
-		-
-			message: '#^Method tests\\LocaleUrlCest\:\:testMultipleGet\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/cases/locale-urls/functional/LocaleUrlCest.php
-
-		-
 			message: '#^Cannot access property \$mailer on yii\\base\\Application\|null\.$#'
 			identifier: property.nonObject
 			count: 1
@@ -2033,12 +1955,6 @@ parameters:
 			identifier: missingType.property
 			count: 1
 			path: tests/cases/simple/helpers/EmptyString.php
-
-		-
-			message: '#^Parameter \#1 \$directory of function tempnam expects string, null given\.$#'
-			identifier: argument.type
-			count: 3
-			path: tests/cases/sqlite/config.php
 
 		-
 			message: '#^Cannot call method get\(\) on yii\\base\\Application\|null\.$#'
