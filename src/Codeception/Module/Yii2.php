@@ -175,16 +175,7 @@ use yii\web\IdentityInterface;
  *
  * Maintainer: **samdark**
  * Stability: **stable**
- * @phpstan-type ClientConfig array{
- *     responseCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
- *     requestCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
- *     mailMethod: Yii2Connector::MAIL_CATCH|Yii2Connector::MAIL_IGNORE|Yii2Connector::MAIL_EVENT_AFTER|Yii2Connector::MAIL_EVENT_BEFORE,
- *     recreateComponents: list<string>,
- *     recreateApplication: bool,
- *     closeSessionOnRecreateApplication: bool,
- *     applicationClass: class-string<\yii\base\Application>|null,
- *     configFile: string
- * }
+ *
  * @phpstan-type ModuleConfig array{
  *     configFile: string|null,
  *     fixturesMethod: string,
@@ -193,7 +184,6 @@ use yii\web\IdentityInterface;
  *     transaction: bool|null,
  *     entryScript: string,
  *     entryUrl: string,
- *     configFile: string,
  *     responseCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
  *     requestCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
  *     mailMethod: Yii2Connector::MAIL_CATCH|Yii2Connector::MAIL_IGNORE|Yii2Connector::MAIL_EVENT_AFTER|Yii2Connector::MAIL_EVENT_BEFORE,
@@ -202,6 +192,7 @@ use yii\web\IdentityInterface;
  *     closeSessionOnRecreateApplication: bool,
  *     applicationClass: class-string<\yii\base\Application>|null
  *   }
+ *
  * @phpstan-type ClientConfig array{
  *     configFile: string,
  *     responseCleanMethod: Yii2Connector::CLEAN_CLEAR|Yii2Connector::CLEAN_MANUAL|Yii2Connector::CLEAN_RECREATE,
@@ -214,15 +205,9 @@ use yii\web\IdentityInterface;
  *  }
  *
  * @phpstan-type ValidConfig (ModuleConfig & array{
- *       transaction: bool|null,
- *       configFile: string
- *   })
- * @phpstan-type SessionBackup array{
- *     cookie: array<mixed>,
- *     session: array<mixed>,
- *     headers: array<string, string>,
- *     clientContext: array{ cookieJar: CookieJar, history: History }
- * }
+ *     transaction: bool|null,
+*      configFile: string
+*  })
  */
 final class Yii2 extends Framework implements ActiveRecord, PartedModule
 {
