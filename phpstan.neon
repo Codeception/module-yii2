@@ -17,6 +17,9 @@ parameters:
     checkMaybeUndefinedVariables: true
     treatPhpDocTypesAsCertain: false
     ignoreErrors:
+        - identifier: return.type
+          path: tests/_support/_generated/FunctionalTesterActions.php
+          message: "# but returns mixed.$#"
         # If you want to ignore missing generics errors in the future, you can add:
         # - identifier: missingType.generics
     stubFiles:

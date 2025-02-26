@@ -16,6 +16,7 @@ use Codeception\Lib\Interfaces\ActiveRecord;
 use Codeception\Lib\Interfaces\MultiSession;
 use Codeception\Lib\Interfaces\PartedModule;
 use Codeception\TestInterface;
+use PHPUnit\Framework\Assert;
 use ReflectionClass;
 use RuntimeException;
 use Symfony\Component\BrowserKit\CookieJar;
@@ -647,7 +648,7 @@ final class Yii2 extends Framework implements ActiveRecord, MultiSession, Parted
         $record = \Yii::createObject($model);
         $record->setAttributes($attributes, false);
         if (! $record->save(false)) {
-            $this->fail("Record $model was not saved: " . \yii\helpers\Json::encode($record->errors));
+            Assert::fail("Record $model was not saved: " . \yii\helpers\Json::encode($record->errors));
         }
         return $record->getPrimaryKey();
     }
@@ -667,7 +668,7 @@ final class Yii2 extends Framework implements ActiveRecord, MultiSession, Parted
     {
         $record = $this->findRecord($model, $attributes);
         if (! $record) {
-            $this->fail("Couldn't find $model with " . json_encode($attributes));
+            Assert::fail("Couldn't find $model with " . json_encode($attributes));
         }
         $this->debugSection($model, json_encode($record));
     }
@@ -688,7 +689,7 @@ final class Yii2 extends Framework implements ActiveRecord, MultiSession, Parted
         $record = $this->findRecord($model, $attributes);
         $this->debugSection($model, json_encode($record));
         if ($record) {
-            $this->fail("Unexpectedly managed to find $model with " . json_encode($attributes));
+            Assert::fail("Unexpectedly managed to find $model with " . json_encode($attributes));
         }
     }
 
