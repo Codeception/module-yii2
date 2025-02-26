@@ -64,7 +64,7 @@ jobs:
           -p semantic-release
           -- semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.COLLECTHOR_FINE_GRAINED_RELEASE }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 permissions:
   packages: write
   contents: write
