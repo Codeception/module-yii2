@@ -12,7 +12,7 @@ use PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer;
 use PhpCsFixer\Fixer\Phpdoc\NoBlankLinesAfterPhpdocFixer;
 use PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer;
 use PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer;
-use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
@@ -51,6 +51,7 @@ return static function (ECSConfig $ecsConfig): void {
             'var_dump' => null,
         ]
     ]);
+    $ecsConfig->rule(PhpdocIndentFixer::class);
     $ecsConfig->skip([
         ForbiddenFunctionsSniff::class => [
             'tests/**',

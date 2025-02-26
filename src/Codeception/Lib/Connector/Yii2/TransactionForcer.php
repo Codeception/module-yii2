@@ -91,8 +91,8 @@ TEXT,
     public function rollbackAll(): void
     {
         /**
- * @var Transaction $transaction
-*/
+         * @var Transaction $transaction
+         */
         foreach ($this->transactions as $transaction) {
             if ($transaction->db->isActive) {
                 $transaction->rollBack();

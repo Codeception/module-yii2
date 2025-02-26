@@ -636,14 +636,15 @@ final class Yii2 extends Framework implements ActiveRecord, MultiSession, Parted
      *
      * @template T of \yii\db\ActiveRecord
      * @param    class-string<T>      $model
-     * @param    array<string, mixed> $attributes
+     * @param                   array<string, mixed> $attributes
      * @part     orm
+     * @return int|string|array<string, int|string> The primary key
      */
-    public function haveRecord(string $model, $attributes = []): mixed
+    public function haveRecord(string $model, $attributes = []): int|string|array
     {
         /**
- * @var T $record
-*/
+         * @var T $record
+         */
         $record = \Yii::createObject($model);
         $record->setAttributes($attributes, false);
         $res = $record->save(false);

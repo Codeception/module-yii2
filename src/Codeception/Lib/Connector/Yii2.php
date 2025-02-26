@@ -201,8 +201,8 @@ final class Yii2 extends Client
         if ($urlManager->enablePrettyUrl) {
             foreach ($urlManager->rules as $rule) {
                 /**
- * @var \yii\web\UrlRule $rule
-*/
+                 * @var \yii\web\UrlRule $rule
+                 */
                 if ($rule->host !== null) {
                     $domains[] = $this->getDomainRegex($rule->host);
                 }
@@ -403,8 +403,8 @@ final class Yii2 extends Client
 
         foreach ($response->getCookies() as $cookie) {
             /**
- * @var \yii\web\Cookie $cookie
-*/
+             * @var \yii\web\Cookie $cookie
+             */
             $value = $cookie->value;
             // Expire = 1 means we're removing the cookie
             if ($cookie->expire !== 1 && isset($validationKey)) {
