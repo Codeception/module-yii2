@@ -13,8 +13,6 @@ final class FixturesStore
 
     /**
      * Expects fixtures config
-     *
-     * FixturesStore constructor.
      */
     public function __construct(
         protected mixed $data

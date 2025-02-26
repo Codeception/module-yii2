@@ -9,10 +9,7 @@ use yii\db\Connection;
 use yii\db\Transaction;
 
 /**
- * Class TransactionForcer
  * This class adds support for forcing transactions as well as reusing PDO objects.
- *
- * @package Codeception\Lib\Connector\Yii2
  */
 final class TransactionForcer extends ConnectionWatcher
 {

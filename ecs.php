@@ -27,12 +27,12 @@ return static function (ECSConfig $ecsConfig): void {
     ]);
 
     // A. full sets
-    $ecsConfig->sets([SetList::PSR_12, SetList::SPACES, SetList::STRICT]);
+    $ecsConfig->sets([SetList::PSR_12, SetList::SPACES, SetList::STRICT, SetList::DOCBLOCK]);
 
     $ecsConfig->rule(NotOperatorWithSuccessorSpaceFixer::class);
     $ecsConfig->rule(ArraySyntaxFixer::class);
     $ecsConfig->ruleWithConfiguration(GeneralPhpdocAnnotationRemoveFixer::class, [
-        'annotations' => ['author', 'inheritdoc']
+        'annotations' => ['author', 'inheritdoc', 'package']
     ]);
     $ecsConfig->rule(NoBlankLinesAfterPhpdocFixer::class);
     $ecsConfig->ruleWithConfiguration(NoSuperfluousPhpdocTagsFixer::class, [
@@ -52,6 +52,8 @@ return static function (ECSConfig $ecsConfig): void {
         ]
     ]);
     $ecsConfig->rule(PhpdocIndentFixer::class);
+    $ecsConfig->rule(\PhpCsFixer\Fixer\Phpdoc\AlignMultilineCommentFixer::class);
+
     $ecsConfig->skip([
         ForbiddenFunctionsSniff::class => [
             'tests/**',

@@ -257,7 +257,7 @@ final class Yii2 extends Framework implements ActiveRecord, MultiSession, Parted
     private TransactionForcer $transactionForcer;
 
     /**
-     * @var array<mixed> The contents of $_SERVER upon initialization of this object.
+     * @var array<mixed> The contents of upon initialization of this object.
      * This is only used to restore it upon object destruction.
      * It MUST not be used anywhere else.
      */
