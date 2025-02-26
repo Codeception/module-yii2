@@ -65,7 +65,7 @@ jobs:
           -p "@semantic-release/release-notes-generator"
           -p conventional-changelog-conventionalcommits
           -p semantic-release
-          -- semantic-release --dry-run
+          -- semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 permissions:
