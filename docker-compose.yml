@@ -1,5 +1,5 @@
 services:
-  php80: &phpbase
+  php8.0: &phpbase
     user: ${UID:-1000}
     volumes:
       # Mount source-code for development
@@ -16,23 +16,23 @@ services:
       args:
         - PHP_VERSION=8.0-alpine
     
-  php81:
+  php8.1:
     <<: *phpbase
     build:
       args:
         - PHP_VERSION=8.1-alpine
-  php82:
+  php8.2:
     <<: *phpbase
     build:
       args:
         - PHP_VERSION=8.2-alpine
   
-  php83:
+  php8.3:
     <<: *phpbase
     build:
       args:
         - PHP_VERSION=8.3-alpine
-  php84:
+  php8.4:
     <<: *phpbase
     build:
       args:

@@ -24,3 +24,11 @@ composer require "codeception/module-yii2" --dev
 `Codeception Module Yii2` is open-sourced software licensed under the [MIT](/LICENSE) License.
 
 © Codeception PHP Testing Framework
+
+## Test with docker-compose
+
+```bash
+docker-compose run php8.4 composer install
+docker-compose run php8.4 vendor/bin/codecept build
+docker-compose run php8.4 vendor/bin/codecept run
+```
