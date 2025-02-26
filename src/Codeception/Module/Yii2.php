@@ -26,7 +26,6 @@ use yii\helpers\Url;
 use yii\mail\BaseMessage;
 use yii\mail\MessageInterface;
 use yii\test\Fixture;
-use yii\web\Application as WebApplication;
 use yii\web\IdentityInterface;
 
 /**
