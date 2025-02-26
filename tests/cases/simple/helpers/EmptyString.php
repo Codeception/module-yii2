@@ -7,7 +7,7 @@ namespace app\simple\helpers;
 /**
  * Class that is empty when converted to string
  */
-class EmptyString
+final class EmptyString
 {
     private $value;
 

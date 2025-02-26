@@ -11,15 +11,16 @@ use yii\base\Event;
 use yii\db\Connection;
 
 /**
- * Class ConnectionWatcher
  * This class will watch for new database connection and store a reference to the connection object.
- * @package Codeception\Lib\Connector\Yii2
+ * @internal
  */
 class ConnectionWatcher
 {
-    private Closure $handler;
+    private readonly Closure $handler;
 
-    /** @var Connection[] */
+    /**
+     * @var list<Connection>
+     */
     private array $connections = [];
 
     public function __construct()
@@ -59,8 +60,7 @@ class ConnectionWatcher
     }
 
     /**
-     * @param string|array<mixed>|JsonSerializable $message
-     * @return void
+     * @param  string|array<mixed>|JsonSerializable $message
      */
     protected function debug(string|array|JsonSerializable $message): void
     {

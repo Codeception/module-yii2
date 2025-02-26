@@ -1,18 +1,25 @@
-#includes:
-#    - phpstan-baseline.neon
+includes:
+    - phpstan-baseline.neon
 parameters:
+    exceptions:
+        check:
+            missingCheckedExceptionInThrows: false
+        reportUncheckedExceptionDeadCatch: false
     reportUnmatchedIgnoredErrors: true
+    editorUrl: "phpstorm://open?file=%%file%%&line=%%line%%"
     dynamicConstantNames:
       - CONSOLE
       - YII_DEBUG
     level: 9
     paths:
       - src
+      - tests
     checkMaybeUndefinedVariables: true
+    treatPhpDocTypesAsCertain: false
     ignoreErrors:
-        # All Yii setters accept `null` but their phpdoc is incorrect.
-        - message: '~^Parameter #1 \$(.+) of method yii\\web\\Request::set(.+)\(\) expects (.+), null given.$~'
-          path: 'src/'
+        - identifier: return.type
+          path: tests/_support/_generated/FunctionalTesterActions.php
+          message: "# but returns mixed.$#"
         # If you want to ignore missing generics errors in the future, you can add:
         # - identifier: missingType.generics
     stubFiles:

@@ -7,17 +7,16 @@ namespace Codeception\Lib\Connector\Yii2;
 use yii\test\FixtureTrait;
 use yii\test\InitDbFixture;
 
-class FixturesStore
+final class FixturesStore
 {
     use FixtureTrait;
 
     /**
      * Expects fixtures config
-     *
-     * FixturesStore constructor.
      */
-    public function __construct(protected mixed $data)
-    {
+    public function __construct(
+        protected mixed $data
+    ) {
     }
 
     public function fixtures(): mixed

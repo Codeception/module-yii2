@@ -8,7 +8,7 @@ use Closure;
 use yii\mail\BaseMailer;
 use yii\symfonymailer\Message;
 
-class TestMailer extends BaseMailer
+final class TestMailer extends BaseMailer
 {
     public $messageClass = Message::class;
 
