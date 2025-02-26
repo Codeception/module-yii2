@@ -11,7 +11,6 @@ use yii\base\Event;
 use yii\db\Connection;
 
 /**
- * Class ConnectionWatcher
  * This class will watch for new database connection and store a reference to the connection object.
  * @internal
  */

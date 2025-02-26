@@ -18,7 +18,7 @@ final class DummyUser implements IdentityInterface
     public static function findIdentity($id)
     {
         return null;
-        // TODO: Implement findIdentity() method.
+
     }
 
     /**
@@ -32,7 +32,7 @@ final class DummyUser implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        // TODO: Implement findIdentityByAccessToken() method.
+
     }
 
     /**
@@ -41,7 +41,7 @@ final class DummyUser implements IdentityInterface
      */
     public function getId()
     {
-        // TODO: Implement getId() method.
+
     }
 
     /**
@@ -58,7 +58,7 @@ final class DummyUser implements IdentityInterface
      */
     public function getAuthKey()
     {
-        // TODO: Implement getAuthKey() method.
+
     }
 
     /**
@@ -71,6 +71,6 @@ final class DummyUser implements IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
-        // TODO: Implement validateAuthKey() method.
+
     }
 }

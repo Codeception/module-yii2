@@ -15,6 +15,7 @@ use Codeception\Lib\Framework;
 use Codeception\Lib\Interfaces\ActiveRecord;
 use Codeception\Lib\Interfaces\PartedModule;
 use Codeception\TestInterface;
+use PHPUnit\Framework\Assert;
 use ReflectionClass;
 use RuntimeException;
 use Yii;
@@ -25,7 +26,7 @@ use yii\helpers\Url;
 use yii\mail\BaseMessage;
 use yii\mail\MessageInterface;
 use yii\test\Fixture;
-use yii\web\Application;
+use yii\web\Application as WebApplication;
 use yii\web\IdentityInterface;
 
 /**
@@ -252,7 +253,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
     private TransactionForcer $transactionForcer;
 
     /**
-     * @var array<mixed> The contents of $_SERVER upon initialization of this object.
+     * @var array<mixed> The contents of upon initialization of this object.
      * This is only used to restore it upon object destruction.
      * It MUST not be used anywhere else.
      */
@@ -625,34 +626,34 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
      *
      * ``` php
      * <?php
-     * $user_id = $I->haveRecord('app\models\User', array('name' => 'Davert'));
+     * $user_id = $I->haveRecord(model: User::class, attributes: ['name' => 'Davert']);
      * ?>
      * ```
      *
      * @template T of \yii\db\ActiveRecord
      * @param    class-string<T>      $model
-     * @param    array<string, mixed> $attributes
+     * @param                   array<string, mixed> $attributes
      * @part     orm
+     * @return int|string|array<string, int|string> The primary key
      */
-    public function haveRecord(string $model, $attributes = []): mixed
+    public function haveRecord(string $model, $attributes = []): int|string|array
     {
         /**
- * @var T $record
-*/
+         * @var T $record
+         */
         $record = \Yii::createObject($model);
         $record->setAttributes($attributes, false);
-        $res = $record->save(false);
-        if (! $res) {
-            $this->fail("Record $model was not saved: " . \yii\helpers\Json::encode($record->errors));
+        if (! $record->save(false)) {
+            Assert::fail("Record $model was not saved: " . \yii\helpers\Json::encode($record->errors));
         }
-        return $record->primaryKey;
+        return $record->getPrimaryKey();
     }
 
     /**
      * Checks that a record exists in the database.
      *
      * ```php
-     * $I->seeRecord('app\models\User', array('name' => 'davert'));
+     * $I->seeRecord(model: User::class, attributes: ['name' => 'davert']);
      * ```
      *
      * @param class-string<\yii\db\ActiveRecord> $model
@@ -663,7 +664,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
     {
         $record = $this->findRecord($model, $attributes);
         if (! $record) {
-            $this->fail("Couldn't find $model with " . json_encode($attributes));
+            Assert::fail("Couldn't find $model with " . json_encode($attributes));
         }
         $this->debugSection($model, json_encode($record));
     }
@@ -672,7 +673,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
      * Checks that a record does not exist in the database.
      *
      * ```php
-     * $I->dontSeeRecord('app\models\User', array('name' => 'davert'));
+     * $I->dontSeeRecord(User::class, attributes: ['name' => 'davert']);
      * ```
      *
      * @param class-string<\yii\db\ActiveRecord> $model
@@ -684,7 +685,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
         $record = $this->findRecord($model, $attributes);
         $this->debugSection($model, json_encode($record));
         if ($record) {
-            $this->fail("Unexpectedly managed to find $model with " . json_encode($attributes));
+            Assert::fail("Unexpectedly managed to find $model with " . json_encode($attributes));
         }
     }
 
@@ -692,7 +693,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
      * Retrieves a record from the database
      *
      * ```php
-     * $category = $I->grabRecord('app\models\User', array('name' => 'davert'));
+     * $category = $I->grabRecord(User::class, attributes: ['name' => 'davert']);
      * ```
      *
      * @param  class-string<\yii\db\ActiveRecord> $model

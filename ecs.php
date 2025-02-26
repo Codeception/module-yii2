@@ -12,7 +12,7 @@ use PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer;
 use PhpCsFixer\Fixer\Phpdoc\NoBlankLinesAfterPhpdocFixer;
 use PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer;
 use PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer;
-use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
@@ -27,12 +27,12 @@ return static function (ECSConfig $ecsConfig): void {
     ]);
 
     // A. full sets
-    $ecsConfig->sets([SetList::PSR_12, SetList::SPACES]);
+    $ecsConfig->sets([SetList::PSR_12, SetList::SPACES, SetList::STRICT, SetList::DOCBLOCK]);
 
     $ecsConfig->rule(NotOperatorWithSuccessorSpaceFixer::class);
     $ecsConfig->rule(ArraySyntaxFixer::class);
     $ecsConfig->ruleWithConfiguration(GeneralPhpdocAnnotationRemoveFixer::class, [
-        'annotations' => ['author', 'inheritdoc']
+        'annotations' => ['author', 'inheritdoc', 'package']
     ]);
     $ecsConfig->rule(NoBlankLinesAfterPhpdocFixer::class);
     $ecsConfig->ruleWithConfiguration(NoSuperfluousPhpdocTagsFixer::class, [
@@ -40,11 +40,10 @@ return static function (ECSConfig $ecsConfig): void {
     ]);
     $ecsConfig->rule(NoEmptyPhpdocFixer::class);
     $ecsConfig->rule(NoUnusedImportsFixer::class);
-    $ecsConfig->rule(DeclareStrictTypesFixer::class);
     $ecsConfig->ruleWithConfiguration(FinalInternalClassFixer::class, [
         'annotation_exclude' => ['@not-fix', '@internal'],
         'annotation_include' => [],
-        'consider_absent_docblock_as_internal_class' => \true
+        'consider_absent_docblock_as_internal_class' => true
     ]);
     $ecsConfig->ruleWithConfiguration(ForbiddenFunctionsSniff::class, [
         'forbiddenFunctions' => [
@@ -52,6 +51,9 @@ return static function (ECSConfig $ecsConfig): void {
             'var_dump' => null,
         ]
     ]);
+    $ecsConfig->rule(PhpdocIndentFixer::class);
+    $ecsConfig->rule(\PhpCsFixer\Fixer\Phpdoc\AlignMultilineCommentFixer::class);
+
     $ecsConfig->skip([
         ForbiddenFunctionsSniff::class => [
             'tests/**',

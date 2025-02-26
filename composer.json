@@ -29,7 +29,6 @@
         "codeception/module-asserts": ">= 3.0",
         "codeception/module-filesystem": "> 3.0",
         "phpstan/phpstan": "^2",
-        "rector/rector": "^2",
         "symplify/easy-coding-standard": "^12.5"
     },
     "autoload":{

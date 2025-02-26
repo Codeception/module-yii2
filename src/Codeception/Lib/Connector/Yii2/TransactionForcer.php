@@ -9,10 +9,7 @@ use yii\db\Connection;
 use yii\db\Transaction;
 
 /**
- * Class TransactionForcer
  * This class adds support for forcing transactions as well as reusing PDO objects.
- *
- * @package Codeception\Lib\Connector\Yii2
  */
 final class TransactionForcer extends ConnectionWatcher
 {
@@ -91,8 +88,8 @@ TEXT,
     public function rollbackAll(): void
     {
         /**
- * @var Transaction $transaction
-*/
+         * @var Transaction $transaction
+         */
         foreach ($this->transactions as $transaction) {
             if ($transaction->db->isActive) {
                 $transaction->rollBack();
