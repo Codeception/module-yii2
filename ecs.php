@@ -27,7 +27,7 @@ return static function (ECSConfig $ecsConfig): void {
     ]);
 
     // A. full sets
-    $ecsConfig->sets([SetList::PSR_12, SetList::SPACES]);
+    $ecsConfig->sets([SetList::PSR_12, SetList::SPACES, SetList::STRICT]);
 
     $ecsConfig->rule(NotOperatorWithSuccessorSpaceFixer::class);
     $ecsConfig->rule(ArraySyntaxFixer::class);
@@ -40,11 +40,10 @@ return static function (ECSConfig $ecsConfig): void {
     ]);
     $ecsConfig->rule(NoEmptyPhpdocFixer::class);
     $ecsConfig->rule(NoUnusedImportsFixer::class);
-    $ecsConfig->rule(DeclareStrictTypesFixer::class);
     $ecsConfig->ruleWithConfiguration(FinalInternalClassFixer::class, [
         'annotation_exclude' => ['@not-fix', '@internal'],
         'annotation_include' => [],
-        'consider_absent_docblock_as_internal_class' => \true
+        'consider_absent_docblock_as_internal_class' => true
     ]);
     $ecsConfig->ruleWithConfiguration(ForbiddenFunctionsSniff::class, [
         'forbiddenFunctions' => [

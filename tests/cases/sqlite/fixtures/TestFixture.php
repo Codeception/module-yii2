@@ -31,7 +31,7 @@ final class TestFixture extends DbFixture
         foreach ($this->dbComponents as $name) {
             /** @var Connection $connection */
             $connection = \Yii::$app->get($name);
-            if (in_array($this->tableName, $connection->getSchema()->getTableNames('', true))) {
+            if (in_array($this->tableName, $connection->getSchema()->getTableNames('', true), true)) {
                 $connection->createCommand()->dropTable($this->tableName)->execute();
             }
         }

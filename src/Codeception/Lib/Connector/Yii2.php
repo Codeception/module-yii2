@@ -17,7 +17,6 @@ use Symfony\Component\BrowserKit\History;
 use Symfony\Component\BrowserKit\Request as BrowserkitRequest;
 use Symfony\Component\BrowserKit\Response;
 use Yii;
-use yii\base\Component;
 use yii\base\Event;
 use yii\base\ExitException;
 use yii\base\Security;
@@ -25,13 +24,13 @@ use yii\base\UserException;
 use yii\mail\BaseMessage;
 use yii\web\Application;
 use yii\web\IdentityInterface;
-use yii\web\Request;
 use yii\web\Request as YiiRequest;
 use yii\web\Response as YiiResponse;
 use yii\web\User;
 
 /**
  * @extends Client<BrowserkitRequest, Response>
+ * @internal This class is not part of the public API
  */
 final class Yii2 extends Client
 {
