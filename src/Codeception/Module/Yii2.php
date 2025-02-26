@@ -630,7 +630,7 @@ final class Yii2 extends Framework implements ActiveRecord, MultiSession, Parted
      *
      * ``` php
      * <?php
-     * $user_id = $I->haveRecord('app\models\User', array('name' => 'Davert'));
+     * $user_id = $I->haveRecord(model: User::class, attributes: ['name' => 'Davert']);
      * ?>
      * ```
      *
@@ -657,7 +657,7 @@ final class Yii2 extends Framework implements ActiveRecord, MultiSession, Parted
      * Checks that a record exists in the database.
      *
      * ```php
-     * $I->seeRecord('app\models\User', array('name' => 'davert'));
+     * $I->seeRecord(model: User::class, attributes: ['name' => 'davert']);
      * ```
      *
      * @param class-string<\yii\db\ActiveRecord> $model
@@ -677,7 +677,7 @@ final class Yii2 extends Framework implements ActiveRecord, MultiSession, Parted
      * Checks that a record does not exist in the database.
      *
      * ```php
-     * $I->dontSeeRecord('app\models\User', array('name' => 'davert'));
+     * $I->dontSeeRecord(User::class, attributes: ['name' => 'davert']);
      * ```
      *
      * @param class-string<\yii\db\ActiveRecord> $model
@@ -697,7 +697,7 @@ final class Yii2 extends Framework implements ActiveRecord, MultiSession, Parted
      * Retrieves a record from the database
      *
      * ```php
-     * $category = $I->grabRecord('app\models\User', array('name' => 'davert'));
+     * $category = $I->grabRecord(User::class, attributes: ['name' => 'davert']);
      * ```
      *
      * @param  class-string<\yii\db\ActiveRecord> $model
