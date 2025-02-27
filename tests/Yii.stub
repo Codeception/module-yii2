@@ -95,4 +95,12 @@ namespace yii\web {
         public function setScriptFile($path): void {}
     }
 
+    interface UrlRuleInterface{}
+    class UrlManager {
+        /**
+         * @var UrlRuleInterface[] $rules;
+         */
+        public array $rules = [];
+    }
+
 }

@@ -58,7 +58,8 @@ return static function (ECSConfig $ecsConfig): void {
         ForbiddenFunctionsSniff::class => [
             'tests/**',
             'console/**'
-        ]
+        ],
+        'tests/_support/_generated'
     ]);
 
     //    $ecsConfig->skip([

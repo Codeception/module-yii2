@@ -222,10 +222,7 @@ final class Yii2 extends Client
         $domains = [$this->getDomainRegex($urlManager->hostInfo)];
         if ($urlManager->enablePrettyUrl) {
             foreach ($urlManager->rules as $rule) {
-                /**
-                 * @var \yii\web\UrlRule $rule
-                 */
-                if ($rule->host !== null) {
+                if (isset($rule->host)) {
                     $domains[] = $this->getDomainRegex($rule->host);
                 }
             }
