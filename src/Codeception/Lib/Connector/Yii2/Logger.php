@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Codeception\Lib\Connector\Yii2;
 
 use Codeception\Util\Debug;
+use SplQueue;
 use yii\base\Exception as YiiException;
 use yii\helpers\VarDumper;
 use yii\log\Logger as YiiLogger;
@@ -12,9 +13,9 @@ use yii\log\Logger as YiiLogger;
 final class Logger extends YiiLogger
 {
     /**
-     * @var \SplQueue<string>
+     * @var SplQueue<string>
      */
-    private \SplQueue $logQueue;
+    private SplQueue $logQueue;
 
     /**
      * @param array<string, mixed> $config
@@ -24,7 +25,7 @@ final class Logger extends YiiLogger
         array $config = []
     ) {
         parent::__construct($config);
-        $this->logQueue = new \SplQueue();
+        $this->logQueue = new SplQueue();
     }
 
     public function init(): void
@@ -69,7 +70,7 @@ final class Logger extends YiiLogger
     public function getAndClearLog(): string
     {
         $logs = iterator_to_array($this->logQueue);
-        $this->logQueue = new \SplQueue();
+        $this->logQueue = new SplQueue();
         return implode(PHP_EOL, $logs) . PHP_EOL;
     }
 }

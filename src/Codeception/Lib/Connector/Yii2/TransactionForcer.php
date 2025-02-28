@@ -29,7 +29,7 @@ final class TransactionForcer extends ConnectionWatcher
     private array $transactions = [];
 
     public function __construct(
-        private bool $ignoreCollidingDSN
+        private readonly bool $ignoreCollidingDSN
     ) {
         parent::__construct();
     }
@@ -45,12 +45,12 @@ final class TransactionForcer extends ConnectionWatcher
         $key = md5(
             json_encode(
                 [
-                'dsn' => $connection->dsn,
-                'user' => $connection->username,
-                'pass' => $connection->password,
-                'attributes' => $connection->attributes,
-                'emulatePrepare' => $connection->emulatePrepare,
-                'charset' => $connection->charset,
+                    'dsn' => $connection->dsn,
+                    'user' => $connection->username,
+                    'pass' => $connection->password,
+                    'attributes' => $connection->attributes,
+                    'emulatePrepare' => $connection->emulatePrepare,
+                    'charset' => $connection->charset,
                 ],
                 JSON_THROW_ON_ERROR
             )
@@ -87,9 +87,6 @@ TEXT,
 
     public function rollbackAll(): void
     {
-        /**
-         * @var Transaction $transaction
-         */
         foreach ($this->transactions as $transaction) {
             if ($transaction->db->isActive) {
                 $transaction->rollBack();
