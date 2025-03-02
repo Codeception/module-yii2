@@ -10,6 +10,7 @@ use Codeception\Lib\Connector\Yii2\Logger;
 use Codeception\Lib\Connector\Yii2\TestMailer;
 use Codeception\Util\Debug;
 use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Component\BrowserKit\AbstractBrowser as Client;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\BrowserKit\CookieJar;
@@ -142,14 +143,14 @@ final class Yii2 extends Client
         if (! isset(Yii::$app)) {
             $this->startApp();
         }
-        return Yii::$app ?? throw new \RuntimeException('Failed to create Yii2 application');
+        return Yii::$app ?? throw new RuntimeException('Failed to create Yii2 application');
     }
 
     private function getWebRequest(): YiiRequest
     {
         $request = $this->getApplication()->request;
         if (! $request instanceof YiiRequest) {
-            throw new \RuntimeException('Request component is not of type ' . YiiRequest::class);
+            throw new RuntimeException('Request component is not of type ' . YiiRequest::class);
         }
         return $request;
     }
@@ -172,8 +173,7 @@ final class Yii2 extends Client
      * Finds and logs in a user
      *
      * @internal
-     * @throws   ConfigurationException
-     * @throws   \RuntimeException
+     * @throws   ConfigurationException|RuntimeException
      */
     public function findAndLoginUser(int|string|IdentityInterface $user): void
     {
@@ -183,15 +183,9 @@ final class Yii2 extends Client
             throw new ConfigurationException('The user component is not configured');
         }
 
-        if ($user instanceof IdentityInterface) {
-            $identity = $user;
-        } else {
-            // class name implementing IdentityInterface
-            $identityClass = $userComponent->identityClass;
-            $identity = $identityClass::findIdentity($user);
-            if ($identity === null) {
-                throw new \RuntimeException('User not found');
-            }
+        $identity = $user instanceof IdentityInterface ? $user : ($userComponent->identityClass)::findIdentity($user);
+        if ($identity === null) {
+            throw new RuntimeException('User not found');
         }
         $userComponent->login($identity);
     }
@@ -270,7 +264,7 @@ final class Yii2 extends Client
             );
         }
         if ($template === null) {
-            throw new \RuntimeException("Failed to parse domain regex");
+            throw new RuntimeException("Failed to parse domain regex");
         }
         $template = preg_quote($template);
         $template = strtr($template, $parameters);
@@ -408,9 +402,9 @@ final class Yii2 extends Client
 
         $content = ob_get_clean();
         if (empty($content) && ! empty($yiiResponse->content) && ! isset($yiiResponse->stream)) {
-            throw new \RuntimeException('No content was sent from Yii application');
+            throw new RuntimeException('No content was sent from Yii application');
         } elseif ($content === false) {
-            throw new \RuntimeException('Failed to get output buffer');
+            throw new RuntimeException('Failed to get output buffer');
         }
 
         return new Response($content, $yiiResponse->statusCode, $yiiResponse->getHeaders()->toArray());

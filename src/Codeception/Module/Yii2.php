@@ -15,6 +15,7 @@ use Codeception\Lib\Framework;
 use Codeception\Lib\Interfaces\ActiveRecord;
 use Codeception\Lib\Interfaces\PartedModule;
 use Codeception\TestInterface;
+use Exception;
 use PHPUnit\Framework\Assert;
 use ReflectionClass;
 use RuntimeException;
@@ -276,7 +277,9 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
 
         $this->defineConstants();
         $this->server = $_SERVER;
-        $this->initServerGlobal();
+        // Adds the required server params. Note this is done separately from the request cycle since someone might call
+        // `Url::to` before doing a request, which would instantiate the request component with incorrect server params.
+        $_SERVER = [...$_SERVER, $this->getServerParams()];
     }
 
     /**
@@ -294,26 +297,27 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
     }
 
     /**
-     * Adds the required server params.
-     * Note this is done separately from the request cycle since someone might call
-     * `Url::to` before doing a request, which would instantiate the request component with incorrect server params.
+     * @return array{
+     *     SCRIPT_FILENAME: string,
+     *     SCRIPT_NAME: string,
+     *     SERVER_NAME: string,
+     *     SERVER_PORT: string|int,
+     *     HTTPS: bool
+     * }
      */
-    private function initServerGlobal(): void
+    private function getServerParams(): array
     {
         $entryUrl = $this->config['entryUrl'];
         $parsedUrl = parse_url($entryUrl);
         $entryFile = $this->config['entryScript'] ?: basename($entryUrl);
         $entryScript = $this->config['entryScript'] ?: ($parsedUrl['path'] ?? '');
-        $_SERVER = array_merge(
-            $_SERVER,
-            [
+        return [
             'SCRIPT_FILENAME' => $entryFile,
             'SCRIPT_NAME' => $entryScript,
             'SERVER_NAME' => $parsedUrl['host'] ?? '',
             'SERVER_PORT' => $parsedUrl['port'] ?? '80',
             'HTTPS' => isset($parsedUrl['scheme']) && $parsedUrl['scheme'] === 'https',
-            ]
-        );
+        ];
     }
 
     /**
@@ -335,23 +339,24 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
                 "The application config file does not exist: " . $pathToConfig,
             );
         }
-        $validMethods = implode(", ", Yii2Connector::CLEAN_METHODS);
+        $validCleanMethods = implode(", ", Yii2Connector::CLEAN_METHODS);
         if (! in_array($this->config['responseCleanMethod'], Yii2Connector::CLEAN_METHODS, true)) {
             throw new ModuleConfigException(
                 self::class,
-                "The response clean method must be one of: " . $validMethods,
+                "The response clean method must be one of: " . $validCleanMethods,
             );
         }
+        $validMailMethods = implode(", ", Yii2Connector::MAIL_METHODS);
         if (! in_array($this->config['mailMethod'], Yii2Connector::MAIL_METHODS, true)) {
             throw new ModuleConfigException(
                 self::class,
-                "The mail method must be one of: " . $validMethods
+                "The mail method must be one of: " . $validMailMethods
             );
         }
         if (! in_array($this->config['requestCleanMethod'], Yii2Connector::CLEAN_METHODS, true)) {
             throw new ModuleConfigException(
                 self::class,
-                "The request clean method must be one of: " . $validMethods,
+                "The request clean method must be one of: " . $validCleanMethods,
             );
         }
     }
@@ -377,19 +382,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
      */
     protected function recreateClient(): void
     {
-        $entryUrl = $this->config['entryUrl'];
-        $parsedUrl = parse_url($entryUrl);
-        $entryFile = $this->config['entryScript'] ?: basename($entryUrl);
-        $entryScript = $this->config['entryScript'] ?: ($parsedUrl['path'] ?? '');
-        $this->client = new Yii2Connector(
-            [
-            'SCRIPT_FILENAME' => $entryFile,
-            'SCRIPT_NAME' => $entryScript,
-            'SERVER_NAME' => $parsedUrl['host'] ?? '',
-            'SERVER_PORT' => $parsedUrl['port'] ?? '80',
-            'HTTPS' => isset($parsedUrl['scheme']) && $parsedUrl['scheme'] === 'https',
-            ]
-        );
+        $this->client = new Yii2Connector($this->getServerParams());
         $this->validateConfig();
         $this->configureClient($this->config);
     }
@@ -463,7 +456,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
     }
 
     /**
-     * @param \Exception $fail
+     * @param Exception $fail
      */
     public function _failed(TestInterface $test, $fail): void
     {
