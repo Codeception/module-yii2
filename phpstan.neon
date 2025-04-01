@@ -17,6 +17,8 @@ parameters:
     checkMaybeUndefinedVariables: true
     treatPhpDocTypesAsCertain: false
     ignoreErrors:
+        - identifier: missingType.iterableValue
+          path: tests/_support/_generated/FunctionalTesterActions.php
         - identifier: return.type
           path: tests/_support/_generated/FunctionalTesterActions.php
           message: "# but returns mixed.$#"
