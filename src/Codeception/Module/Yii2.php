@@ -279,7 +279,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
         $this->server = $_SERVER;
         // Adds the required server params. Note this is done separately from the request cycle since someone might call
         // `Url::to` before doing a request, which would instantiate the request component with incorrect server params.
-        $_SERVER = [...$_SERVER, $this->getServerParams()];
+        $_SERVER = [...$_SERVER, ...$this->getServerParams()];
     }
 
     /**
