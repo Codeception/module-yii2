@@ -460,8 +460,8 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
      */
     public function _failed(TestInterface $test, $fail): void
     {
-        $log = $this->yiiLogger->getAndClearLog();
-        if ($log !== '') {
+        $log = $this->yiiLogger?->getAndClearLog();
+        if (isset($log) && $log !== '') {
             $test->getMetadata()->addReport('yii-log', $log);
         }
 
