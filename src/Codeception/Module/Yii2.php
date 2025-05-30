@@ -14,6 +14,7 @@ use Codeception\Lib\Connector\Yii2\TransactionForcer;
 use Codeception\Lib\Framework;
 use Codeception\Lib\Interfaces\ActiveRecord;
 use Codeception\Lib\Interfaces\PartedModule;
+use Codeception\Lib\ModuleContainer;
 use Codeception\TestInterface;
 use Exception;
 use PHPUnit\Framework\Assert;
@@ -247,7 +248,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
     /**
      * Helper to force database transaction
      */
-    private TransactionForcer $transactionForcer;
+    private null|TransactionForcer $transactionForcer;
 
     /**
      * @var array<mixed> The contents of upon initialization of this object.
@@ -268,6 +269,14 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
         }
         return $this->client;
     }
+
+    public function __construct(ModuleContainer $moduleContainer, ?array $config = null)
+    {
+        parent::__construct($moduleContainer, $config);
+        $this->connectionWatcher = new ConnectionWatcher();
+        $this->connectionWatcher->start();
+    }
+
 
     public function _initialize(): void
     {
@@ -393,9 +402,6 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
         $this->yiiLogger = new Yii2Connector\Logger();
         $this->getClient()->startApp($this->yiiLogger);
 
-        $this->connectionWatcher = new ConnectionWatcher();
-        $this->connectionWatcher->start();
-
         // load fixtures before db transaction
         if ($test instanceof \Codeception\Test\Cest) {
             $this->loadFixtures($test->getTestInstance());
@@ -447,9 +453,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
         $this->getClient()->resetApplication();
 
         if (isset($this->connectionWatcher)) {
-            $this->connectionWatcher->stop();
             $this->connectionWatcher->closeAll();
-            unset($this->connectionWatcher);
         }
 
         parent::_after($test);

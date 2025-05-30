@@ -19,7 +19,7 @@ class ConnectionWatcher
     private readonly Closure $handler;
 
     /**
-     * @var list<Connection>
+     * @var list<\WeakReference<Connection>>
      */
     private array $connections = [];
 
@@ -35,7 +35,7 @@ class ConnectionWatcher
     protected function connectionOpened(Connection $connection): void
     {
         $this->debug('Connection opened!');
-        $this->connections[] = $connection;
+        $this->connections[] = \WeakReference::create($connection);
     }
 
     public function start(): void
@@ -54,9 +54,12 @@ class ConnectionWatcher
     {
         $count = count($this->connections);
         $this->debug("closing all ($count) connections");
-        foreach ($this->connections as $connection) {
-            $connection->close();
+        foreach ($this->connections as $ref) {
+            if (null !== $connection = $ref->get()) {
+                $connection->close();
+            }
         }
+        $this->connections = [];
     }
 
     /**
