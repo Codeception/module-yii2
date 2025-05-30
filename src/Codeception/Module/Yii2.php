@@ -256,7 +256,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
      */
     private array $server;
 
-    private Logger $yiiLogger;
+    private null|Logger $yiiLogger = null;
 
     private function getClient(): Yii2Connector
     {
@@ -292,7 +292,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
         $this->getClient()->resetApplication();
         $this->validateConfig();
         $this->configureClient($this->config);
-        $this->yiiLogger->getAndClearLog();
+        $this->yiiLogger?->getAndClearLog();
         $this->getClient()->startApp($this->yiiLogger);
     }
 
