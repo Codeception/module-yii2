@@ -256,7 +256,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
      */
     private array $server;
 
-    private Logger $yiiLogger;
+    private null|Logger $yiiLogger = null;
 
     private function getClient(): Yii2Connector
     {
@@ -292,7 +292,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
         $this->getClient()->resetApplication();
         $this->validateConfig();
         $this->configureClient($this->config);
-        $this->yiiLogger->getAndClearLog();
+        $this->yiiLogger?->getAndClearLog();
         $this->getClient()->startApp($this->yiiLogger);
     }
 
@@ -460,8 +460,8 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
      */
     public function _failed(TestInterface $test, $fail): void
     {
-        $log = $this->yiiLogger->getAndClearLog();
-        if ($log !== '') {
+        $log = $this->yiiLogger?->getAndClearLog();
+        if (isset($log) && $log !== '') {
             $test->getMetadata()->addReport('yii-log', $log);
         }
 

@@ -305,6 +305,7 @@ final class Yii2 extends Client
             self::MAIL_IGNORE => null// Do nothing
         };
 
+        // @phpstan-ignore argument.templateType
         $app = Yii::createObject($config);
         if (! $app instanceof \yii\base\Application) {
             throw new ModuleConfigException($this, "Failed to initialize Yii2 app");
