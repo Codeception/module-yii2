@@ -97,6 +97,12 @@ class Yii2 extends Client
     private array $emails = [];
 
     /**
+     * Objects for clone (fix memory leak)
+     * @var array
+     */
+    private static array $cloneApps = [];
+
+    /**
      * @deprecated since 2.5, will become protected in 3.0. Directly access to \Yii::$app if you need to interact with it.
      * @internal
      */
@@ -269,8 +275,14 @@ class Yii2 extends Client
         }
 
         $config = $this->mockMailer($config);
+        $hash = md5(json_encode($config));
+
+        if (!isset(self::$cloneApps[$hash])) {
+            self::$cloneApps[$hash] = Yii::createObject($config);
+        }
+
         /** @var \yii\base\Application $app */
-        Yii::$app = Yii::createObject($config);
+        Yii::$app = clone self::$cloneApps[$hash];
 
         if ($logger !== null) {
             Yii::setLogger($logger);
