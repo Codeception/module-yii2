@@ -15,7 +15,8 @@ final class FixturesStore
      * Expects fixtures config
      */
     public function __construct(
-        protected mixed $data
+        protected mixed $data,
+        private array $databaseComponents = ['db']
     ) {
     }
 
@@ -29,10 +30,13 @@ final class FixturesStore
      */
     public function globalFixtures(): array
     {
-        return [
-            'initDbFixture' => [
+        $return = [];
+        foreach($this->databaseComponents as $databaseComponent){
+            $return['initDbFixture-'.$databaseComponent] = [
                 'class' => InitDbFixture::class,
-            ],
-        ];
+                'db' => $databaseComponent
+            ];
+        }
+        return $return;
     }
 }

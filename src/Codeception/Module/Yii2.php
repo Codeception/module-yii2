@@ -93,6 +93,8 @@ use yii\web\IdentityInterface;
  *   inspectable by the test runner, using `before` or `after` will use mailer
  *   events; making the mails inspectable but also allowing your default mail
  *   handling to work
+ * * `databaseComponents` = (default: `['db']`) Used to specify components of
+ *   DB type. Need to be overridden when `yii\db` is not used.
  *
  * You can use this module by setting params in your `functional.suite.yml`:
  *
@@ -237,6 +239,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
         'mailMethod' => Yii2Connector::MAIL_CATCH,
         'closeSessionOnRecreateApplication' => true,
         'applicationClass' => null,
+        'databaseComponents' => ['db'],
     ];
 
     /**
@@ -560,7 +563,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
         if (empty($fixtures)) {
             return;
         }
-        $fixturesStore = new Yii2Connector\FixturesStore($fixtures);
+        $fixturesStore = new Yii2Connector\FixturesStore($fixtures, $this->config['databaseComponents']);
         $fixturesStore->unloadFixtures();
         $fixturesStore->loadFixtures();
         $this->loadedFixtures[] = $fixturesStore;
