@@ -374,6 +374,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
         $client->closeSessionOnRecreateApplication = $settings['closeSessionOnRecreateApplication'];
         $client->applicationClass = $settings['applicationClass'];
         $client->mailMethod = $settings['mailMethod'];
+        $client->recreateComponents = $settings['recreateComponents'];
         $client->resetApplication();
     }
 
