@@ -131,6 +131,11 @@ final class Yii2 extends Client
     public string|null $applicationClass = null;
 
     /**
+     * @var positive-int Интервал принудительной сборки мусора, управляемой модулем.
+     */
+    public int $gcInterval = 1;
+
+    /**
      * @var list<MessageInterface>
      */
     private array $emails = [];
@@ -165,8 +170,10 @@ final class Yii2 extends Client
         \yii\web\UploadedFile::reset();
         Event::offAll();
         Yii::setLogger(null);
-        // This resolves an issue with database connections not closing properly.
-        gc_collect_cycles();
+        // При пакетной сборке модуль запускает GC после завершения очистки тестов.
+        if ($this->gcInterval === 1) {
+            gc_collect_cycles();
+        }
     }
 
     /**

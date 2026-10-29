@@ -67,6 +67,10 @@ use yii\web\IdentityInterface;
  *   transaction and roll it back after the test. Should be disabled for
  *   acceptance testing.
  * * `cleanup` - (default: `true`) cleanup fixtures after the test
+ * * `gcInterval` - положительное число тестов между принудительными сборками мусора.
+ *   Значение 1 по умолчанию сохраняет сборку при каждом сбросе приложения.
+ *   При значении больше 1 сборка выполняется после полной очистки каждых N тестов
+ *   и в конце набора; автоматический GC PHP остаётся включённым.
  * * `ignoreCollidingDSN` - (default: `false`) When 2 database connections use
  *   the same DSN but different settings an exception will be thrown. Set this to
  *   true to disable this behavior.
@@ -191,7 +195,8 @@ use yii\web\IdentityInterface;
  *     recreateComponents: list<string>,
  *     recreateApplication: bool,
  *     closeSessionOnRecreateApplication: bool,
- *     applicationClass: class-string<\yii\base\Application>|null
+ *     applicationClass: class-string<\yii\base\Application>|null,
+ *     gcInterval: positive-int
  *   }
  *
  * @phpstan-type ClientConfig array{
@@ -202,7 +207,8 @@ use yii\web\IdentityInterface;
  *     recreateComponents: list<string>,
  *     recreateApplication: bool,
  *     closeSessionOnRecreateApplication: bool,
- *     applicationClass: class-string<\yii\base\Application>|null
+ *     applicationClass: class-string<\yii\base\Application>|null,
+ *     gcInterval: positive-int
  *  }
  *
  * @phpstan-type ValidConfig (ModuleConfig & array{
@@ -237,6 +243,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
         'mailMethod' => Yii2Connector::MAIL_CATCH,
         'closeSessionOnRecreateApplication' => true,
         'applicationClass' => null,
+        'gcInterval' => 1,
     ];
 
     /**
@@ -257,6 +264,8 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
     private array $server;
 
     private null|Logger $yiiLogger = null;
+
+    private int $testsSinceGarbageCollection = 0;
 
     private function getClient(): Yii2Connector
     {
@@ -289,7 +298,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
     protected function onReconfigure(): void
     {
         parent::onReconfigure();
-        $this->getClient()->resetApplication();
+        $this->resetApplication();
         $this->validateConfig();
         $this->configureClient($this->config);
         $this->yiiLogger?->getAndClearLog();
@@ -326,6 +335,9 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
     protected function validateConfig(): void
     {
         parent::validateConfig();
+        if (! is_int($this->config['gcInterval']) || $this->config['gcInterval'] < 1) {
+            throw new ModuleConfigException(self::class, 'gcInterval должен быть целым положительным числом.');
+        }
         if (! isset($this->config['configFile'])) {
             throw new ModuleConfigException(
                 self::class,
@@ -374,7 +386,8 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
         $client->closeSessionOnRecreateApplication = $settings['closeSessionOnRecreateApplication'];
         $client->applicationClass = $settings['applicationClass'];
         $client->mailMethod = $settings['mailMethod'];
-        $client->resetApplication();
+        $client->gcInterval = $settings['gcInterval'];
+        $this->resetApplication();
     }
 
     /**
@@ -444,7 +457,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
             $this->loadedFixtures = [];
         }
 
-        $this->getClient()->resetApplication();
+        $this->resetApplication();
 
         if (isset($this->connectionWatcher)) {
             $this->connectionWatcher->stop();
@@ -453,6 +466,26 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
         }
 
         parent::_after($test);
+
+        if ($this->config['gcInterval'] > 1 && ++$this->testsSinceGarbageCollection >= $this->config['gcInterval']) {
+            unset($fixture);
+            $this->collectGarbage();
+        }
+    }
+
+    private function resetApplication(): void
+    {
+        $client = $this->getClient();
+        $client->resetApplication();
+        if ($client->gcInterval === 1) {
+            $this->testsSinceGarbageCollection = 0;
+        }
+    }
+
+    private function collectGarbage(): void
+    {
+        gc_collect_cycles();
+        $this->testsSinceGarbageCollection = 0;
     }
 
     /**
@@ -877,5 +910,8 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
         codecept_debug('Suite done, restoring $_SERVER to original');
 
         $_SERVER = $this->server;
+        if ($this->testsSinceGarbageCollection > 0 || $this->config['gcInterval'] > 1) {
+            $this->collectGarbage();
+        }
     }
 }
