@@ -305,17 +305,16 @@ final class Yii2 extends Client
             self::MAIL_IGNORE => null// Do nothing
         };
 
-        // Install the logger before the application is built: while `createObject()`
+        // Install the module logger before the application is built: while `createObject()`
         // runs, the application already calls `Yii::getLogger()` (its log dispatcher and
         // debug bootstrap). If no logger is installed yet, a plain `yii\log\Logger` is
         // created, and its `init()` registers a shutdown function that keeps it alive —
         // along with its dispatcher, log targets and the application — after every test.
         // The module logger overrides `init()` to avoid that, so it must be in place first.
-        if ($logger instanceof \yii\log\Logger) {
-            Yii::setLogger($logger);
-        } else {
-            Yii::setLogger(new Logger());
-        }
+        $moduleLogger = $logger instanceof \yii\log\Logger
+            ? $logger
+            : new Logger();
+        Yii::setLogger($moduleLogger);
 
         // @phpstan-ignore argument.templateType
         $app = Yii::createObject($config);
@@ -323,6 +322,13 @@ final class Yii2 extends Client
             throw new ModuleConfigException($this, "Failed to initialize Yii2 app");
         }
         \Yii::$app = $app;
+
+        // The application's bootstrap may replace the global logger while it is being
+        // built (a `bootstrap` callback calling `Yii::setLogger()`, or a `logger` config
+        // entry). Restore the module logger afterwards so that messages emitted during the
+        // test reach it and `Module\Yii2::_failed()` can report them; otherwise such a
+        // bootstrap replacement would swallow the module's failure diagnostics.
+        Yii::setLogger($moduleLogger);
     }
 
     /**
