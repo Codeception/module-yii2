@@ -189,15 +189,19 @@ final class Yii2 extends Client
     /**
      * Runs the stored shutdown registrations.
      *
-     * The loop continues until the queue is empty because invoking the stored outer closure
-     * re-registers the nested `[$this, 'flush']` one, which must in turn be invoked; the cap
-     * is a safety guard against pathological re-registration.
+     * The queue is drained FIFO. `yii\log\Logger::init()` — the only production producer —
+     * contributes exactly two invocations per logger (the stored outer closure first, then
+     * the nested final `flush(true)` it re-registers when invoked), so a cap of four times
+     * the queue's own size fully covers every finite logger queue. It is there to bound
+     * pathological re-registration in the `yii\log` namespace: when a callable stores more
+     * entries than the headroom allows, the drain stops and the leftover entries stay in
+     * the queue until the next drain — never in PHP's real shutdown registry.
      *
      * @internal
      */
     private static function runDeferredShutdowns(): void
     {
-        $cap = 100;
+        $cap = 4 * count(self::$deferredShutdowns);
         while (self::$deferredShutdowns !== [] && $cap-- > 0) {
             [$callable, $args] = array_shift(self::$deferredShutdowns);
             \call_user_func($callable, ...$args);
@@ -228,6 +232,15 @@ final class Yii2 extends Client
     {
         codecept_debug('Destroying application');
 
+        // Close the session while the application is still reachable. If `Yii::$app` was
+        // already gone, `closeSession()` starts an application to close it; doing that
+        // before the drain keeps `$appStarting` on for that build, so its logger
+        // registrations are captured and drained below, and the flag is cleared right
+        // after — instead of being left pending with interception still enabled.
+        if ($closeSession) {
+            $this->closeSession();
+        }
+
         // Run the shutdown registrations stored during the previous `startApp()` before the
         // application is torn down: invoking them here (instead of letting them run at
         // process exit) is what stops the loggers — and the dispatchers, targets and
@@ -237,9 +250,6 @@ final class Yii2 extends Client
         self::runDeferredShutdowns();
         self::$appStarting = false;
 
-        if ($closeSession) {
-            $this->closeSession();
-        }
         Yii::$app = null;
         \yii\web\UploadedFile::reset();
         Event::offAll();
@@ -363,6 +373,36 @@ final class Yii2 extends Client
     public function startApp(?\yii\log\Logger $logger = null): void
     {
         codecept_debug('Starting application');
+
+        // Intercept shutdown registrations made in the `yii\log` namespace for the rest of
+        // this process. Yii does not import `register_shutdown_function`, so an unqualified
+        // call in `yii\log\Logger::init()` resolves to a namespace-level function when one
+        // is defined there; while `$appStarting` is on, those calls are stored instead of
+        // being registered. Without this, every plain logger built during the application
+        // bootstrap (e.g. one the application itself sets via a `bootstrap` callback) keeps
+        // itself alive — with its dispatcher, log targets and the application — until
+        // process exit, because PHP's shutdown closures outlive the discarded application.
+        // PHP resolves this call at runtime (namespace fallback per call), so defining the
+        // function here also intercepts call sites compiled before it; and `$appStarting`
+        // is on before the config file is included, so a plain logger constructed there —
+        // or in a file it requires — is captured from the start.
+        if (! function_exists('\yii\log\register_shutdown_function')) {
+            eval(<<<'PHP'
+                namespace yii\log {
+                    function register_shutdown_function(callable $callable, mixed ...$args) {
+                        if (\Codeception\Lib\Connector\Yii2::appStarting()) {
+                            \Codeception\Lib\Connector\Yii2::registerShutdown($callable, ...$args);
+                            return null;
+                        }
+                        return \register_shutdown_function($callable, ...$args);
+                    }
+                }
+            PHP);
+        }
+        // Keep it on through the whole test so loggers created after the build are
+        // captured too; `resetApplication()` runs the stored registrations and turns it off.
+        self::$appStarting = true;
+
         $config = include $this->configFile;
         if (! isset($config['class'])) {
             $config['class'] = $this->applicationClass ?? \yii\web\Application::class;
@@ -383,31 +423,6 @@ final class Yii2 extends Client
             self::MAIL_EVENT_BEFORE => $config['components']['mailer']['on ' . BaseMailer::EVENT_BEFORE_SEND] = fn (MailEvent $event) => $this->emails[] = $event->message,
             self::MAIL_IGNORE => null// Do nothing
         };
-
-        // Intercept shutdown registrations made in the `yii\log` namespace for the rest of
-        // this process. Yii does not import `register_shutdown_function`, so an unqualified
-        // call in `yii\log\Logger::init()` resolves to a namespace-level function when one
-        // is defined there; while `$appStarting` is on, those calls are stored instead of
-        // being registered. Without this, every plain logger built during the application
-        // bootstrap (e.g. one the application itself sets via a `bootstrap` callback) keeps
-        // itself alive — with its dispatcher, log targets and the application — until
-        // process exit, because PHP's shutdown closures outlive the discarded application.
-        if (! function_exists('\yii\log\register_shutdown_function')) {
-            eval(<<<'PHP'
-                namespace yii\log {
-                    function register_shutdown_function(callable $callable, mixed ...$args) {
-                        if (\Codeception\Lib\Connector\Yii2::appStarting()) {
-                            \Codeception\Lib\Connector\Yii2::registerShutdown($callable, ...$args);
-                            return null;
-                        }
-                        return \register_shutdown_function($callable, ...$args);
-                    }
-                }
-            PHP);
-        }
-        // Keep it on through the whole test so loggers created after the build are
-        // captured too; `resetApplication()` runs the stored registrations and turns it off.
-        self::$appStarting = true;
 
         // Install the module logger before the application is built: while `createObject()`
         // runs, the application already calls `Yii::getLogger()` (its log dispatcher and
