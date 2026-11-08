@@ -181,7 +181,9 @@ final class Yii2 extends Client
      */
     public static function registerShutdown(callable $callable, mixed ...$args): void
     {
-        self::$deferredShutdowns[] = [$callable, $args];
+        // `array_values()` normalizes the splatted args to a `list`: a variadic array is always
+        // int-keyed at runtime, so this only makes the stored shape match the property.
+        self::$deferredShutdowns[] = [$callable, array_values($args)];
     }
 
     /**
