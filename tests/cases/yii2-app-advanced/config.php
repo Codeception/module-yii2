@@ -31,4 +31,15 @@ $config = \yii\helpers\ArrayHelper::merge(require __DIR__ . '/../../../vendor/yi
     'vendorPath' => __DIR__ . '/../../../vendor',
 ]);
 
+// The modern template's SiteController constructor-injects `yii\mail\MailerInterface`, which
+// Yii's DI cannot instantiate on its own (it is an interface). Bind it to the application
+// mailer, which the Connector replaces with its in-memory mailer.
+\Yii::$container->set(\yii\mail\MailerInterface::class, static function (): \yii\mail\MailerInterface {
+    if (\Yii::$app === null) {
+        throw new RuntimeException('The Yii application is not initialized');
+    }
+
+    return \Yii::$app->mailer;
+});
+
 return $config;
