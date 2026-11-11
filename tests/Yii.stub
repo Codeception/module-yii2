@@ -16,6 +16,9 @@ namespace yii {
 
 namespace yii\base {
 
+    /**
+     * @property-read \yii\mail\MailerInterface $mailer
+     */
     class Application {}
 
     class Model {}

@@ -18,6 +18,7 @@ use Codeception\TestInterface;
 use Exception;
 use PHPUnit\Framework\Assert;
 use ReflectionClass;
+use ReflectionMethod;
 use RuntimeException;
 use Yii;
 use yii\base\Security;
@@ -616,7 +617,7 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
         $fixture = $fixtures[$name];
         return match (true) {
             $index === null => $fixture,
-            $fixture instanceof \yii\test\BaseActiveFixture => $fixture->getModel($index),
+            $fixture instanceof \yii\test\BaseActiveFixture => $fixture->getModel((string) $index),
             default => throw new ModuleException($this, "Fixture $name is not an instance of ActiveFixture and can't be loaded with second parameter"),
         };
     }
@@ -717,8 +718,8 @@ final class Yii2 extends Framework implements ActiveRecord, PartedModule
             throw new RuntimeException("Class $model does not exist");
         }
         $rc = new ReflectionClass($model);
-        if ($rc->hasMethod('find')
-            && ($findMethod = $rc->getMethod('find'))
+        $findMethod = $rc->hasMethod('find') ? $rc->getMethod('find') : null;
+        if ($findMethod instanceof ReflectionMethod
             && $findMethod->isStatic()
             && $findMethod->isPublic()
             && $findMethod->getNumberOfRequiredParameters() === 0
